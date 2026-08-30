@@ -63,6 +63,8 @@
     <summary
       class="header__icon header__icon--menu header__icon--summary"
       aria-label="{{ 'accessibility.menu' | t }}"
+      aria-expanded="false"
+      aria-controls="HeaderDrawer-menu"
       on:click="/toggle"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
@@ -73,7 +75,11 @@
       </span>
     </summary>
     <div
+      id="HeaderDrawer-menu"
       ref="menuDrawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'accessibility.header_navigation_label' | t }}"
       class="
         menu-drawer
         {% if block_settings.background_color != blank or block_settings.text_color != blank %}

@@ -18,12 +18,14 @@ class HeaderDrawer extends Component {
     super.connectedCallback();
 
     this.addEventListener('keyup', this.#onKeyUp);
+    this.refs.menuDrawer.addEventListener('click', this.#onMenuLinkClick);
     this.#setupAnimatedElementListeners();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keyup', this.#onKeyUp);
+    this.refs.menuDrawer.removeEventListener('click', this.#onMenuLinkClick);
   }
 
   /**
@@ -34,6 +36,15 @@ class HeaderDrawer extends Component {
     if (event.key !== 'Escape') return;
 
     this.#close(this.#getDetailsElement(event));
+  };
+
+  /**
+   * Close the drawer before following a navigation link.
+   * @param {MouseEvent} event
+   */
+  #onMenuLinkClick = (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest('a[href]')) return;
+    this.close();
   };
 
   /**

@@ -76,3 +76,112 @@ footer .utilities a:hover { opacity: 0.62; }
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Native hamburger navigation: preserve Horizon's working header grid. */
+@media screen and (min-width: 750px) {
+  body #header-component[data-menu-style='menu'] .header__drawer {
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+  }
+}
+
+#header-component .menu-drawer-container > summary {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+}
+
+#header-component .header-drawer-icon--open {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 16px;
+  border-block: 1.25px solid currentColor;
+}
+
+#header-component .header-drawer-icon--open::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  border-block-start: 1.25px solid currentColor;
+  transform: translateY(-50%);
+}
+
+#header-component .header-drawer-icon--open svg {
+  display: none;
+}
+
+#header-component .menu-drawer {
+  width: min(90vw, 400px);
+  max-width: 420px;
+  height: 100dvh;
+  background: var(--eloura-color-background);
+  border-inline-end: 1px solid var(--eloura-color-line);
+  box-shadow: none;
+}
+
+#header-component .menu-drawer > .menu-drawer__close-button {
+  align-self: flex-end;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin: 12px 14px 4px;
+  padding: 12px;
+  place-items: center;
+}
+
+#header-component .menu-drawer__navigation {
+  margin-block-start: 0;
+  padding-block: clamp(20px, 6vh, 56px) 32px;
+}
+
+#header-component .menu-drawer__menu {
+  padding-inline: clamp(24px, 5vw, 40px);
+}
+
+#header-component .menu-drawer__menu > .menu-drawer__list-item {
+  min-height: 68px;
+  border-block-end: 1px solid var(--eloura-color-line);
+}
+
+#header-component .menu-drawer__menu-item--mainlist {
+  min-height: 68px;
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+#header-component .menu-drawer__featured-content {
+  display: none;
+}
+
+#header-component .menu-drawer__backdrop {
+  background: rgb(17 17 17 / 18%);
+  backdrop-filter: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #header-component .menu-drawer__menu-item {
+    transition: transform 280ms ease;
+  }
+
+  #header-component .menu-drawer__menu-item:hover {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header-component .menu-drawer,
+  #header-component .menu-drawer__backdrop,
+  #header-component .menu-drawer__animated-element {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

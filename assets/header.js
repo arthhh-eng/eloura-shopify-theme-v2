@@ -10,7 +10,6 @@ import {
 /**
  * @typedef {Object} HeaderComponentRefs
  * @property {HTMLDivElement} headerDrawerContainer - The header drawer container element
- * @property {HTMLElement} headerMenu - The header menu element
  * @property {HTMLElement} headerRowTop - The header top row element
  */
 
@@ -25,7 +24,7 @@ import {
  */
 
 class HeaderComponent extends Component {
-  requiredRefs = ['headerDrawerContainer', 'headerMenu', 'headerRowTop'];
+  requiredRefs = ['headerDrawerContainer', 'headerRowTop'];
 
   /**
    * Width of window when header drawer was hidden
