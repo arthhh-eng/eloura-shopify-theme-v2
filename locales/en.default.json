@@ -371,5 +371,24 @@
       "default_title": "Default Title",
       "sticky_add_to_cart": "Quick add to cart bar"
     }
+  },
+  "eloura": {
+    "announcement": {
+      "free_shipping": "FREE SHIPPING OVER €100"
+    },
+    "localization": {
+      "bulgarian": "Български",
+      "english": "English",
+      "russian": "Русский"
+    },
+    "footer": {
+      "brand_sentence": "Everyday skincare with clear formulas and a calm approach.",
+      "shop": "Shop",
+      "help": "Help",
+      "legal": "Legal",
+      "newsletter_heading": "Care that stays with you.",
+      "newsletter_body": "Receive thoughtful updates about eloura. formulas, products and care.",
+      "subscribe": "SUBSCRIBE"
+    }
   }
 }

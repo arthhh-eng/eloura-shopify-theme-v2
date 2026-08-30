@@ -257,6 +257,17 @@
           on:change="/changeLanguage"
         >
           {%- for language in localization.available_languages -%}
+            {% liquid
+              assign language_name = language.endonym_name | capitalize
+              case language.iso_code
+                when 'bg'
+                  assign language_name = 'eloura.localization.bulgarian' | t
+                when 'en'
+                  assign language_name = 'eloura.localization.english' | t
+                when 'ru'
+                  assign language_name = 'eloura.localization.russian' | t
+              endcase
+            %}
             <option
               value="{{ language.iso_code }}"
               lang="{{ language.iso_code }}"
@@ -264,7 +275,7 @@
                 selected
               {% endif %}
             >
-              {{ language.endonym_name | capitalize }}
+              {{ language.iso_code | upcase }} — {{ language_name }}
             </option>
           {%- endfor -%}
         </select>

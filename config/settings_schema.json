@@ -63,9 +63,24 @@
         "type": "color_palette",
         "id": "color_palette",
         "default": {
-          "background": "#ffffff",
-          "foreground": "#000000"
+          "background": "#F7F6F2",
+          "foreground": "#111111",
+          "color1": "#6D6C67",
+          "color2": "#EFEEE9",
+          "color3": "#E3E1DA"
         }
+      },
+      {
+        "type": "color",
+        "id": "eloura_clean_white",
+        "label": "eloura. clean white",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "eloura_accent_color",
+        "label": "eloura. accent color",
+        "default": "#A95538"
       }
     ]
   },
@@ -94,25 +109,25 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "work_sans_n4",
+        "default": "inter_n4",
         "label": "t:options.body"
       },
       {
         "type": "font_picker",
         "id": "type_subheading_font",
-        "default": "work_sans_n5",
+        "default": "inter_n5",
         "label": "t:options.subheading"
       },
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "anonymous_pro_n4",
+        "default": "inter_n5",
         "label": "t:options.heading"
       },
       {
         "type": "font_picker",
         "id": "type_accent_font",
-        "default": "anonymous_pro_n4",
+        "default": "inter_n5",
         "label": "t:options.accent"
       },
       {
@@ -153,7 +168,7 @@
             "label": "18px"
           }
         ],
-        "default": "14"
+        "default": "16"
       },
       {
         "type": "select",
@@ -265,7 +280,7 @@
             "label": "184px"
           }
         ],
-        "default": "72"
+        "default": "48"
       },
       {
         "type": "select",
@@ -413,7 +428,7 @@
             "label": "184px"
           }
         ],
-        "default": "48"
+        "default": "40"
       },
       {
         "type": "select",
@@ -1328,7 +1343,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 100
+        "default": 14
       },
       {
         "type": "select",
@@ -1405,7 +1420,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 100
+        "default": 14
       },
       {
         "type": "select",
@@ -1617,7 +1632,7 @@
         "max": 100,
         "step": 1,
         "unit": "px",
-        "default": 0
+        "default": 16
       }
     ]
   },
@@ -1709,7 +1724,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 8
+        "default": 12
       },
       {
         "type": "select",
@@ -1776,7 +1791,7 @@
         "max": 16,
         "step": 1,
         "unit": "px",
-        "default": 8
+        "default": 16
       },
       {
         "type": "color",
@@ -1913,7 +1928,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.product_corner_radius",
-        "default": 0
+        "default": 20
       },
       {
         "type": "range",
@@ -1923,7 +1938,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.card_corner_radius",
-        "default": 0
+        "default": 20
       },
       {
         "type": "select",
@@ -2097,7 +2112,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 8
+        "default": 14
       },
       {
         "type": "select",

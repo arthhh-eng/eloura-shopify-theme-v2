@@ -124,6 +124,17 @@
   %}
 
   :root {
+    --eloura-color-background: {{ settings.color_palette.background }};
+    --eloura-color-white: {{ settings.eloura_clean_white }};
+    --eloura-color-text: {{ settings.color_palette.foreground }};
+    --eloura-color-muted: {{ settings.color_palette.color1 }};
+    --eloura-color-surface: {{ settings.color_palette.color2 }};
+    --eloura-color-line: {{ settings.color_palette.color3 }};
+    --eloura-color-accent: {{ settings.eloura_accent_color }};
+    --eloura-radius-card: 20px;
+    --eloura-radius-control: 14px;
+    --eloura-transition: 220ms var(--ease-out-quad);
+
     /* Page Layout */
     --sidebar-width: 25rem;
     --theme-drawer-width: 30rem;

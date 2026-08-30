@@ -1,0 +1,55 @@
+{% liquid
+  assign brand_sentence = block.settings.sentence
+  if brand_sentence == blank
+    assign brand_sentence = 'eloura.footer.brand_sentence' | t
+  endif
+%}
+
+<div class="eloura-footer-brand" {{ block.shopify_attributes }}>
+  <a class="eloura-footer-brand__wordmark" href="{{ routes.root_url }}" aria-label="eloura.">eloura.</a>
+  <p>{{ brand_sentence | escape }}</p>
+</div>
+
+{% stylesheet %}
+  .eloura-footer-brand {
+    display: grid;
+    gap: 18px;
+    max-width: 24rem;
+  }
+
+  .eloura-footer-brand__wordmark {
+    color: inherit;
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .eloura-footer-brand p {
+    max-width: 32ch;
+    margin: 0;
+    color: var(--eloura-color-muted);
+    line-height: 1.65;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. brand",
+  "tag": null,
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "sentence",
+      "label": "Brand sentence",
+      "info": "Leave blank to use the translated eloura. default."
+    }
+  ],
+  "presets": [
+    {
+      "name": "eloura. brand"
+    }
+  ]
+}
+{% endschema %}

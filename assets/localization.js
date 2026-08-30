@@ -444,6 +444,14 @@ class DropdownLocalizationComponent extends Component {
   }
 
   /**
+   * Closes the panel from its visible close control and restores focus.
+   */
+  closeSelector() {
+    this.hidePanel();
+    this.refs.button?.focus();
+  }
+
+  /**
    * Hides the panel.
    */
   hidePanel = () => {

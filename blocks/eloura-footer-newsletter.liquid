@@ -1,0 +1,108 @@
+{% liquid
+  assign newsletter_heading = block.settings.heading
+  assign newsletter_body = block.settings.body
+  if newsletter_heading == blank
+    assign newsletter_heading = 'eloura.footer.newsletter_heading' | t
+  endif
+  if newsletter_body == blank
+    assign newsletter_body = 'eloura.footer.newsletter_body' | t
+  endif
+  assign form_id = 'ElouraFooterNewsletter-' | append: block.id
+%}
+
+<div class="eloura-footer-newsletter" {{ block.shopify_attributes }}>
+  <div class="eloura-footer-newsletter__copy">
+    <h2>{{ newsletter_heading | escape }}</h2>
+    <p>{{ newsletter_body | escape }}</p>
+  </div>
+
+  {% form 'customer', id: form_id, class: 'eloura-footer-newsletter__form' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <label class="visually-hidden" for="ElouraFooterEmail-{{ block.id }}">
+      {{ 'blocks.email_signup.label' | t }}
+    </label>
+    <div class="eloura-footer-newsletter__field">
+      <input
+        id="ElouraFooterEmail-{{ block.id }}"
+        type="email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        autocomplete="email"
+        autocapitalize="off"
+        autocorrect="off"
+        placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
+        required
+        {% if form.errors %}
+          aria-invalid="true"
+          aria-describedby="ElouraFooterError-{{ block.id }}"
+        {% elsif form.posted_successfully? %}
+          aria-describedby="ElouraFooterSuccess-{{ block.id }}"
+        {% endif %}
+      >
+      <button type="submit">{{ 'eloura.footer.subscribe' | t }}</button>
+    </div>
+
+    {% if form.errors %}
+      <p id="ElouraFooterError-{{ block.id }}" class="eloura-footer-newsletter__message" role="alert">
+        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+      </p>
+    {% endif %}
+    {% if form.posted_successfully? %}
+      <p id="ElouraFooterSuccess-{{ block.id }}" class="eloura-footer-newsletter__message" tabindex="-1">
+        {{ 'blocks.email_signup.success' | t }}
+      </p>
+    {% endif %}
+  {% endform %}
+</div>
+
+{% stylesheet %}
+  .eloura-footer-newsletter { display: grid; gap: 22px; max-width: 30rem; }
+  .eloura-footer-newsletter__copy { display: grid; gap: 10px; }
+  .eloura-footer-newsletter h2,
+  .eloura-footer-newsletter p { margin: 0; }
+  .eloura-footer-newsletter h2 { font-size: 1rem; font-weight: 500; }
+  .eloura-footer-newsletter p { max-width: 38ch; color: var(--eloura-color-muted); line-height: 1.6; }
+  .eloura-footer-newsletter__form { display: grid; gap: 10px; }
+  .eloura-footer-newsletter__field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    overflow: hidden;
+    min-height: 48px;
+    border: 1px solid var(--eloura-color-line);
+    border-radius: var(--eloura-radius-control);
+    background: var(--eloura-color-white);
+  }
+  .eloura-footer-newsletter__field input {
+    min-width: 0; padding: 0 14px; border: 0; outline: 0;
+    background: transparent; color: var(--eloura-color-text); font: inherit;
+  }
+  .eloura-footer-newsletter__field button {
+    min-width: 108px; min-height: 48px; padding: 0 16px; border: 0;
+    background: var(--eloura-color-text); color: var(--eloura-color-white); cursor: pointer;
+    font: inherit; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+    transition: opacity var(--eloura-transition), transform var(--eloura-transition);
+  }
+  .eloura-footer-newsletter__field:focus-within { outline: 2px solid var(--eloura-color-text); outline-offset: 2px; }
+  .eloura-footer-newsletter__field button:hover { opacity: 0.84; }
+  .eloura-footer-newsletter__field button:active { transform: translateY(1px); }
+  .eloura-footer-newsletter__message { font-size: 0.8125rem; }
+  @media screen and (max-width: 420px) {
+    .eloura-footer-newsletter__field { grid-template-columns: 1fr; }
+    .eloura-footer-newsletter__field input,
+    .eloura-footer-newsletter__field button { min-height: 48px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. newsletter",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:settings.heading", "info": "Leave blank to use the translated eloura. default." },
+    { "type": "textarea", "id": "body", "label": "t:settings.text", "info": "Leave blank to use the translated eloura. default." }
+  ],
+  "presets": [
+    { "name": "eloura. newsletter" }
+  ]
+}
+{% endschema %}

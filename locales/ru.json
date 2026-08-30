@@ -357,5 +357,24 @@
       "default_title": "Название по умолчанию",
       "sticky_add_to_cart": "Быстрое добавление в корзину"
     }
+  },
+  "eloura": {
+    "announcement": {
+      "free_shipping": "БЕСПЛАТНАЯ ДОСТАВКА ОТ 100 €"
+    },
+    "localization": {
+      "bulgarian": "Български",
+      "english": "English",
+      "russian": "Русский"
+    },
+    "footer": {
+      "brand_sentence": "Ежедневный уход за кожей с понятными формулами и спокойным подходом.",
+      "shop": "Магазин",
+      "help": "Помощь",
+      "legal": "Правовая информация",
+      "newsletter_heading": "Забота, которая остаётся с вами.",
+      "newsletter_body": "Получайте важные новости о формулах, продуктах и уходе от eloura.",
+      "subscribe": "ПОДПИСАТЬСЯ"
+    }
   }
 }

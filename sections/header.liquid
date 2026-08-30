@@ -297,6 +297,14 @@
         hidden
         ref="panel"
       >
+        <button
+          type="button"
+          class="button button-unstyled eloura-localization-close"
+          aria-label="{{ 'actions.close' | t }}"
+          on:click="/closeSelector"
+        >
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
         {% render 'localization-form',
           show_country: show_country,
           show_language: show_language,

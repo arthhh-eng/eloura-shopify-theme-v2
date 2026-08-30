@@ -2,6 +2,14 @@
   assign block_settings = block.settings
   assign menu = block_settings.menu
   assign heading = block_settings.heading
+  case block_settings.eloura_heading
+    when 'shop'
+      assign heading = 'eloura.footer.shop' | t
+    when 'help'
+      assign heading = 'eloura.footer.help' | t
+    when 'legal'
+      assign heading = 'eloura.footer.legal' | t
+  endcase
   assign show_as_accordion = block_settings.show_as_accordion
   if show_as_accordion == true and block_settings.accordion_dividers == true
     assign dividers_enabled = true
@@ -164,6 +172,18 @@
       "type": "text",
       "id": "heading",
       "label": "t:settings.heading"
+    },
+    {
+      "type": "select",
+      "id": "eloura_heading",
+      "label": "Localized heading",
+      "options": [
+        { "value": "custom", "label": "Menu title or custom heading" },
+        { "value": "shop", "label": "Shop" },
+        { "value": "help", "label": "Help" },
+        { "value": "legal", "label": "Legal" }
+      ],
+      "default": "custom"
     },
     {
       "type": "header",
