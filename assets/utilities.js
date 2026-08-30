@@ -790,8 +790,7 @@ export function setHeaderMenuStyle() {
     window.requestAnimationFrame(() => {
       const overflowList = headerComponent?.querySelector('overflow-list');
       const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
-      const forceDrawer = headerComponent.hasAttribute('data-force-drawer');
-      headerComponent.dataset.menuStyle = forceDrawer || isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';
+      headerComponent.dataset.menuStyle = isTouchDevice() || hasReachedMinimum ? 'drawer' : 'menu';
     });
   }
 }
