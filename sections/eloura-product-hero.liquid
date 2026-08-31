@@ -1,0 +1,386 @@
+{% liquid
+  assign hero_eyebrow = section.settings.eyebrow
+  if hero_eyebrow == blank
+    assign hero_eyebrow = 'eloura.hero.eyebrow' | t
+  endif
+
+  assign hero_heading = section.settings.heading
+  if hero_heading == blank
+    assign hero_heading = 'eloura.hero.heading' | t
+  endif
+
+  assign hero_description = section.settings.description
+  if hero_description == blank
+    assign hero_description = 'eloura.hero.description' | t
+  endif
+
+  assign hero_button_label = section.settings.button_label
+  if hero_button_label == blank
+    assign hero_button_label = 'eloura.hero.button' | t
+  endif
+
+  assign hero_button_link = section.settings.button_link
+  if hero_button_link == blank
+    assign hero_button_link = routes.all_products_collection_url
+  endif
+
+  assign hero_image_alt = section.settings.image_alt
+  if hero_image_alt == blank
+    assign hero_image_alt = section.settings.hero_image.alt
+  endif
+  if hero_image_alt == blank
+    assign hero_image_alt = 'eloura.hero.image_alt' | t
+  endif
+%}
+
+<section
+  id="ElouraHero-{{ section.id }}"
+  class="eloura-product-hero"
+  style="
+    --eloura-hero-background: {{ section.settings.background_color }};
+    --eloura-hero-desktop-height: {{ section.settings.desktop_height }}px;
+    --eloura-hero-mobile-image-height: {{ section.settings.mobile_image_height }}px;
+    --eloura-hero-image-position: {{ section.settings.image_position }};
+  "
+>
+  <div class="eloura-product-hero__inner">
+    <div class="eloura-product-hero__content">
+      <p class="eloura-product-hero__brand eloura-product-hero__brand--content">eloura.</p>
+      <p class="eloura-product-hero__eyebrow">{{ hero_eyebrow | escape }}</p>
+      <h1 class="eloura-product-hero__heading">{{ hero_heading | escape }}</h1>
+      <div class="eloura-product-hero__description">{{ hero_description | escape | newline_to_br }}</div>
+      <a class="eloura-product-hero__button" href="{{ hero_button_link }}">
+        {{ hero_button_label | escape }}
+      </a>
+    </div>
+
+    <div class="eloura-product-hero__media">
+      <span class="eloura-product-hero__brand eloura-product-hero__brand--media" aria-hidden="true">eloura.</span>
+      {% if section.settings.hero_image != blank %}
+        {{
+          section.settings.hero_image
+          | image_url: width: 2400
+          | image_tag:
+            widths: '600, 900, 1200, 1600, 2000, 2400',
+            sizes: '(min-width: 900px) 58vw, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'eloura-product-hero__image',
+            alt: hero_image_alt
+        }}
+      {% else %}
+        <img
+          class="eloura-product-hero__image"
+          src="{{ 'eloura-products-hero.jpg' | asset_url }}"
+          width="1237"
+          height="1536"
+          alt="{{ hero_image_alt | escape }}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-product-hero {
+    overflow: clip;
+    background: var(--eloura-hero-background, #faf9f6);
+    color: #111;
+  }
+
+  .eloura-product-hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    width: min(100%, var(--page-width));
+    min-height: var(--eloura-hero-desktop-height, 690px);
+    margin-inline: auto;
+    padding-inline: clamp(28px, 4.5vw, 72px);
+  }
+
+  .eloura-product-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 560px;
+    padding-block: 72px 64px;
+  }
+
+  .eloura-product-hero__brand {
+    margin: 0;
+    color: #111;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .eloura-product-hero__brand--content {
+    display: none;
+    margin-block-end: 44px;
+    font-size: clamp(2rem, 8vw, 2.65rem);
+  }
+
+  .eloura-product-hero__brand--media {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: clamp(34px, 4.5vw, 64px);
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(2.15rem, 3vw, 3rem);
+  }
+
+  .eloura-product-hero__eyebrow {
+    margin: 0 0 22px;
+    color: #6d6c67;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .eloura-product-hero__heading {
+    max-width: 570px;
+    margin: 0;
+    color: #111;
+    font-size: clamp(2.75rem, 4.6vw, 4.75rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  .eloura-product-hero__description {
+    max-width: 520px;
+    margin-block-start: 28px;
+    color: #6d6c67;
+    font-size: clamp(1rem, 1.25vw, 1.18rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .eloura-product-hero__button {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 34px;
+    padding: 14px 24px;
+    border: 1px solid #111;
+    border-radius: 14px;
+    background: #111;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      transform 220ms ease;
+  }
+
+  .eloura-product-hero__button:hover {
+    border-color: #2b2b2b;
+    background: #2b2b2b;
+    transform: translateY(-1px);
+  }
+
+  .eloura-product-hero__button:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 3px;
+  }
+
+  .eloura-product-hero__media {
+    position: relative;
+    min-width: 0;
+    min-height: var(--eloura-hero-desktop-height, 690px);
+  }
+
+  .eloura-product-hero__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: var(--eloura-hero-image-position, center) center;
+  }
+
+  @media screen and (max-width: 899px) {
+    .eloura-product-hero__inner {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 0;
+      padding-inline: clamp(18px, 5vw, 38px);
+    }
+
+    .eloura-product-hero__content {
+      max-width: 660px;
+      padding-block: 46px 28px;
+    }
+
+    .eloura-product-hero__brand--content {
+      display: block;
+    }
+
+    .eloura-product-hero__brand--media {
+      display: none;
+    }
+
+    .eloura-product-hero__heading {
+      max-width: 620px;
+      font-size: clamp(2.55rem, 8vw, 4.3rem);
+    }
+
+    .eloura-product-hero__description {
+      margin-block-start: 22px;
+    }
+
+    .eloura-product-hero__button {
+      margin-block-start: 28px;
+    }
+
+    .eloura-product-hero__media {
+      min-height: 0;
+      height: var(--eloura-hero-mobile-image-height, 500px);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .eloura-product-hero__inner {
+      padding-inline: 18px;
+    }
+
+    .eloura-product-hero__content {
+      padding-block-start: 38px;
+    }
+
+    .eloura-product-hero__brand--content {
+      margin-block-end: 36px;
+    }
+
+    .eloura-product-hero__eyebrow {
+      margin-block-end: 18px;
+      font-size: 0.7rem;
+    }
+
+    .eloura-product-hero__heading {
+      font-size: clamp(2.45rem, 12vw, 3.4rem);
+    }
+
+    .eloura-product-hero__description {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .eloura-product-hero__button {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eloura-product-hero__button {
+      transition: none;
+    }
+
+    .eloura-product-hero__button:hover {
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. product showcase",
+  "tag": "section",
+  "class": "eloura-product-hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small text",
+      "info": "Leave blank to use the active language."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the active language."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "info": "Leave blank to use the active language."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Leave blank to use the active language."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop section height",
+      "min": 650,
+      "max": 720,
+      "step": 10,
+      "unit": "px",
+      "default": 690
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_height",
+      "label": "Mobile image height",
+      "min": 420,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FAF9F6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "eloura. product showcase"
+    }
+  ]
+}
+{% endschema %}

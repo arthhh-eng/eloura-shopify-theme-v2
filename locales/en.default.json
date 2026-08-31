@@ -381,6 +381,13 @@
       "english": "English",
       "russian": "Русский"
     },
+    "hero": {
+          "eyebrow": "ELOURA. SKIN ESSENTIALS",
+          "heading": "Skin remembers care.",
+          "description": "Clear formulas for everyday care, created to keep skin hydrated, calm and protected.",
+          "button": "DISCOVER PRODUCTS",
+          "image_alt": "CLEAR, HYDRA and BARRIER skincare products by eloura."
+    },
     "footer": {
       "brand_sentence": "Everyday skincare with clear formulas and a calm approach.",
       "shop": "Shop",
