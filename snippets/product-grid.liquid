@@ -369,4 +369,44 @@
   .main-collection-grid__empty-title {
     margin: 0;
   }
+
+
+  /* Consistent eloura. product grid */
+  .product-grid[product-grid-view='default'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .product-grid[product-grid-view='default'] > .product-grid__item {
+    grid-column: auto;
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 1199px) {
+    .product-grid[product-grid-view='default'] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .product-grid[product-grid-view='default'] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 30px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-collection-grid {
+      box-sizing: border-box;
+      padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+    }
+  }
+
+  @media screen and (max-width: 339px) {
+    .product-grid[product-grid-view='default'] {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
 {% endstylesheet %}

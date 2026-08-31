@@ -55,4 +55,104 @@
       display: none;
     }
   }
+
+
+  /* eloura. soft product card presentation */
+  :is(.product-grid__item, .resource-list__item) {
+    min-width: 0;
+  }
+
+  .product-card {
+    min-width: 0;
+  }
+
+  .product-card .product-card__content {
+    row-gap: 8px;
+    background: transparent;
+  }
+
+  .product-card .card-gallery {
+    --border-radius: var(--eloura-product-card-radius, 20px);
+    --gallery-aspect-ratio: 4 / 5;
+
+    aspect-ratio: 4 / 5;
+    border-radius: var(--eloura-product-card-radius, 20px);
+    overflow: hidden;
+    background: var(--eloura-color-surface, #efeee9);
+    transition: box-shadow 240ms ease;
+  }
+
+  .product-card .card-gallery > a.contents,
+  .product-card .card-gallery :is(slideshow-component, slideshow-container, slideshow-slide),
+  .product-card .card-gallery :is(.product-media-container, .product-media) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-card .card-gallery :is(.product-media-container, .product-media) {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .product-card .card-gallery :is(img, .product-media img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 260ms ease;
+  }
+
+  .product-card .card-gallery + * {
+    margin-block-start: 4px;
+  }
+
+  .product-card :is(h3, h4, .h3, .h4) {
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .product-card :is(.price, price-component) {
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .product-card .quick-add {
+    --quick-add-offset: 12px;
+  }
+
+  .product-card button.quick-add__button {
+    border: 1px solid rgb(17 17 17 / 12%);
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgb(17 17 17 / 7%);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover .card-gallery {
+      box-shadow: 0 10px 24px rgb(17 17 17 / 7%);
+    }
+
+    .product-card:hover .card-gallery :is(img, .product-media img) {
+      transform: scale(1.02);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-card .card-gallery {
+      --border-radius: 16px;
+
+      border-radius: 16px;
+    }
+
+    .product-card .product-card__content {
+      row-gap: 7px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-card .card-gallery,
+    .product-card .card-gallery :is(img, .product-media img) {
+      transition-duration: 0.01ms;
+    }
+  }
 {% endstylesheet %}

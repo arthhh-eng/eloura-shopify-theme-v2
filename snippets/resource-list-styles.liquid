@@ -84,4 +84,43 @@
     color: var(--color-foreground);
     text-decoration: none;
   }
+
+
+  /* Product-only resource grids: homepage and recommendations */
+  .resource-list--grid:has(.resource-list__item .product-card) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    box-sizing: border-box;
+  }
+
+  .resource-list--grid:has(.resource-list__item .product-card) > .resource-list__item {
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 1199px) {
+    .resource-list--grid:has(.resource-list__item .product-card) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .resource-list--grid:has(.resource-list__item .product-card) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 30px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .resource-list--grid:has(.resource-list__item .product-card) {
+      padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+    }
+  }
+
+  @media screen and (max-width: 339px) {
+    .resource-list--grid:has(.resource-list__item .product-card) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
 {% endstylesheet %}

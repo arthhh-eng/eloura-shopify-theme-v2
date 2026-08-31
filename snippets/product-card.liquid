@@ -61,7 +61,7 @@
 
 <product-card
   class="product-card size-style"
-  style="{% render 'size-style', settings: block_settings %}"
+  style="{% render 'size-style', settings: block_settings %} --eloura-product-card-radius: {{ settings.product_corner_radius | default: 20 }}px;"
   data-product-id="{{ product.id }}"
   id="product-card-{{ block.id }}"
   {% if settings.transition_to_main_product %}
