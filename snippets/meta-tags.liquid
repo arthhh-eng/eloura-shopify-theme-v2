@@ -19,6 +19,66 @@
 >
 
 {%- liquid
+  assign seo_brand = 'eloura.'
+  assign seo_page_title = page_title | default: shop.name | strip
+
+  if request.page_type == 'index'
+    assign seo_title = 'eloura.seo.home_title' | t
+  else
+    if current_tags
+      capture seo_current_tags
+        echo current_tags | join: ', '
+      endcapture
+      assign seo_page_title = seo_page_title | append: ' – tagged "' | append: seo_current_tags | append: '"'
+    endif
+
+    if current_page != 1
+      assign seo_page_title = seo_page_title | append: ' – Page ' | append: current_page
+    endif
+
+    assign seo_page_title_normalized = seo_page_title | downcase | strip
+    if seo_page_title_normalized == 'eloura' or seo_page_title_normalized == 'eloura.'
+      assign seo_title = seo_brand
+    elsif seo_page_title_normalized contains 'eloura'
+      assign seo_title = seo_page_title
+    else
+      assign seo_title = seo_page_title | append: ' | ' | append: seo_brand
+    endif
+  endif
+
+  if request.page_type == 'index'
+    assign seo_description = 'eloura.seo.home_description' | t
+  else
+    assign seo_description = page_description
+    assign seo_description_is_fallback = false
+
+    if seo_description == blank
+      case request.page_type
+        when 'product'
+          assign seo_description = product.description
+        when 'collection'
+          assign seo_description = collection.description
+        when 'page'
+          assign seo_description = page.content
+        when 'article'
+          assign seo_description = article.excerpt_or_content
+      endcase
+
+      if seo_description != blank
+        assign seo_description_is_fallback = true
+      endif
+    endif
+
+    if seo_description == blank
+      assign seo_description = 'eloura.seo.home_description' | t
+    endif
+
+    assign seo_description = seo_description | strip_html | strip_newlines | strip
+    if seo_description_is_fallback
+      assign seo_description = seo_description | truncate: 155
+    endif
+  endif
+
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
@@ -103,21 +163,14 @@
   content="{{ og_description | escape }}"
 >
 
-<title>
-  {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-</title>
+<title>{{ seo_title | escape }}</title>
 
 <link
   rel="canonical"
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
-  <meta
-    name="description"
-    content="{{ page_description | escape }}"
-  >
-{% endif %}
+<meta
+  name="description"
+  content="{{ seo_description | escape }}"
+>

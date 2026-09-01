@@ -388,6 +388,10 @@
           "button": "DISCOVER PRODUCTS",
           "image_alt": "CLEAR, HYDRA and BARRIER skincare products by eloura."
     },
+    "seo": {
+          "home_title": "eloura. | Premium Skincare & Face Care",
+          "home_description": "Discover eloura. — minimalist skincare with carefully selected formulas for hydration, balance and a healthy skin barrier."
+    },
     "footer": {
       "brand_sentence": "Everyday skincare with clear formulas and a calm approach.",
       "shop": "Shop",
