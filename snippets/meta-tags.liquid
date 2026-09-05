@@ -37,7 +37,28 @@
     endif
 
     assign seo_page_title_normalized = seo_page_title | downcase | strip
-    if seo_page_title_normalized == 'eloura' or seo_page_title_normalized == 'eloura.'
+
+    if request.page_type == 'product'
+      if seo_page_title_normalized contains ' | eloura.'
+        assign seo_title = seo_page_title
+      else
+        assign seo_product_title = seo_page_title
+        assign seo_product_prefix_seven = seo_page_title_normalized | slice: 0, 7
+        assign seo_product_prefix_six = seo_page_title_normalized | slice: 0, 6
+
+        if seo_product_prefix_seven == 'eloura.' or seo_product_prefix_seven == 'eloura '
+          assign seo_product_title = seo_page_title | slice: 7, 999 | strip
+        elsif seo_product_prefix_six == 'eloura'
+          assign seo_product_title = seo_page_title | slice: 6, 999 | remove_first: '.' | strip
+        endif
+
+        if seo_product_title == blank
+          assign seo_title = seo_brand
+        else
+          assign seo_title = seo_product_title | append: ' | ' | append: seo_brand
+        endif
+      endif
+    elsif seo_page_title_normalized == 'eloura' or seo_page_title_normalized == 'eloura.'
       assign seo_title = seo_brand
     elsif seo_page_title_normalized contains 'eloura'
       assign seo_title = seo_page_title
