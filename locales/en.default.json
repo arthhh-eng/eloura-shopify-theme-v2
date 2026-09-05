@@ -399,7 +399,17 @@
       "hydra_ingredient": "Hyaluronic acid — a hydrating ingredient that attracts and retains moisture in the skin.",
       "hydra_usage": "Apply morning and/or evening to clean skin before moisturiser.",
       "ingredient_label": "Key ingredient",
-      "usage_label": "How to use"
+      "usage_label": "How to use",
+      "viewer_roledescription": "angle viewer",
+      "viewer_label": "Views of {{ product }}",
+      "viewer_previous": "Previous view",
+      "viewer_next": "Next view",
+      "viewer_angles": "Choose a view",
+      "viewer_select": "Show view {{ number }} of {{ total }}",
+      "viewer_hint": "Swipe to explore",
+      "angle_front": "front view",
+      "angle_side": "side view",
+      "angle_back": "back view"
 },
     "announcement": {
       "free_shipping": "FREE SHIPPING OVER €100"

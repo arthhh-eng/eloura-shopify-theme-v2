@@ -371,7 +371,17 @@
       "hydra_ingredient": "Хиалуронова киселина — хидратираща съставка, която привлича и задържа влагата в кожата.",
       "hydra_usage": "Нанасяй сутрин и/или вечер върху чиста кожа преди крем.",
       "ingredient_label": "Ключова съставка",
-      "usage_label": "Начин на употреба"
+      "usage_label": "Начин на употреба",
+      "viewer_roledescription": "преглед на ракурси",
+      "viewer_label": "Ракурси на {{ product }}",
+      "viewer_previous": "Предишен ракурс",
+      "viewer_next": "Следващ ракурс",
+      "viewer_angles": "Избор на ракурс",
+      "viewer_select": "Покажи ракурс {{ number }} от {{ total }}",
+      "viewer_hint": "Плъзнете, за да разгледате",
+      "angle_front": "изглед отпред",
+      "angle_side": "страничен изглед",
+      "angle_back": "изглед отзад"
 },
     "announcement": {
       "free_shipping": "БЕЗПЛАТНА ДОСТАВКА НАД 100 €"

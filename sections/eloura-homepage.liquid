@@ -46,6 +46,42 @@
       if product_url == blank
         assign product_url = routes.all_products_collection_url
       endif
+      assign front_image = block.settings.front_image
+      assign side_image = block.settings.side_image
+      assign back_image = block.settings.back_image
+      assign front_asset = ''
+      assign side_asset = ''
+      assign back_asset = ''
+      if formula == 'clear'
+        if front_image == blank
+          assign front_asset = 'eloura-clear-front.jpg'
+        endif
+        if side_image == blank
+          assign side_asset = 'eloura-clear-side.jpg'
+        endif
+        if back_image == blank
+          assign back_asset = 'eloura-clear-back.jpg'
+        endif
+      endif
+
+      assign angle_count = 0
+      if front_image != blank or front_asset != blank
+        assign angle_count = angle_count | plus: 1
+      endif
+      if side_image != blank or side_asset != blank
+        assign angle_count = angle_count | plus: 1
+      endif
+      if back_image != blank or back_asset != blank
+        assign angle_count = angle_count | plus: 1
+      endif
+
+      assign front_label = 'eloura.homepage.angle_front' | t
+      assign side_label = 'eloura.homepage.angle_side' | t
+      assign back_label = 'eloura.homepage.angle_back' | t
+      assign front_alt = formula | upcase | append: ' — ' | append: front_label
+      assign side_alt = formula | upcase | append: ' — ' | append: side_label
+      assign back_alt = formula | upcase | append: ' — ' | append: back_label
+
       assign product_model = blank
       if block.settings.show_product_model and item != blank
         assign product_models = item.media | where: 'media_type', 'model'
@@ -60,6 +96,88 @@
           <h2 id="ProductStory-{{ block.id }}">{{ heading | escape }}</h2>
           <p class="eh-product__description">{{ description | escape | newline_to_br }}</p>
         </header>
+
+        {% if angle_count > 0 %}
+          <div
+            class="eh-angle-viewer"
+            data-angle-viewer
+            data-angle-count="{{ angle_count }}"
+            role="region"
+            aria-roledescription="{{ 'eloura.homepage.viewer_roledescription' | t | escape }}"
+            aria-label="{{ 'eloura.homepage.viewer_label' | t: product: formula | escape }}"
+            tabindex="0"
+            data-eh-reveal
+          >
+            {% assign angle_position = 0 %}
+            <div class="eh-angle-viewer__stage" data-angle-stage>
+              {% if front_image != blank or front_asset != blank %}
+                <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ front_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
+                  {% if front_image != blank %}
+                    {% assign front_image_alt = front_image.alt | default: front_alt %}
+                    {{ front_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'lazy', alt: front_image_alt }}
+                  {% else %}
+                    <img src="{{ front_asset | asset_url }}" width="1086" height="1448" alt="{{ front_alt | escape }}" loading="lazy">
+                  {% endif %}
+                </div>
+                {% assign angle_position = angle_position | plus: 1 %}
+              {% endif %}
+              {% if side_image != blank or side_asset != blank %}
+                <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ side_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
+                  {% if side_image != blank %}
+                    {% assign side_image_alt = side_image.alt | default: side_alt %}
+                    {{ side_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'lazy', alt: side_image_alt }}
+                  {% else %}
+                    <img src="{{ side_asset | asset_url }}" width="1086" height="1448" alt="{{ side_alt | escape }}" loading="lazy">
+                  {% endif %}
+                </div>
+                {% assign angle_position = angle_position | plus: 1 %}
+              {% endif %}
+              {% if back_image != blank or back_asset != blank %}
+                <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ back_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
+                  {% if back_image != blank %}
+                    {% assign back_image_alt = back_image.alt | default: back_alt %}
+                    {{ back_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'lazy', alt: back_image_alt }}
+                  {% else %}
+                    <img src="{{ back_asset | asset_url }}" width="1086" height="1448" alt="{{ back_alt | escape }}" loading="lazy">
+                  {% endif %}
+                </div>
+                {% assign angle_position = angle_position | plus: 1 %}
+              {% endif %}
+            </div>
+
+            {% if angle_count > 1 %}
+              <button class="eh-angle-viewer__arrow eh-angle-viewer__arrow--previous" type="button" data-angle-previous aria-label="{{ 'eloura.homepage.viewer_previous' | t | escape }}">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="eh-angle-viewer__arrow eh-angle-viewer__arrow--next" type="button" data-angle-next aria-label="{{ 'eloura.homepage.viewer_next' | t | escape }}">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            {% endif %}
+
+            <div class="eh-angle-viewer__footer">
+              {% if angle_count > 1 %}
+                <div class="eh-angle-viewer__dots" role="group" aria-label="{{ 'eloura.homepage.viewer_angles' | t | escape }}">
+                  {% for index in (1..angle_count) %}
+                    <button
+                      type="button"
+                      class="eh-angle-viewer__dot{% if forloop.first %} is-active{% endif %}"
+                      data-angle-dot="{{ forloop.index0 }}"
+                      aria-label="{{ 'eloura.homepage.viewer_select' | t: number: forloop.index, total: angle_count | escape }}"
+                      aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                    ></button>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <p class="eh-angle-viewer__hint">{{ 'eloura.homepage.viewer_hint' | t | escape }}</p>
+              <p class="visually-hidden" data-angle-status aria-live="polite"></p>
+            </div>
+          </div>
+        {% elsif block.settings.show_product_model and product_model != blank %}
+          <div class="eh-product__media eh-product__model" data-eh-reveal>
+            {{ product_model | model_viewer_tag: reveal: 'interaction', toggleable: true }}
+          </div>
+        {% endif %}
+
         <div class="eh-product__details" data-eh-reveal>
           <article class="eh-product__detail">
             <h3>{{ 'eloura.homepage.action_label' | t | escape }}</h3>
@@ -75,16 +193,6 @@
           </article>
         </div>
         <a class="eh-button" href="{{ product_url | escape }}" data-eh-reveal>{{ button | escape }}</a>
-        {% if block.settings.image != blank %}
-          <figure class="eh-product__media" data-eh-reveal>
-            {% assign image_alt = block.settings.image.alt | default: formula %}
-            {{ block.settings.image | image_url: width: 2200 | image_tag: widths: '480, 750, 1000, 1400, 1800, 2200', sizes: '(min-width: 1200px) 1180px, 92vw', loading: 'lazy', alt: image_alt }}
-          </figure>
-        {% elsif block.settings.show_product_model and product_model != blank %}
-          <div class="eh-product__media eh-product__model" data-eh-reveal>
-            {{ product_model | model_viewer_tag: reveal: 'interaction', toggleable: true }}
-          </div>
-        {% endif %}
       </div>
     </section>
   {% endfor %}
@@ -122,7 +230,9 @@
           "default": "clear"
         },
         { "type": "product", "id": "product", "label": "Product" },
-        { "type": "image_picker", "id": "image", "label": "Optional wide image" },
+        { "type": "image_picker", "id": "front_image", "label": "Front image" },
+        { "type": "image_picker", "id": "side_image", "label": "Side image" },
+        { "type": "image_picker", "id": "back_image", "label": "Back image" },
         {
           "type": "checkbox",
           "id": "show_product_model",

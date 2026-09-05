@@ -385,7 +385,17 @@
       "hydra_ingredient": "Гиалуроновая кислота — увлажняющий компонент, который притягивает и удерживает влагу в коже.",
       "hydra_usage": "Наносите утром и/или вечером на чистую кожу перед кремом.",
       "ingredient_label": "Ключевой ингредиент",
-      "usage_label": "Способ применения"
+      "usage_label": "Способ применения",
+      "viewer_roledescription": "просмотр ракурсов",
+      "viewer_label": "Ракурсы {{ product }}",
+      "viewer_previous": "Предыдущий ракурс",
+      "viewer_next": "Следующий ракурс",
+      "viewer_angles": "Выбор ракурса",
+      "viewer_select": "Показать ракурс {{ number }} из {{ total }}",
+      "viewer_hint": "Проведите, чтобы посмотреть",
+      "angle_front": "вид спереди",
+      "angle_side": "вид сбоку",
+      "angle_back": "вид сзади"
 },
     "announcement": {
       "free_shipping": "БЕСПЛАТНАЯ ДОСТАВКА ОТ 100 €"
