@@ -216,8 +216,7 @@
       "type": "eloura-homepage",
       "settings": {
         "background": "#FAF9F6",
-        "motion": true,
-        "final_link": "shopify://collections/all"
+        "motion": true
       },
       "blocks": {
         "clear": {
