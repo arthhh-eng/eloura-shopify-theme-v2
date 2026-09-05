@@ -209,11 +209,49 @@
         "gap": 28,
         "padding-block-start": 48,
         "padding-block-end": 48
-      }
+      },
+      "disabled": true
+    },
+    "eloura_stories": {
+      "type": "eloura-homepage",
+      "settings": {
+        "background": "#FAF9F6",
+        "motion": true,
+        "final_link": "shopify://collections/all"
+      },
+      "blocks": {
+        "clear": {
+          "type": "product",
+          "settings": {
+            "formula": "clear",
+            "product": "eloura-clear"
+          }
+        },
+        "hydra": {
+          "type": "product",
+          "settings": {
+            "formula": "hydra",
+            "product": "eloura-hydra"
+          }
+        },
+        "barrier": {
+          "type": "product",
+          "settings": {
+            "formula": "barrier",
+            "product": "eloura-barrier"
+          }
+        }
+      },
+      "block_order": [
+        "clear",
+        "hydra",
+        "barrier"
+      ]
     }
   },
   "order": [
     "hero_jVaWmY",
+    "eloura_stories",
     "product_list_fa6P9H"
   ]
 }

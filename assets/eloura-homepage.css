@@ -1,0 +1,50 @@
+/* Homepage only. Native Horizon components are deliberately not targeted. */
+.eloura-home{background:var(--eh-background,#faf9f6);color:#171717;overflow:clip}
+.eh-wrap{box-sizing:border-box;width:min(100%,1320px);margin-inline:auto;padding-inline:clamp(20px,5vw,72px)}
+.eloura-home h2{font-size:clamp(2rem,3.8vw,3.6rem);font-weight:400;letter-spacing:-.035em;line-height:1.12;text-wrap:balance;margin:0}
+.eloura-home p{font-size:clamp(1rem,1.3vw,1.15rem);line-height:1.7;color:#62615d;max-width:46ch;margin:24px 0 0}
+.eh-routine{padding-block:100px 80px}
+.eh-intro{text-align:center;max-width:720px;margin:auto}
+.eh-intro p{margin:24px auto 0}
+.eh-routine-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(28px,6vw,90px);margin-top:56px}
+.eh-routine-card{display:flex;flex-direction:column;align-items:center;gap:22px;width:clamp(160px,21vw,240px);max-width:100%;text-decoration:none;color:inherit;font-size:.9rem;letter-spacing:.1em}
+.eh-routine-card img{display:block;width:100%;aspect-ratio:1;height:auto;object-fit:cover;border-radius:40%;transition:transform 280ms ease}
+.eh-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,108px);align-items:center;min-height:720px;padding-block:90px}
+.eh-story>*{min-width:0}
+.eh-story--reverse .eh-story-copy{grid-column:2;grid-row:1}
+.eh-story--reverse .eh-story-media{grid-column:1;grid-row:1}
+.eloura-home .eh-label{font-size:.78rem;letter-spacing:.18em;margin:0 0 24px}
+.eh-story-media{position:relative;padding:12px;background:#efeee9;border-radius:28px;box-shadow:0 22px 48px -38px #54483666}
+.eh-story-media img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;border-radius:20px;transition:transform 300ms ease}
+.eh-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;max-width:100%;box-sizing:border-box;padding:16px 24px;margin-top:32px;border-radius:14px;background:#171717;color:#fff;text-decoration:none;text-align:center;font-size:.78rem;letter-spacing:.08em;line-height:1.4;transition:background 240ms ease,transform 240ms ease}
+.eh-button:focus-visible,.eh-routine-card:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+.eh-button:focus-visible{outline-color:#171717}
+.eh-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;padding-block:100px;text-align:center}
+.eh-benefits svg{margin:auto}
+.eh-benefits h3{font-size:clamp(1rem,1.7vw,1.4rem);font-weight:400;margin:24px 0 0;line-height:1.4}
+.eh-final{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:64px;padding-block:80px 120px}
+.eh-final-media{overflow:hidden;border-radius:28px}
+.eh-final-media img{display:block;width:100%;height:auto;object-fit:contain}
+.eloura-home [data-eh-reveal]{scroll-margin-top:120px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+.eh-routine-card:hover img{transform:translateY(-4px)}
+.eh-story-media:hover img{transform:translateY(-3px)}
+.eh-button:hover{background:#333;transform:translateY(-2px)}
+}
+@media(prefers-reduced-motion:no-preference){
+.eloura-home .eh-reveal-pending{opacity:0;transform:translateY(18px)}
+.eloura-home .eh-reveal-ready{transition:opacity 600ms ease,transform 600ms ease}
+}
+@media(max-width:749px){
+.eh-routine{padding-block:64px}
+.eh-routine-grid{gap:32px 20px;margin-top:36px}
+.eh-routine-card{width:calc(50% - 10px);max-width:230px}
+.eh-story{grid-template-columns:minmax(0,1fr);gap:36px;min-height:0;padding-block:60px}
+.eh-story--reverse .eh-story-copy,.eh-story--reverse .eh-story-media{grid-column:auto;grid-row:auto}
+.eh-story-media{padding:8px;border-radius:24px;max-width:540px;width:100%;box-sizing:border-box;margin:auto}
+.eh-benefits{gap:40px;grid-template-columns:1fr;padding-block:64px}
+.eh-benefits h3{margin-top:16px}
+.eh-final{grid-template-columns:minmax(0,1fr);gap:36px;padding-block:60px 80px}
+.eh-final-media{max-width:540px;margin:auto;border-radius:24px}
+}
+@media(prefers-reduced-motion:reduce){.eloura-home *{transition:none!important;transform:none!important}}
