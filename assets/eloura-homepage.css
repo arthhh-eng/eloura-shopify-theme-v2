@@ -23,7 +23,7 @@
 .eh-angle-viewer__slide{position:absolute;inset:0;display:grid;place-items:center;padding:0;opacity:0;visibility:hidden;transform:translateX(var(--eh-drag-x)) scale(.995);transition:opacity 220ms ease,transform 220ms ease,visibility 0s linear 220ms;pointer-events:none}
 .eh-angle-viewer__slide.is-active{opacity:1;visibility:visible;transform:translateX(var(--eh-drag-x)) scale(1);transition-delay:0s}
 .eh-angle-viewer__slide img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
-.eh-product--clear .eh-angle-viewer__slide img{width:auto;height:calc(100% - 24px);max-width:calc(100% - 16px);max-height:calc(100% - 24px);object-fit:contain;object-position:center}
+.eh-product--clear .eh-angle-viewer__slide img{width:auto!important;height:calc(100% - 24px)!important;max-width:calc(100% - 16px)!important;max-height:calc(100% - 24px)!important;object-fit:contain;object-position:center}
 .eh-angle-viewer__arrow{position:absolute;z-index:2;top:clamp(140px,12vw,160px);display:grid;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.72);color:#171717;place-items:center;transform:translateY(-50%);transition:opacity 180ms ease,background-color 180ms ease}
 .eh-angle-viewer__arrow--previous{left:0}.eh-angle-viewer__arrow--next{right:0}
 .eh-angle-viewer__arrow:hover{background:#f4f3ef}.eh-angle-viewer__arrow:focus-visible{outline:2px solid #171717;outline-offset:2px}.eh-angle-viewer__arrow:disabled{opacity:.24;cursor:default}
@@ -58,7 +58,7 @@
 .eh-product--clear h2{margin-top:38px}
 .eh-angle-viewer{width:min(100%,280px);margin-top:24px}
 .eh-angle-viewer__stage{height:clamp(220px,64vw,260px)}
-.eh-product--clear .eh-angle-viewer__slide img{height:calc(100% - 16px);max-height:calc(100% - 16px)}
+.eh-product--clear .eh-angle-viewer__slide img{height:calc(100% - 16px)!important;max-height:calc(100% - 16px)!important}
 .eh-angle-viewer__arrow{top:clamp(110px,32vw,130px)}
 .eh-angle-viewer__footer{min-height:50px}
 }
