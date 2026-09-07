@@ -393,6 +393,7 @@
       "viewer_angles": "Выбор ракурса",
       "viewer_select": "Показать ракурс {{ number }} из {{ total }}",
       "viewer_hint": "Проведите, чтобы посмотреть",
+      "viewer_hint_hydra": "Проведите, чтобы рассмотреть",
       "angle_front": "вид спереди",
       "angle_side": "вид сбоку",
       "angle_back": "вид сзади"

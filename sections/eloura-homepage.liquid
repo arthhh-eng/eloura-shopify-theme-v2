@@ -178,7 +178,13 @@
                   {% endfor %}
                 </div>
               {% endif %}
-              <p class="eh-angle-viewer__hint">{{ 'eloura.homepage.viewer_hint' | t | escape }}</p>
+              <p class="eh-angle-viewer__hint">
+                {% if formula == 'hydra' %}
+                  {{ 'eloura.homepage.viewer_hint_hydra' | t | escape }}
+                {% else %}
+                  {{ 'eloura.homepage.viewer_hint' | t | escape }}
+                {% endif %}
+              </p>
               <p class="visually-hidden" data-angle-status aria-live="polite"></p>
             </div>
           </div>

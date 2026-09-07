@@ -379,6 +379,7 @@
       "viewer_angles": "Избор на ракурс",
       "viewer_select": "Покажи ракурс {{ number }} от {{ total }}",
       "viewer_hint": "Плъзнете, за да разгледате",
+      "viewer_hint_hydra": "Плъзнете, за да разгледате",
       "angle_front": "изглед отпред",
       "angle_side": "страничен изглед",
       "angle_back": "изглед отзад"
