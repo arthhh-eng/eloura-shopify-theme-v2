@@ -72,6 +72,16 @@
         if back_image == blank
           assign back_asset = 'eloura-hydra-back.jpg'
         endif
+      elsif formula == 'barrier'
+        if front_image == blank
+          assign front_asset = 'eloura-barrier-front.jpg'
+        endif
+        if side_image == blank
+          assign side_asset = 'eloura-barrier-side.jpg'
+        endif
+        if back_image == blank
+          assign back_asset = 'eloura-barrier-back.jpg'
+        endif
       endif
 
       assign angle_count = 0
@@ -181,6 +191,8 @@
               <p class="eh-angle-viewer__hint">
                 {% if formula == 'hydra' %}
                   {{ 'eloura.homepage.viewer_hint_hydra' | t | escape }}
+                {% elsif formula == 'barrier' %}
+                  {{ 'eloura.homepage.viewer_hint_barrier' | t | escape }}
                 {% else %}
                   {{ 'eloura.homepage.viewer_hint' | t | escape }}
                 {% endif %}

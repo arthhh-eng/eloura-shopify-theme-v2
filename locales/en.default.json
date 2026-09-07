@@ -408,6 +408,7 @@
       "viewer_select": "Show view {{ number }} of {{ total }}",
       "viewer_hint": "Swipe to explore",
       "viewer_hint_hydra": "Swipe to explore",
+      "viewer_hint_barrier": "Swipe to explore",
       "angle_front": "front view",
       "angle_side": "side view",
       "angle_back": "back view"
