@@ -57,8 +57,10 @@
 .eh-product--clear .eh-product__category{order:1}.eh-product--clear .eh-product__name{order:2}.eh-product--clear .eh-angle-viewer{order:3}.eh-product--clear h2{order:4}.eh-product--clear .eh-product__description{order:5}.eh-product--clear .eh-product__details{order:6}.eh-product--clear .eh-button{order:7;align-self:stretch}
 .eh-product--clear h2{margin-top:38px}
 .eh-angle-viewer{width:min(100%,280px);margin-top:24px}
-.eh-angle-viewer__stage{height:clamp(220px,64vw,260px)}
-.eh-product--clear .eh-angle-viewer__slide img{height:calc(100% - 40px)!important;max-height:calc(100% - 40px)!important}
+.eh-product--clear .eh-angle-viewer__stage{position:relative;width:100%;height:clamp(320px,92vw,360px);overflow:hidden;isolation:isolate}
+.eh-product--clear .eh-angle-viewer__slide{position:absolute;inset:0;z-index:0;display:none;box-sizing:border-box;padding:10px 42px 28px;place-items:center;opacity:0;visibility:hidden;transform:none}
+.eh-product--clear .eh-angle-viewer__slide.is-active{z-index:1;display:grid!important;opacity:1!important;visibility:visible!important;transform:none!important}
+.eh-product--clear .eh-angle-viewer__slide img,.eh-product--clear .eh-angle-viewer__slide.is-active img{position:relative;z-index:1;display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;opacity:1!important;visibility:visible!important;transform:none!important}
 .eh-angle-viewer__arrow{top:clamp(110px,32vw,130px)}
 .eh-angle-viewer__footer{min-height:50px}
 }
