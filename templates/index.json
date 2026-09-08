@@ -215,6 +215,9 @@
     "eloura_stories": {
       "type": "eloura-homepage",
       "settings": {
+        "clear_product": "niacinamide-gel-moisturiser",
+        "hydra_product": "hydrating-serum",
+        "barrier_product": "ceramide-barrier-night-cream",
         "background": "#FAF9F6",
         "motion": true
       },
@@ -222,22 +225,19 @@
         "clear": {
           "type": "product",
           "settings": {
-            "formula": "clear",
-            "product": "eloura-clear"
+            "formula": "clear"
           }
         },
         "hydra": {
           "type": "product",
           "settings": {
-            "formula": "hydra",
-            "product": "eloura-hydra"
+            "formula": "hydra"
           }
         },
         "barrier": {
           "type": "product",
           "settings": {
-            "formula": "barrier",
-            "product": "eloura-barrier"
+            "formula": "barrier"
           }
         }
       },

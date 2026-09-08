@@ -4,8 +4,16 @@
 <div class="eloura-home" style="--eh-background: {{ section.settings.background }};" data-eloura-home data-motion="{{ section.settings.motion }}">
   {% for block in section.blocks %}
     {% liquid
-      assign item = block.settings.product
       assign formula = block.settings.formula
+      if formula == 'clear'
+        assign item = section.settings.clear_product
+      elsif formula == 'hydra'
+        assign item = section.settings.hydra_product
+      elsif formula == 'barrier'
+        assign item = section.settings.barrier_product
+      else
+        assign item = blank
+      endif
       assign prefix = 'eloura.homepage.' | append: formula | append: '_'
       assign category_key = prefix | append: 'category'
       assign category = block.settings.category
@@ -237,6 +245,9 @@
       "type": "paragraph",
       "content": "Each product is presented independently. Blank text fields use the active storefront language."
     },
+    { "type": "product", "id": "clear_product", "label": "CLEAR product" },
+    { "type": "product", "id": "hydra_product", "label": "HYDRA product" },
+    { "type": "product", "id": "barrier_product", "label": "BARRIER product" },
     { "type": "color", "id": "background", "label": "Page background", "default": "#FAF9F6" },
     { "type": "checkbox", "id": "motion", "label": "Subtle scroll reveals", "default": true }
   ],
@@ -257,7 +268,6 @@
           ],
           "default": "clear"
         },
-        { "type": "product", "id": "product", "label": "Product" },
         { "type": "image_picker", "id": "front_image", "label": "Front image" },
         { "type": "image_picker", "id": "side_image", "label": "Side image" },
         { "type": "image_picker", "id": "back_image", "label": "Back image" },
