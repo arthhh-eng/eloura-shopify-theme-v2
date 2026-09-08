@@ -3,7 +3,7 @@
 {%- assign block_settings = block.settings -%}
 {%- assign announcement_text = block_settings.text -%}
 {% if announcement_text == blank or announcement_text == 'БЕЗПЛАТНА ДОСТАВКА НАД 100 €' %}
-  {%- assign announcement_text = 'eloura.announcement.free_shipping' | t -%}
+  {%- assign announcement_text = 'eloura.announcement.free_shipping_99' | t -%}
 {% endif %}
 {%- assign plain_text = announcement_text | strip_newlines | strip_html | strip -%}
 {%- assign block_index = section.blocks | find_index: 'id', block.id -%}

@@ -414,7 +414,8 @@
       "angle_back": "back view"
 },
     "announcement": {
-      "free_shipping": "FREE SHIPPING ON ORDERS OF €99+"
+      "free_shipping": "FREE SHIPPING ON ORDERS OF €99+",
+      "free_shipping_99": "FREE SHIPPING ON ORDERS OF €99+"
     },
     "localization": {
       "bulgarian": "Български",

@@ -400,7 +400,8 @@
       "angle_back": "вид сзади"
 },
     "announcement": {
-      "free_shipping": "БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 99 €"
+      "free_shipping": "БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 99 €",
+      "free_shipping_99": "БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 99 €"
     },
     "localization": {
       "bulgarian": "Български",
