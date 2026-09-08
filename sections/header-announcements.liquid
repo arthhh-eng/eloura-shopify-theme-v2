@@ -41,6 +41,13 @@
 {% stylesheet %}
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+
+    @media screen and (min-width: 750px) {
+      min-height: 40px;
+    }
   }
 
   .announcement-bar__slider {
@@ -48,6 +55,7 @@
     flex-direction: row;
     align-items: center;
     position: relative;
+    width: 100%;
 
     @media screen and (max-width: 749px) {
       grid-column: 1 / -1;
@@ -115,6 +123,14 @@
 
   .announcement-bar__text:first-child {
     margin: 0;
+  }
+
+  .announcement-bar__text {
+    color: #ffffff;
+    font-size: clamp(0.5625rem, 2.5vw, 0.75rem) !important;
+    line-height: 1;
+    letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
+    white-space: nowrap;
   }
 
   .announcement-bar__link {
