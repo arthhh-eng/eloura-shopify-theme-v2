@@ -273,7 +273,7 @@
     </span>
   </button>
 
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
+  {% if section_id != 'cart-drawer-section' and additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div
       class="
         additional-checkout-buttons
