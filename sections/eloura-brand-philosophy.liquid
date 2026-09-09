@@ -5,8 +5,19 @@
 >
   <div class="eloura-philosophy__inner">
     <p class="eloura-philosophy__eyebrow">{{ 'eloura.philosophy.eyebrow' | t | escape }}</p>
-    <h2 id="ElouraPhilosophy-{{ section.id }}">{{ 'eloura.philosophy.quote' | t | escape }}</h2>
-    <p class="eloura-philosophy__copy">{{ 'eloura.philosophy.text' | t | escape }}</p>
+    {% if request.locale.iso_code == 'bg' %}
+      <h2 id="ElouraPhilosophy-{{ section.id }}">
+        {{- 'eloura.philosophy.quote_bg' | t | escape | newline_to_br -}}
+      </h2>
+      <div class="eloura-philosophy__copy">
+        <p>{{ 'eloura.philosophy.intro_bg' | t | escape | newline_to_br }}</p>
+        <p>{{ 'eloura.philosophy.products_bg' | t | escape | newline_to_br }}</p>
+        <p class="eloura-philosophy__final">{{ 'eloura.philosophy.final_bg' | t | escape }}</p>
+      </div>
+    {% else %}
+      <h2 id="ElouraPhilosophy-{{ section.id }}">{{ 'eloura.philosophy.quote' | t | escape }}</h2>
+      <p class="eloura-philosophy__copy">{{ 'eloura.philosophy.text' | t | escape }}</p>
+    {% endif %}
   </div>
 </section>
 
@@ -63,6 +74,19 @@
     text-wrap: balance;
   }
 
+  .eloura-philosophy__copy p {
+    margin: 0;
+  }
+
+  .eloura-philosophy__copy p + p {
+    margin-block-start: 1.5em;
+  }
+
+  .eloura-philosophy__final {
+    color: var(--philosophy-foreground, #171717);
+    font-weight: 500;
+  }
+
   @media screen and (max-width: 749px) {
     .eloura-philosophy__inner {
       min-height: 610px;
@@ -70,8 +94,11 @@
     }
 
     .eloura-philosophy h2 {
-      font-size: clamp(3.2rem, 14vw, 5.1rem);
-      line-height: 1;
+      font-size: clamp(2.25rem, 10.5vw, 4rem);
+      line-height: 1.04;
+      hyphens: none;
+      overflow-wrap: normal;
+      word-break: normal;
     }
 
     .eloura-philosophy__copy {
