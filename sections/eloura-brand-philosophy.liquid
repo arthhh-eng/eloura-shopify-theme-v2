@@ -15,8 +15,14 @@
         <p class="eloura-philosophy__final">{{ 'eloura.philosophy.final_bg' | t | escape }}</p>
       </div>
     {% else %}
-      <h2 id="ElouraPhilosophy-{{ section.id }}">{{ 'eloura.philosophy.quote' | t | escape }}</h2>
-      <p class="eloura-philosophy__copy">{{ 'eloura.philosophy.text' | t | escape }}</p>
+      <h2 id="ElouraPhilosophy-{{ section.id }}">
+        {{- 'eloura.philosophy.quote_new' | t | escape | newline_to_br -}}
+      </h2>
+      <div class="eloura-philosophy__copy">
+        <p>{{ 'eloura.philosophy.intro_new' | t | escape | newline_to_br }}</p>
+        <p>{{ 'eloura.philosophy.products_new' | t | escape | newline_to_br }}</p>
+        <p class="eloura-philosophy__final">{{ 'eloura.philosophy.final_new' | t | escape }}</p>
+      </div>
     {% endif %}
   </div>
 </section>

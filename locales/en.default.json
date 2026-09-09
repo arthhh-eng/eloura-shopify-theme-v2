@@ -427,7 +427,11 @@
     "philosophy": {
       "eyebrow": "THE ELOURA. PHILOSOPHY",
       "quote": "Not more products. Clearer steps you want to return to.",
-      "text": "We believe in everyday care focused on hydration, comfort and support for the skin barrier — without unnecessary complexity."
+      "text": "We believe in everyday care focused on hydration, comfort and support for the skin barrier — without unnecessary complexity.",
+      "quote_new": "Less filtering.\nMore real skin.",
+      "intro_new": "We don’t want you to hide your skin.\nWe want you to like what you see in the mirror.",
+      "products_new": "CLEAR. HYDRA. BARRIER.\nThree formulas for hydration, a fresh-looking complexion and support for the skin barrier.\nNothing unnecessary. Nothing complicated.",
+      "final_new": "Filters? Save them for photos."
     },
     "faq": {
       "heading": "Frequently asked questions",
