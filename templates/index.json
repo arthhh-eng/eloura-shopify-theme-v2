@@ -246,11 +246,38 @@
         "hydra",
         "barrier"
       ]
+    },
+    "eloura_product_roles": {
+      "type": "eloura-product-roles",
+      "settings": {
+        "clear_product": "niacinamide-gel-moisturiser",
+        "hydra_product": "hydrating-serum",
+        "barrier_product": "ceramide-barrier-night-cream",
+        "background": "#111315",
+        "foreground": "#F7F7F4"
+      }
+    },
+    "eloura_brand_philosophy": {
+      "type": "eloura-brand-philosophy",
+      "settings": {
+        "background": "#F4F2EC",
+        "foreground": "#171717"
+      }
+    },
+    "eloura_faq": {
+      "type": "eloura-faq",
+      "settings": {
+        "background": "#F4F2EC",
+        "foreground": "#171717"
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "eloura_stories",
+    "eloura_product_roles",
+    "eloura_brand_philosophy",
+    "eloura_faq",
     "product_list_fa6P9H"
   ]
 }

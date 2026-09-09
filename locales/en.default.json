@@ -412,7 +412,36 @@
       "angle_front": "front view",
       "angle_side": "side view",
       "angle_back": "back view"
-},
+    },
+    "product_roles": {
+      "eyebrow": "CONFIRMED BENEFITS",
+      "heading": "A clear role. No exaggeration.",
+      "paragraph": "We explain clearly what each eloura. product does — without unsupported promises or unnecessary complexity.",
+      "clear_name": "CLEAR",
+      "clear_role": "Daily hydration and a more even-looking complexion",
+      "hydra_name": "HYDRA",
+      "hydra_role": "Intensive hydration and a fresh appearance",
+      "barrier_name": "BARRIER",
+      "barrier_role": "Deep hydration and support for the skin barrier"
+    },
+    "philosophy": {
+      "eyebrow": "THE ELOURA. PHILOSOPHY",
+      "quote": "Not more products. Clearer steps you want to return to.",
+      "text": "We believe in everyday care focused on hydration, comfort and support for the skin barrier — without unnecessary complexity."
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "q1": "How do I choose the right product?",
+      "a1": "Choose CLEAR for daily hydration and a more even-looking complexion, HYDRA for more intensive hydration and freshness, and BARRIER for evening comfort and skin-barrier support. For the complete routine, choose The Complete Ritual.",
+      "q2": "How should I use the products?",
+      "a2": "Apply the products to clean skin. Begin with HYDRA, follow with CLEAR and use BARRIER in the evening as the final step.",
+      "q3": "Can I combine the products?",
+      "a3": "Yes. CLEAR, HYDRA and BARRIER can be combined as part of one clear everyday routine.",
+      "q4": "Where can I find the ingredients?",
+      "a4": "The complete ingredients list is available on each individual product page.",
+      "q5": "How can I contact eloura.?",
+      "a5": "Email us at hello@eloura.org."
+    },
     "announcement": {
       "free_shipping": "FREE SHIPPING ON ORDERS OF €99+",
       "free_shipping_99": "FREE SHIPPING ON ORDERS OF €99+"

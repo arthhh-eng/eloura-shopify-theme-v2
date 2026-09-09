@@ -1,0 +1,209 @@
+{% liquid
+  assign clear_product = section.settings.clear_product
+  assign hydra_product = section.settings.hydra_product
+  assign barrier_product = section.settings.barrier_product
+
+  assign clear_url = clear_product.url | default: routes.all_products_collection_url
+  assign hydra_url = hydra_product.url | default: routes.all_products_collection_url
+  assign barrier_url = barrier_product.url | default: routes.all_products_collection_url
+%}
+
+<section
+  class="eloura-roles"
+  style="--roles-background: {{ section.settings.background }}; --roles-foreground: {{ section.settings.foreground }};"
+  aria-labelledby="ElouraRoles-{{ section.id }}"
+>
+  <div class="eloura-roles__inner">
+    <header class="eloura-roles__intro">
+      <p class="eloura-roles__eyebrow">{{ 'eloura.product_roles.eyebrow' | t | escape }}</p>
+      <h2 id="ElouraRoles-{{ section.id }}">{{ 'eloura.product_roles.heading' | t | escape }}</h2>
+      <p class="eloura-roles__copy">{{ 'eloura.product_roles.paragraph' | t | escape }}</p>
+    </header>
+
+    <div class="eloura-roles__list">
+      <a class="eloura-role" href="{{ clear_url | escape }}">
+        <span class="eloura-role__number">01</span>
+        <span class="eloura-role__name">{{ 'eloura.product_roles.clear_name' | t | escape }}</span>
+        <span class="eloura-role__description">{{ 'eloura.product_roles.clear_role' | t | escape }}</span>
+      </a>
+      <a class="eloura-role" href="{{ hydra_url | escape }}">
+        <span class="eloura-role__number">02</span>
+        <span class="eloura-role__name">{{ 'eloura.product_roles.hydra_name' | t | escape }}</span>
+        <span class="eloura-role__description">{{ 'eloura.product_roles.hydra_role' | t | escape }}</span>
+      </a>
+      <a class="eloura-role" href="{{ barrier_url | escape }}">
+        <span class="eloura-role__number">03</span>
+        <span class="eloura-role__name">{{ 'eloura.product_roles.barrier_name' | t | escape }}</span>
+        <span class="eloura-role__description">{{ 'eloura.product_roles.barrier_role' | t | escape }}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-roles {
+    background: var(--roles-background, #111315);
+    color: var(--roles-foreground, #f7f7f4);
+  }
+
+  .eloura-roles__inner {
+    width: min(100%, 1600px);
+    min-height: 700px;
+    margin-inline: auto;
+    padding: clamp(72px, 9vw, 148px) clamp(24px, 6vw, 112px);
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(520px, 1.22fr);
+    gap: clamp(64px, 9vw, 160px);
+  }
+
+  .eloura-roles__intro {
+    align-self: start;
+    max-width: 610px;
+  }
+
+  .eloura-roles__eyebrow {
+    margin: 0 0 32px;
+    font-family: var(--font-body--family);
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .eloura-roles__intro h2 {
+    margin: 0;
+    max-width: 600px;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: clamp(3.4rem, 5.6vw, 6.7rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.055em;
+  }
+
+  .eloura-roles__copy {
+    max-width: 500px;
+    margin: clamp(40px, 5vw, 76px) 0 0;
+    color: color-mix(in srgb, var(--roles-foreground, #f7f7f4) 72%, transparent);
+    font-size: clamp(0.98rem, 1.15vw, 1.18rem);
+    line-height: 1.65;
+  }
+
+  .eloura-roles__list {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(150px, 1fr));
+    border-block-start: 1px solid color-mix(in srgb, var(--roles-foreground, #f7f7f4) 17%, transparent);
+  }
+
+  .eloura-role {
+    display: grid;
+    grid-template-columns: 54px minmax(150px, 0.8fr) minmax(220px, 1fr);
+    gap: clamp(18px, 3vw, 54px);
+    align-items: center;
+    padding: 34px 10px;
+    border-block-end: 1px solid color-mix(in srgb, var(--roles-foreground, #f7f7f4) 17%, transparent);
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 220ms ease, padding-inline 220ms ease;
+  }
+
+  .eloura-role__number {
+    color: color-mix(in srgb, var(--roles-foreground, #f7f7f4) 56%, transparent);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .eloura-role__name {
+    font-size: clamp(2rem, 3vw, 4rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+  }
+
+  .eloura-role__description {
+    justify-self: end;
+    max-width: 280px;
+    color: color-mix(in srgb, var(--roles-foreground, #f7f7f4) 66%, transparent);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .eloura-role:hover {
+      padding-inline: 20px;
+      background: color-mix(in srgb, var(--roles-foreground, #f7f7f4) 4%, transparent);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .eloura-roles__inner {
+      min-height: auto;
+      grid-template-columns: 1fr;
+      gap: 70px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .eloura-roles__inner {
+      padding: 72px 24px 80px;
+      gap: 58px;
+    }
+
+    .eloura-roles__eyebrow {
+      margin-block-end: 24px;
+    }
+
+    .eloura-roles__intro h2 {
+      max-width: 420px;
+      font-size: clamp(3rem, 14vw, 4.7rem);
+      line-height: 0.96;
+    }
+
+    .eloura-roles__copy {
+      margin-block-start: 34px;
+      font-size: 1rem;
+    }
+
+    .eloura-roles__list {
+      grid-template-rows: none;
+    }
+
+    .eloura-role {
+      min-height: 148px;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 10px 18px;
+      padding: 30px 0;
+    }
+
+    .eloura-role__name {
+      font-size: clamp(2.1rem, 11vw, 3.3rem);
+    }
+
+    .eloura-role__description {
+      grid-column: 2;
+      justify-self: start;
+      max-width: 290px;
+      font-size: 0.66rem;
+      text-align: left;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. product roles",
+  "tag": "section",
+  "class": "eloura-product-roles-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "product", "id": "clear_product", "label": "CLEAR product" },
+    { "type": "product", "id": "hydra_product", "label": "HYDRA product" },
+    { "type": "product", "id": "barrier_product", "label": "BARRIER product" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#111315" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#F7F7F4" }
+  ],
+  "presets": [{ "name": "eloura. product roles" }]
+}
+{% endschema %}

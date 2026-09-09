@@ -1,0 +1,96 @@
+<section
+  class="eloura-philosophy"
+  style="--philosophy-background: {{ section.settings.background }}; --philosophy-foreground: {{ section.settings.foreground }};"
+  aria-labelledby="ElouraPhilosophy-{{ section.id }}"
+>
+  <div class="eloura-philosophy__inner">
+    <p class="eloura-philosophy__eyebrow">{{ 'eloura.philosophy.eyebrow' | t | escape }}</p>
+    <h2 id="ElouraPhilosophy-{{ section.id }}">{{ 'eloura.philosophy.quote' | t | escape }}</h2>
+    <p class="eloura-philosophy__copy">{{ 'eloura.philosophy.text' | t | escape }}</p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-philosophy {
+    background: var(--philosophy-background, #f4f2ec);
+    color: var(--philosophy-foreground, #171717);
+  }
+
+  .eloura-philosophy__inner {
+    width: min(100%, 1600px);
+    min-height: 720px;
+    margin-inline: auto;
+    padding: clamp(110px, 12vw, 190px) clamp(24px, 6vw, 112px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .eloura-philosophy__eyebrow {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .eloura-philosophy__eyebrow {
+    margin-block-end: clamp(40px, 5vw, 72px);
+    color: color-mix(in srgb, var(--philosophy-foreground, #171717) 62%, transparent);
+  }
+
+  .eloura-philosophy h2 {
+    max-width: 1320px;
+    margin: 0;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: clamp(4rem, 7.1vw, 8rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+    text-wrap: balance;
+  }
+
+  .eloura-philosophy__copy {
+    max-width: 760px;
+    margin: clamp(52px, 6vw, 82px) 0 0;
+    color: color-mix(in srgb, var(--philosophy-foreground, #171717) 62%, transparent);
+    font-size: clamp(0.98rem, 1.15vw, 1.18rem);
+    line-height: 1.65;
+    text-wrap: balance;
+  }
+
+  @media screen and (max-width: 749px) {
+    .eloura-philosophy__inner {
+      min-height: 610px;
+      padding: 100px 24px;
+    }
+
+    .eloura-philosophy h2 {
+      font-size: clamp(3.2rem, 14vw, 5.1rem);
+      line-height: 1;
+    }
+
+    .eloura-philosophy__copy {
+      margin-block-start: 44px;
+      font-size: 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. philosophy",
+  "tag": "section",
+  "class": "eloura-brand-philosophy-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#F4F2EC" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" }
+  ],
+  "presets": [{ "name": "eloura. philosophy" }]
+}
+{% endschema %}

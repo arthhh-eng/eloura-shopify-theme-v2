@@ -1,0 +1,256 @@
+<script src="{{ 'eloura-faq.js' | asset_url }}" defer></script>
+
+<section
+  class="eloura-faq"
+  style="--faq-background: {{ section.settings.background }}; --faq-foreground: {{ section.settings.foreground }};"
+  aria-labelledby="ElouraFaq-{{ section.id }}"
+>
+  <div class="eloura-faq__inner">
+    <header class="eloura-faq__header">
+      <p class="eloura-faq__eyebrow">ELOURA.</p>
+      <h2 id="ElouraFaq-{{ section.id }}">{{ 'eloura.faq.heading' | t | escape }}</h2>
+    </header>
+
+    <eloura-faq class="eloura-faq__list">
+      {% for index in (1..5) %}
+        {% liquid
+          assign question_key = 'eloura.faq.q' | append: index
+          assign answer_key = 'eloura.faq.a' | append: index
+          assign button_id = 'ElouraFaqButton-' | append: section.id | append: '-' | append: index
+          assign panel_id = 'ElouraFaqPanel-' | append: section.id | append: '-' | append: index
+        %}
+        <div class="eloura-faq__item" data-faq-item>
+          <h3 class="eloura-faq__question">
+            <button
+              id="{{ button_id }}"
+              type="button"
+              aria-expanded="false"
+              aria-controls="{{ panel_id }}"
+              data-faq-button
+            >
+              <span>{{ question_key | t | escape }}</span>
+              <span class="eloura-faq__plus" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div
+            id="{{ panel_id }}"
+            class="eloura-faq__answer"
+            role="region"
+            aria-labelledby="{{ button_id }}"
+            aria-hidden="true"
+            data-faq-panel
+          >
+            <div class="eloura-faq__answer-inner">
+              <p>{{ answer_key | t | escape }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </eloura-faq>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-faq {
+    background: var(--faq-background, #f4f2ec);
+    color: var(--faq-foreground, #171717);
+  }
+
+  .eloura-faq__inner {
+    width: min(100%, 1600px);
+    margin-inline: auto;
+    padding: clamp(90px, 10vw, 160px) clamp(24px, 6vw, 112px) clamp(110px, 12vw, 190px);
+    display: grid;
+    grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+    column-gap: clamp(48px, 8vw, 140px);
+    row-gap: clamp(76px, 8vw, 132px);
+  }
+
+  .eloura-faq__header {
+    display: contents;
+  }
+
+  .eloura-faq__header h2 {
+    grid-column: 2;
+    max-width: 820px;
+    margin: 0;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: clamp(4rem, 6.2vw, 7rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+  }
+
+  .eloura-faq__eyebrow {
+    grid-column: 1;
+    margin: 0 0 32px;
+    font-family: var(--font-body--family);
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .eloura-faq__eyebrow {
+    color: color-mix(in srgb, var(--faq-foreground, #171717) 62%, transparent);
+  }
+
+  .eloura-faq__list {
+    grid-column: 2;
+    display: block;
+    margin-block-start: 0;
+    border-block-start: 1px solid color-mix(in srgb, var(--faq-foreground, #171717) 17%, transparent);
+  }
+
+  .eloura-faq__item {
+    border-block-end: 1px solid color-mix(in srgb, var(--faq-foreground, #171717) 17%, transparent);
+  }
+
+  .eloura-faq__question {
+    margin: 0;
+    font: inherit;
+  }
+
+  .eloura-faq__question button {
+    width: 100%;
+    min-height: 104px;
+    padding: 28px 4px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    justify-content: space-between;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: clamp(1.18rem, 1.65vw, 1.75rem);
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .eloura-faq__question button:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+  }
+
+  .eloura-faq__plus {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+
+  .eloura-faq__plus::before,
+  .eloura-faq__plus::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform 220ms ease;
+  }
+
+  .eloura-faq__plus::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .eloura-faq__question button[aria-expanded='true'] .eloura-faq__plus::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .eloura-faq__answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 260ms ease, opacity 220ms ease;
+  }
+
+  .eloura-faq__answer[aria-hidden='false'] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .eloura-faq__answer-inner {
+    overflow: hidden;
+  }
+
+  .eloura-faq__answer p {
+    max-width: 760px;
+    margin: 0;
+    padding: 0 56px 34px 4px;
+    color: color-mix(in srgb, var(--faq-foreground, #171717) 66%, transparent);
+    font-size: clamp(0.98rem, 1.1vw, 1.12rem);
+    line-height: 1.65;
+  }
+
+  @media screen and (max-width: 989px) {
+    .eloura-faq__inner {
+      grid-template-columns: 1fr;
+      gap: 64px;
+    }
+
+    .eloura-faq__header {
+      display: block;
+    }
+
+    .eloura-faq__header h2,
+    .eloura-faq__eyebrow,
+    .eloura-faq__list {
+      grid-column: auto;
+    }
+
+    .eloura-faq__list {
+      margin-block-start: 0;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .eloura-faq__inner {
+      padding: 88px 24px 110px;
+      gap: 52px;
+    }
+
+    .eloura-faq__header h2 {
+      max-width: 440px;
+      font-size: clamp(3.25rem, 14vw, 5rem);
+      line-height: 1;
+    }
+
+    .eloura-faq__question button {
+      min-height: 88px;
+      padding-block: 24px;
+      font-size: 1.12rem;
+    }
+
+    .eloura-faq__answer p {
+      padding: 0 34px 28px 0;
+      font-size: 0.98rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eloura-faq__plus::after,
+    .eloura-faq__answer {
+      transition-duration: 0.01ms;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. FAQ",
+  "tag": "section",
+  "class": "eloura-faq-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#F4F2EC" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" }
+  ],
+  "presets": [{ "name": "eloura. FAQ" }]
+}
+{% endschema %}
