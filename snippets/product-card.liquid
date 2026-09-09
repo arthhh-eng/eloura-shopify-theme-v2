@@ -63,6 +63,7 @@
   class="product-card size-style"
   style="{% render 'size-style', settings: block_settings %} --eloura-product-card-radius: {{ settings.product_corner_radius | default: 20 }}px;"
   data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
   id="product-card-{{ block.id }}"
   {% if settings.transition_to_main_product %}
     data-product-transition="true"
