@@ -137,6 +137,19 @@
     }
   }
 
+  /* Keep the wide Complete Ritual bundle fully visible in its existing card. */
+  .product-card[data-product-handle='the-complete-ritual'] .card-gallery,
+  .product-card[data-product-handle='the-complete-ritual'] .card-gallery :is(.product-media-container, .product-media) {
+    background: #f7f7f4;
+  }
+
+  .product-card[data-product-handle='the-complete-ritual'] .card-gallery :is(img, .product-media img),
+  .product-card[data-product-handle='the-complete-ritual']:hover .card-gallery :is(img, .product-media img) {
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+  }
+
   @media screen and (max-width: 749px) {
     .product-card .card-gallery {
       --border-radius: 16px;
