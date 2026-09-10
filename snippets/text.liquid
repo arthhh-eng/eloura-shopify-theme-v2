@@ -13,33 +13,33 @@
   assign block_settings = block.settings
   assign rendered_text = block_settings.text
   if request.page_type == '404'
-    case block.id
-      when 'text_GqmVFf'
+    case block_settings.type_preset
+      when 'h3'
         capture rendered_text
           echo '<h1>'
           echo 'eloura.not_found.heading' | t | escape
           echo '</h1>'
         endcapture
-      when 'text_Ua9XAW'
+      when 'rte'
         capture rendered_text
           echo '<p>'
           echo 'eloura.not_found.text' | t | escape
           echo '</p>'
         endcapture
-      when 'text_WJEa9Q'
+      when 'h4'
         capture rendered_text
           echo '<p>'
           echo 'eloura.not_found.discover' | t | escape
           echo '</p>'
         endcapture
     endcase
-  elsif request.page_type == 'cart' and block.id == 'product_list_text_fifeh4'
+  elsif request.page_type == 'cart' and block_settings.type_preset == 'h4'
     capture rendered_text
       echo '<h2>'
       echo 'eloura.cart.recommendations' | t | escape
       echo '</h2>'
     endcapture
-  elsif request.page_type == 'page' and page.handle == 'contact' and block.id == 'title'
+  elsif request.page_type == 'page' and page.handle == 'contact' and block_settings.type_preset == 'h2'
     capture rendered_text
       echo '<h1>'
       echo 'eloura.contact.heading' | t | escape
