@@ -428,7 +428,9 @@
       "russian": "Русский"
     },
     "navigation": {
-      "products": "Продукти"
+      "home": "Начало",
+      "products": "Продукти",
+      "contact": "Контакти"
     },
     "hero": {
           "eyebrow": "ELOURA. ОСНОВИ НА ГРИЖАТА",

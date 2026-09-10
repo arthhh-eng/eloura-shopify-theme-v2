@@ -118,9 +118,16 @@
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
               {% assign drawer_link_title = link.title %}
-              {% if link.type == 'catalog_link' %}
-                {% assign drawer_link_title = 'eloura.navigation.products' | t %}
-              {% endif %}
+              {% case link.type %}
+                {% when 'frontpage_link' %}
+                  {% assign drawer_link_title = 'eloura.navigation.home' | t %}
+                {% when 'catalog_link' %}
+                  {% assign drawer_link_title = 'eloura.navigation.products' | t %}
+                {% when 'page_link' %}
+                  {% if link.object.handle == 'contact' %}
+                    {% assign drawer_link_title = 'eloura.navigation.contact' | t %}
+                  {% endif %}
+              {% endcase %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
                 class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
@@ -275,9 +282,16 @@
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
               {% assign drawer_link_title = link.title %}
-              {% if link.type == 'catalog_link' %}
-                {% assign drawer_link_title = 'eloura.navigation.products' | t %}
-              {% endif %}
+              {% case link.type %}
+                {% when 'frontpage_link' %}
+                  {% assign drawer_link_title = 'eloura.navigation.home' | t %}
+                {% when 'catalog_link' %}
+                  {% assign drawer_link_title = 'eloura.navigation.products' | t %}
+                {% when 'page_link' %}
+                  {% if link.object.handle == 'contact' %}
+                    {% assign drawer_link_title = 'eloura.navigation.contact' | t %}
+                  {% endif %}
+              {% endcase %}
               <li
                 class="menu-drawer__list-item"
                 style="--menu-drawer-animation-index: {{ animation_index }};"

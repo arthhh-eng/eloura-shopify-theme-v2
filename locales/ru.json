@@ -442,7 +442,9 @@
       "russian": "Русский"
     },
     "navigation": {
-      "products": "Продукты"
+      "home": "Главная",
+      "products": "Продукты",
+      "contact": "Контакты"
     },
     "hero": {
           "eyebrow": "ELOURA. ОСНОВЫ УХОДА",

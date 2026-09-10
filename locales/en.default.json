@@ -456,7 +456,9 @@
       "russian": "Русский"
     },
     "navigation": {
-      "products": "Products"
+      "home": "Home",
+      "products": "Products",
+      "contact": "Contact"
     },
     "hero": {
           "eyebrow": "ELOURA. SKIN ESSENTIALS",
