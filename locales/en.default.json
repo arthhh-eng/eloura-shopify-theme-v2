@@ -460,6 +460,18 @@
       "products": "Products",
       "contact": "Contact"
     },
+    "contact": {
+      "heading": "Contact"
+    },
+    "cart": {
+      "recommendations": "You may also like"
+    },
+    "not_found": {
+      "heading": "Page not found",
+      "text": "The link may be incorrect, or the page has been removed.",
+      "button": "Continue shopping",
+      "discover": "Discover something new"
+    },
     "hero": {
           "eyebrow": "ELOURA. SKIN ESSENTIALS",
           "heading": "Skin remembers care.",

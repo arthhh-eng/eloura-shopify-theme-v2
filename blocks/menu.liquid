@@ -79,9 +79,25 @@
         {% if menu %}
           <ul class="list-unstyled">
             {% for link in menu.links %}
+              {% liquid
+                assign localized_link_title = link.title
+                case link.type
+                  when 'frontpage_link'
+                    assign localized_link_title = 'eloura.navigation.home' | t
+                  when 'catalog_link'
+                    assign localized_link_title = 'eloura.navigation.products' | t
+                  when 'page_link'
+                    if link.object.handle == 'contact'
+                      assign localized_link_title = 'eloura.navigation.contact' | t
+                    endif
+                endcase
+                if link.url contains '/search'
+                  assign localized_link_title = 'content.search' | t
+                endif
+              %}
               <li class="menu__item {{ block_settings.link_preset }}">
                 <a href="{{ link.url }}">
-                  {{ link.title }}{% if link.data_sharing_opt_out_icon %}{{ link.data_sharing_opt_out_icon }}{% endif %}
+                  {{ localized_link_title | escape }}{% if link.data_sharing_opt_out_icon %}{{ link.data_sharing_opt_out_icon }}{% endif %}
                 </a>
               </li>
             {% endfor %}

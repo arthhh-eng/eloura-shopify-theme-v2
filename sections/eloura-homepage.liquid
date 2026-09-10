@@ -109,6 +109,12 @@
       assign front_alt = formula | upcase | append: ' — ' | append: front_label
       assign side_alt = formula | upcase | append: ' — ' | append: side_label
       assign back_alt = formula | upcase | append: ' — ' | append: back_label
+      assign front_loading = 'lazy'
+      assign front_priority = 'auto'
+      if formula == 'clear'
+        assign front_loading = 'eager'
+        assign front_priority = 'high'
+      endif
 
       assign product_model = blank
       if block.settings.show_product_model and item != blank
@@ -142,9 +148,9 @@
                 <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ front_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
                   {% if front_image != blank %}
                     {% assign front_image_alt = front_image.alt | default: front_alt %}
-                    {{ front_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'eager', fetchpriority: 'high', alt: front_image_alt }}
+                    {{ front_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: front_loading, fetchpriority: front_priority, alt: front_image_alt }}
                   {% else %}
-                    <img src="{{ front_asset | asset_url }}" width="1086" height="1448" alt="{{ front_alt | escape }}" loading="eager" fetchpriority="high">
+                    <img src="{{ front_asset | asset_url }}" width="1086" height="1448" alt="{{ front_alt | escape }}" loading="{{ front_loading }}" fetchpriority="{{ front_priority }}" decoding="async">
                   {% endif %}
                 </div>
                 {% assign angle_position = angle_position | plus: 1 %}
@@ -153,9 +159,9 @@
                 <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ side_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
                   {% if side_image != blank %}
                     {% assign side_image_alt = side_image.alt | default: side_alt %}
-                    {{ side_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'eager', alt: side_image_alt }}
+                    {{ side_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'lazy', alt: side_image_alt }}
                   {% else %}
-                    <img src="{{ side_asset | asset_url }}" width="1086" height="1448" alt="{{ side_alt | escape }}" loading="eager">
+                    <img src="{{ side_asset | asset_url }}" width="1086" height="1448" alt="{{ side_alt | escape }}" loading="lazy" decoding="async">
                   {% endif %}
                 </div>
                 {% assign angle_position = angle_position | plus: 1 %}
@@ -164,9 +170,9 @@
                 <div class="eh-angle-viewer__slide{% if angle_position == 0 %} is-active{% endif %}" data-angle-slide data-angle-name="{{ back_label | escape }}" aria-hidden="{% if angle_position == 0 %}false{% else %}true{% endif %}">
                   {% if back_image != blank %}
                     {% assign back_image_alt = back_image.alt | default: back_alt %}
-                    {{ back_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'eager', alt: back_image_alt }}
+                    {{ back_image | image_url: width: 1800 | image_tag: widths: '360, 540, 750, 1080, 1440, 1800', sizes: '(min-width: 750px) 820px, 92vw', loading: 'lazy', alt: back_image_alt }}
                   {% else %}
-                    <img src="{{ back_asset | asset_url }}" width="1086" height="1448" alt="{{ back_alt | escape }}" loading="eager">
+                    <img src="{{ back_asset | asset_url }}" width="1086" height="1448" alt="{{ back_alt | escape }}" loading="lazy" decoding="async">
                   {% endif %}
                 </div>
                 {% assign angle_position = angle_position | plus: 1 %}

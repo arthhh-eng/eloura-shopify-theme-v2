@@ -124,7 +124,7 @@
 >
 <meta
   property="og:title"
-  content="{{ og_title | escape }}"
+  content="{{ og_title | escape_once }}"
 >
 <meta
   property="og:type"
@@ -132,7 +132,7 @@
 >
 <meta
   property="og:description"
-  content="{{ og_description | escape }}"
+  content="{{ og_description | escape_once }}"
 >
 
 {%- if page_image -%}
@@ -177,14 +177,14 @@
 >
 <meta
   name="twitter:title"
-  content="{{ og_title | escape }}"
+  content="{{ og_title | escape_once }}"
 >
 <meta
   name="twitter:description"
-  content="{{ og_description | escape }}"
+  content="{{ og_description | escape_once }}"
 >
 
-<title>{{ seo_title | escape }}</title>
+<title>{{ seo_title | escape_once }}</title>
 
 <link
   rel="canonical"
@@ -193,5 +193,5 @@
 
 <meta
   name="description"
-  content="{{ seo_description | escape }}"
+  content="{{ seo_description | escape_once }}"
 >

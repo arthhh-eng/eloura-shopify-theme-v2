@@ -158,7 +158,7 @@
     "product_badge_sale": "Разпродажба",
     "grid_view": {
       "default_view": "По подразбиране",
-      "grid_fieldset": "Grid изглед",
+      "grid_fieldset": "Изглед на мрежа",
       "single_item": "Единична",
       "zoom_out": "Намаляване"
     },
@@ -431,6 +431,18 @@
       "home": "Начало",
       "products": "Продукти",
       "contact": "Контакти"
+    },
+    "contact": {
+      "heading": "Контакти"
+    },
+    "cart": {
+      "recommendations": "Може също да харесате"
+    },
+    "not_found": {
+      "heading": "Страницата не е намерена",
+      "text": "Възможно е връзката да е неправилна или страницата да е премахната.",
+      "button": "Продължи с пазаруването",
+      "discover": "Открийте нещо ново"
     },
     "hero": {
           "eyebrow": "ELOURA. ОСНОВИ НА ГРИЖАТА",

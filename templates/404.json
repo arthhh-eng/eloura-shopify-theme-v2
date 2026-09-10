@@ -16,7 +16,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<h1>Page not found</h1>",
+            "text": "<h1>{{ 'eloura.not_found.heading' | t }}</h1>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -41,7 +41,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>The link may be incorrect, or the page has been removed. </p>",
+            "text": "<p>{{ 'eloura.not_found.text' | t }}</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -132,7 +132,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Discover something new</p>",
+                "text": "<p>{{ 'eloura.not_found.discover' | t }}</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",

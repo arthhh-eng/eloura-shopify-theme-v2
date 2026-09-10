@@ -9,6 +9,10 @@
 {%- enddoc -%}
 
 {% assign block_settings = block.settings %}
+{% assign button_label = block_settings.label %}
+{% if request.page_type == '404' and block.id == 'button_PAQMwR' %}
+  {% assign button_label = 'eloura.not_found.button' | t %}
+{% endif %}
 {% render 'button-custom-styles', block_settings: block_settings, block_id: block.id %}
 
 <a
@@ -30,5 +34,5 @@
   {%- endif -%}
   {{ block.shopify_attributes }}
 >
-  {{ block_settings.label }}
+  {{ button_label | escape }}
 </a>

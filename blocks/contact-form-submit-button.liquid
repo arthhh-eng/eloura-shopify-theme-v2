@@ -1,4 +1,5 @@
 {%- assign block_settings = block.settings -%}
+{%- assign submit_label = 'actions.submit' | t -%}
 {% render 'button-custom-styles', block_settings: block_settings, block_id: block.id %}
 <button
   type="submit"
@@ -6,7 +7,7 @@
   style="{% render 'size-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >
-  {{ block_settings.label }}
+  {{ submit_label | escape }}
 </button>
 
 {% stylesheet %}
