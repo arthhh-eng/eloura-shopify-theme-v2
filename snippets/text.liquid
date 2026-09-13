@@ -39,6 +39,12 @@
       echo 'eloura.cart.recommendations' | t | escape
       echo '</h2>'
     endcapture
+  elsif request.page_type == 'product' and block_settings.type_preset == 'h4'
+    capture rendered_text
+      echo '<h2>'
+      echo 'eloura.cart.recommendations' | t | escape
+      echo '</h2>'
+    endcapture
   elsif request.page_type == 'page' and page.handle == 'contact' and block_settings.type_preset == 'h2'
     capture rendered_text
       echo '<h1>'
