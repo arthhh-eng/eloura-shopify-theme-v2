@@ -22,6 +22,10 @@
   assign seo_brand = 'eloura.'
   assign seo_page_title = page_title | default: shop.name | strip
 
+  if request.page_type == 'page' and page.handle == 'contact'
+    assign seo_page_title = 'eloura.contact.heading' | t
+  endif
+
   if request.page_type == 'index'
     assign seo_title = 'eloura.seo.home_title' | t
   else
@@ -101,6 +105,9 @@
   endif
 
   assign og_title = page_title | default: shop.name
+  if request.page_type == 'page' and page.handle == 'contact'
+    assign og_title = 'eloura.contact.heading' | t
+  endif
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
