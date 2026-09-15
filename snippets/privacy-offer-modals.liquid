@@ -1,0 +1,84 @@
+{% liquid
+  assign privacy_url = '/policies/privacy-policy'
+  if shop.privacy_policy
+    assign privacy_url = shop.privacy_policy.url
+  endif
+
+  assign locale_code = request.locale.iso_code | downcase
+  assign cookie_heading = 'COOKIE PREFERENCES'
+  assign cookie_copy = 'We use essential cookies to run the store. With your permission, we may also use non-essential cookies for analytics, preferences and marketing.'
+  assign accept_all = 'ACCEPT ALL'
+  assign reject_nonessential = 'REJECT NON-ESSENTIAL'
+  assign privacy_policy_label = 'PRIVACY POLICY'
+  assign offer_heading = 'FIRST ORDER'
+  assign offer_copy = 'Get 10% off your first purchase.'
+  assign promo_label = 'PROMO CODE'
+  assign copy_code_label = 'COPY CODE'
+  assign copied_label = 'COPIED'
+  assign continue_label = 'CONTINUE SHOPPING'
+  assign close_label = 'Close offer'
+
+  if locale_code contains 'bg'
+    assign cookie_heading = 'НАСТРОЙКИ ЗА БИСКВИТКИ'
+    assign cookie_copy = 'Използваме задължителни бисквитки, за да работи магазинът. С ваше съгласие можем да използваме и незадължителни бисквитки за анализи, предпочитания и маркетинг.'
+    assign accept_all = 'ПРИЕМАМ ВСИЧКИ'
+    assign reject_nonessential = 'ОТКАЗВАМ НЕЗАДЪЛЖИТЕЛНИТЕ'
+    assign privacy_policy_label = 'ПОЛИТИКА ЗА ПОВЕРИТЕЛНОСТ'
+    assign offer_heading = 'ПЪРВА ПОРЪЧКА'
+    assign offer_copy = 'Получете 10% отстъпка при първата си поръчка.'
+    assign promo_label = 'ПРОМОКОД'
+    assign copy_code_label = 'КОПИРАЙ КОДА'
+    assign copied_label = 'КОПИРАНО'
+    assign continue_label = 'ПРОДЪЛЖИ ПАЗАРУВАНЕТО'
+    assign close_label = 'Затвори офертата'
+  elsif locale_code contains 'ru'
+    assign cookie_heading = 'НАСТРОЙКИ COOKIE'
+    assign cookie_copy = 'Мы используем обязательные файлы cookie для работы магазина. С вашего согласия мы также можем использовать необязательные cookie для аналитики, предпочтений и маркетинга.'
+    assign accept_all = 'ПРИНЯТЬ ВСЕ'
+    assign reject_nonessential = 'ОТКЛОНИТЬ НЕОБЯЗАТЕЛЬНЫЕ'
+    assign privacy_policy_label = 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ'
+    assign offer_heading = 'ПЕРВАЯ ПОКУПКА'
+    assign offer_copy = 'Получите скидку 10% на первую покупку.'
+    assign promo_label = 'ПРОМОКОД'
+    assign copy_code_label = 'СКОПИРОВАТЬ КОД'
+    assign copied_label = 'СКОПИРОВАНО'
+    assign continue_label = 'ПРОДОЛЖИТЬ ПОКУПКИ'
+    assign close_label = 'Закрыть предложение'
+  endif
+
+  assign offer_enabled = true
+  if settings.enable_first_order_popup == false
+    assign offer_enabled = false
+  endif
+%}
+
+{% unless request.design_mode %}
+  <div class="eloura-consent" data-eloura-consent hidden>
+    <div class="eloura-consent__panel" data-eloura-consent-dialog role="dialog" aria-modal="true" aria-labelledby="ElouraConsentTitle" tabindex="-1">
+      <p class="eloura-modal__eyebrow" id="ElouraConsentTitle">{{ cookie_heading }}</p>
+      <p class="eloura-consent__copy">{{ cookie_copy }}</p>
+      <div class="eloura-consent__actions">
+        <button class="eloura-modal__button eloura-modal__button--dark" type="button" data-consent-accept>{{ accept_all }}</button>
+        <button class="eloura-modal__button" type="button" data-consent-reject>{{ reject_nonessential }}</button>
+      </div>
+      <a class="eloura-modal__policy" href="{{ privacy_url }}">{{ privacy_policy_label }}</a>
+    </div>
+  </div>
+
+  {% if offer_enabled %}
+    <div class="eloura-offer" data-eloura-offer hidden>
+      <button class="eloura-offer__backdrop" type="button" data-offer-close aria-label="{{ close_label | escape }}"></button>
+      <div class="eloura-offer__panel" data-eloura-offer-dialog role="dialog" aria-modal="true" aria-labelledby="ElouraOfferTitle" tabindex="-1">
+        <button class="eloura-offer__close" type="button" data-offer-close aria-label="{{ close_label | escape }}">×</button>
+        <p class="eloura-modal__eyebrow" id="ElouraOfferTitle">{{ offer_heading }}</p>
+        <p class="eloura-offer__copy">{{ offer_copy }}</p>
+        <div class="eloura-offer__code-wrap">
+          <span>{{ promo_label }}</span>
+          <strong>eloura10</strong>
+        </div>
+        <button class="eloura-modal__button eloura-modal__button--dark" type="button" data-copy-code data-copy-label="{{ copy_code_label | escape }}" data-copied-label="{{ copied_label | escape }}">{{ copy_code_label }}</button>
+        <button class="eloura-offer__continue" type="button" data-offer-close>{{ continue_label }}</button>
+      </div>
+    </div>
+  {% endif %}
+{% endunless %}
