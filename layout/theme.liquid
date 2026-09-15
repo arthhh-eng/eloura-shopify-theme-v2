@@ -37,6 +37,7 @@
 
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
+    {{ 'privacy-offer.css' | asset_url | stylesheet_tag }}
     {%- render 'card-hover-effect-styles' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
@@ -191,5 +192,8 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {% render 'privacy-offer-modals' %}
+    <script src="{{ 'privacy-offer.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
