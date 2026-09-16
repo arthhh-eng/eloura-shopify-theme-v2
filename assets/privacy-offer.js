@@ -3,7 +3,7 @@
   const consentDialog = document.querySelector('[data-eloura-consent-dialog]');
   const offerRoot = document.querySelector('[data-eloura-offer]');
   const offerDialog = document.querySelector('[data-eloura-offer-dialog]');
-  const offerKey = 'eloura:first-order-offer:v3';
+  const offerKey = 'eloura:first-order-offer:v4';
   const offerDays = 30;
   let activeRoot = consentRoot || null;
   let activeDialog = consentDialog || null;
@@ -66,10 +66,14 @@
     window.Shopify.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], callback);
   };
 
-  const hasRecordedConsent = () => {
+  const currentConsent = () => {
     const privacy = window.Shopify?.customerPrivacy;
-    if (!privacy || typeof privacy.currentVisitorConsent !== 'function') return false;
-    const current = privacy.currentVisitorConsent();
+    if (!privacy || typeof privacy.currentVisitorConsent !== 'function') return null;
+    return privacy.currentVisitorConsent();
+  };
+
+  const hasRecordedConsent = () => {
+    const current = currentConsent();
     const keys = ['analytics', 'marketing', 'preferences'];
     return Boolean(current && keys.every((key) => current[key] === 'yes' || current[key] === 'no'));
   };
@@ -86,11 +90,12 @@
         ? { analytics: true, marketing: true, preferences: true }
         : { analytics: false, marketing: false, preferences: false };
 
-      privacy.setTrackingConsent(consent, (error) => {
-        if (error) {
-          console.warn('[eloura] Consent choice was not saved by Shopify.', error);
+      privacy.setTrackingConsent(consent, (result) => {
+        if (result && result.error) {
+          console.warn('[eloura] Consent choice was not saved by Shopify.', result);
           return;
         }
+
         closeModal(consentRoot, false);
         showOffer();
       });
