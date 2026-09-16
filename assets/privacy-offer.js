@@ -3,6 +3,7 @@
   const consentDialog = document.querySelector('[data-eloura-consent-dialog]');
   const offerRoot = document.querySelector('[data-eloura-offer]');
   const offerDialog = document.querySelector('[data-eloura-offer-dialog]');
+  const consentUiKey = 'eloura:cookie-consent-ui:v1';
   const offerKey = 'eloura:first-order-offer:v4';
   const offerDays = 30;
   let activeRoot = consentRoot || null;
@@ -52,8 +53,22 @@
     } catch (_) {}
   };
 
-  const showOffer = () => {
-    if (!offerRoot || offerWasSeen()) return;
+  const markConsentUiChoice = () => {
+    try {
+      localStorage.setItem(consentUiKey, '1');
+    } catch (_) {}
+  };
+
+  const consentUiChoiceWasMade = () => {
+    try {
+      return localStorage.getItem(consentUiKey) === '1';
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const showOffer = (force = false) => {
+    if (!offerRoot || (!force && offerWasSeen())) return;
     window.setTimeout(() => {
       openModal(offerRoot, offerDialog);
       markOfferSeen();
@@ -96,8 +111,9 @@
           return;
         }
 
+        markConsentUiChoice();
         closeModal(consentRoot, false);
-        showOffer();
+        showOffer(true);
       });
     });
   };
@@ -169,9 +185,8 @@
       return;
     }
 
-    if (hasRecordedConsent()) {
+    if (consentUiChoiceWasMade() && hasRecordedConsent()) {
       closeModal(consentRoot, false);
-      showOffer();
     }
   });
 })();
