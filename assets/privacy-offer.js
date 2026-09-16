@@ -3,10 +3,10 @@
   const consentDialog = document.querySelector('[data-eloura-consent-dialog]');
   const offerRoot = document.querySelector('[data-eloura-offer]');
   const offerDialog = document.querySelector('[data-eloura-offer-dialog]');
-  const offerKey = 'eloura:first-order-offer:v2';
+  const offerKey = 'eloura:first-order-offer:v3';
   const offerDays = 30;
-  let activeRoot = null;
-  let activeDialog = null;
+  let activeRoot = consentRoot || null;
+  let activeDialog = consentDialog || null;
   let returnFocus = null;
 
   const focusable = (root) => [...root.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter((el) => !el.hidden && el.offsetParent !== null);
@@ -23,7 +23,7 @@
     requestAnimationFrame(() => dialog.focus());
   };
 
-  const closeModal = (root) => {
+  const closeModal = (root, restoreFocus = true) => {
     if (!root) return;
     root.hidden = true;
     if (activeRoot === root) {
@@ -31,7 +31,7 @@
       activeDialog = null;
     }
     unlock();
-    if (returnFocus && document.contains(returnFocus)) returnFocus.focus();
+    if (restoreFocus && returnFocus && document.contains(returnFocus)) returnFocus.focus();
     returnFocus = null;
   };
 
@@ -54,8 +54,10 @@
 
   const showOffer = () => {
     if (!offerRoot || offerWasSeen()) return;
-    markOfferSeen();
-    window.setTimeout(() => openModal(offerRoot, offerDialog), 220);
+    window.setTimeout(() => {
+      openModal(offerRoot, offerDialog);
+      markOfferSeen();
+    }, 220);
   };
 
   const loadConsentApi = (callback) => {
@@ -64,36 +66,34 @@
     window.Shopify.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], callback);
   };
 
-  const needsConsent = () => {
+  const hasRecordedConsent = () => {
     const privacy = window.Shopify?.customerPrivacy;
-    if (!privacy) return true;
-
-    if (typeof privacy.currentVisitorConsent === 'function') {
-      const current = privacy.currentVisitorConsent();
-      const keys = ['analytics', 'marketing', 'preferences'];
-      if (current && keys.some((key) => current[key] === '')) return true;
-      if (current && keys.every((key) => current[key] === 'yes' || current[key] === 'no')) return false;
-    }
-
-    if (typeof privacy.shouldShowBanner === 'function') return privacy.shouldShowBanner();
-    return true;
+    if (!privacy || typeof privacy.currentVisitorConsent !== 'function') return false;
+    const current = privacy.currentVisitorConsent();
+    const keys = ['analytics', 'marketing', 'preferences'];
+    return Boolean(current && keys.every((key) => current[key] === 'yes' || current[key] === 'no'));
   };
 
   const saveConsent = (accepted) => {
-    const privacy = window.Shopify?.customerPrivacy;
-    if (!privacy?.setTrackingConsent) return;
-
-    const consent = accepted
-      ? { analytics: true, marketing: true, preferences: true }
-      : { analytics: false, marketing: false, preferences: false };
-
-    privacy.setTrackingConsent(consent, (error) => {
-      if (error) {
-        console.warn('[eloura] Consent choice was not saved by Shopify.', error);
+    loadConsentApi((loadError) => {
+      const privacy = window.Shopify?.customerPrivacy;
+      if (loadError || !privacy?.setTrackingConsent) {
+        console.warn('[eloura] Shopify Customer Privacy API is unavailable; consent window remains open.', loadError || 'missing API');
         return;
       }
-      closeModal(consentRoot);
-      showOffer();
+
+      const consent = accepted
+        ? { analytics: true, marketing: true, preferences: true }
+        : { analytics: false, marketing: false, preferences: false };
+
+      privacy.setTrackingConsent(consent, (error) => {
+        if (error) {
+          console.warn('[eloura] Consent choice was not saved by Shopify.', error);
+          return;
+        }
+        closeModal(consentRoot, false);
+        showOffer();
+      });
     });
   };
 
@@ -153,13 +153,20 @@
     }
   });
 
+  if (consentRoot && !consentRoot.hidden) {
+    lock();
+    requestAnimationFrame(() => consentDialog?.focus());
+  }
+
   loadConsentApi((error) => {
     if (error || !window.Shopify?.customerPrivacy) {
-      console.warn('[eloura] Shopify Customer Privacy API could not be initialized; promotional popup withheld.');
+      console.warn('[eloura] Customer Privacy API could not be initialized on page load; consent UI stays visible and will retry when a choice is made.');
       return;
     }
 
-    if (needsConsent()) openModal(consentRoot, consentDialog);
-    else showOffer();
+    if (hasRecordedConsent()) {
+      closeModal(consentRoot, false);
+      showOffer();
+    }
   });
 })();
