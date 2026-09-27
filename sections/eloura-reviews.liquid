@@ -1,0 +1,62 @@
+{{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_reviews and section.blocks.size > 0 %}
+  <section class="eloura-journey eloura-reviews" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraReviews-{{ section.id }}">
+    <div class="eloura-journey__inner">
+      <p class="eloura-journey__eyebrow">{{ 'eloura.journey.reviews_eyebrow' | t | escape }}</p>
+      <h2 class="eloura-journey__heading" id="ElouraReviews-{{ section.id }}">{{ 'eloura.journey.reviews_heading' | t | escape }}</h2>
+      <div class="eloura-journey__grid eloura-reviews__grid">
+        {% for block in section.blocks %}
+          {% if block.settings.review != blank and block.settings.customer != blank %}
+            <figure class="eloura-journey__card eloura-review" {{ block.shopify_attributes }}>
+              {% if block.settings.photo != blank %}
+                {{ block.settings.photo | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 990px) 33vw, 100vw', loading: 'lazy', alt: block.settings.photo.alt }}
+              {% endif %}
+              <div class="eloura-review__rating" aria-label="{{ 'eloura.journey.reviews_rating' | t: rating: block.settings.rating | escape }}">{% for star in (1..block.settings.rating) %}<span aria-hidden="true">★</span>{% endfor %}</div>
+              <blockquote>{{ block.settings.review | escape }}</blockquote>
+              <figcaption>{{ block.settings.customer | escape }}</figcaption>
+            </figure>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% stylesheet %}
+  .eloura-reviews__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .eloura-review { margin: 0; }
+  .eloura-review img { display: block; width: 100%; aspect-ratio: 4 / 5; margin-block-end: 24px; border-radius: 16px; object-fit: cover; }
+  .eloura-review__rating { letter-spacing: 0.12em; }
+  .eloura-review blockquote { margin: 22px 0; font-size: 1.12rem; line-height: 1.55; }
+  .eloura-review figcaption { color: color-mix(in srgb, var(--eloura-section-fg) 62%, transparent); font-size: 0.85rem; }
+  @media screen and (max-width: 749px) { .eloura-reviews__grid { grid-template-columns: 1fr; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. authentic reviews",
+  "tag": "section",
+  "class": "eloura-reviews-section",
+  "enabled_on": { "templates": ["index"] },
+  "max_blocks": 6,
+  "settings": [
+    { "type": "checkbox", "id": "show_reviews", "label": "Publish authentic reviews", "info": "Enable only after adding genuine customer reviews and photographs.", "default": false },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FAF9F6" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Authentic review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "review", "label": "Review text" },
+        { "type": "text", "id": "customer", "label": "Customer name or initials" },
+        { "type": "image_picker", "id": "photo", "label": "Authentic customer photo" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "eloura. authentic reviews" }]
+}
+{% endschema %}
