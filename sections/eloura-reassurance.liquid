@@ -1,0 +1,38 @@
+{{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
+
+<section class="eloura-journey eloura-reassurance" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraReassurance-{{ section.id }}">
+  <div class="eloura-journey__inner">
+    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.reassurance_eyebrow' | t | escape }}</p>
+    <h2 class="eloura-journey__heading" id="ElouraReassurance-{{ section.id }}">{{ 'eloura.journey.reassurance_heading' | t | escape }}</h2>
+    <div class="eloura-journey__grid">
+      {% for index in (1..4) %}
+        {% liquid
+          assign heading_key = 'eloura.journey.reassurance_' | append: index | append: '_heading'
+          assign text_key = 'eloura.journey.reassurance_' | append: index | append: '_text'
+        %}
+        <article class="eloura-journey__card">
+          <h3>{{ heading_key | t | escape }}</h3>
+          <p>{{ text_key | t | escape }}</p>
+          {% if index == 4 and section.settings.contact_link != blank %}
+            <a class="eloura-journey__link" href="{{ section.settings.contact_link }}">{{ 'eloura.journey.reassurance_contact' | t | escape }}</a>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "eloura. order reassurance",
+  "tag": "section",
+  "class": "eloura-reassurance-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "url", "id": "contact_link", "label": "Contact page" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#111315" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#F7F7F4" }
+  ],
+  "presets": [{ "name": "eloura. order reassurance" }]
+}
+{% endschema %}
