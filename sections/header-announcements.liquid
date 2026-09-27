@@ -1,41 +1,24 @@
-{% if section.blocks.size > 1 %}
-  <script
-    src="{{ 'announcement-bar.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endif %}
-
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px; --marquee-duration: {{ section.settings.marquee_duration | default: 38 }}s;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
 >
-  {% liquid
-    assign autoplay = false
-    assign show_arrows = false
-    if section.blocks.size > 1
-      assign autoplay = true
-      assign show_arrows = true
-    endif
-  %}
-
-  <announcement-bar-component
-    class="announcement-bar__slider"
-    {% if autoplay == true %}
-      autoplay="{{ section.settings.speed }}" aria-live="polite"
-    {% endif %}
-  >
-    {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
-    {% endif %}
-
-    <div class="announcement-bar__slides">
-      {% content_for 'blocks' %}
+  <div class="announcement-bar__marquee" role="region" aria-label="{{ 'eloura.announcement.label' | t }}">
+    <div class="announcement-bar__track">
+      <div class="announcement-bar__group">
+        <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
+        <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
+        <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
+      </div>
+      <div class="announcement-bar__group" aria-hidden="true">
+        <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
+        <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
+        <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
+      </div>
     </div>
-  </announcement-bar-component>
+  </div>
 </aside>
 
 {% stylesheet %}
@@ -45,98 +28,74 @@
     min-height: 34px;
     display: flex;
     align-items: center;
+    overflow: hidden;
 
     @media screen and (min-width: 750px) {
       min-height: 40px;
     }
   }
 
-  .announcement-bar__slider {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
+  .announcement-bar__marquee {
     width: 100%;
+    overflow: hidden;
+    color: #ffffff;
 
-    @media screen and (max-width: 749px) {
-      grid-column: 1 / -1;
-    }
-  }
-
-  .announcement-bar__slides {
-    display: grid;
-    grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
-    max-width: 680px;
-    margin-inline: auto;
-  }
-
-  .announcement-bar__slides > * {
-    grid-area: stack;
-  }
-
-  .announcement-bar__slide {
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    content-visibility: visible;
-
-    &[aria-hidden='true'] {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-
-  .announcement-bar__slider slideshow-arrows {
-    padding: 0;
-    mix-blend-mode: normal;
-  }
-
-  .announcement-bar__slider slideshow-arrows .slideshow-control {
-    color: var(--color-foreground);
-  }
-
-  .announcement-bar__slider .slideshow-control {
-    display: flex;
-    padding: 0;
-    width: var(--button-size);
-    height: var(--button-size);
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    animation: none;
-
-    @media screen and (min-width: 750px) {
-      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
-
-      .section--page-width &.slideshow-control--previous {
-        transform: translateX(var(--slideshow-control-offset));
+    @media (hover: hover) and (pointer: fine) {
+      &:hover .announcement-bar__track {
+        animation-play-state: paused;
       }
     }
   }
 
-  .announcement-bar__slider .slideshow-control .svg-wrapper {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
+  .announcement-bar__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: eloura-announcement-marquee var(--marquee-duration) linear infinite;
   }
 
-  .announcement-bar__slide {
-    place-content: center;
+  .announcement-bar__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: clamp(3rem, 8vw, 7rem);
+    padding-inline-end: clamp(3rem, 8vw, 7rem);
   }
 
-  .announcement-bar__text:first-child {
-    margin: 0;
-  }
-
-  .announcement-bar__text {
-    color: #ffffff;
-    font-size: clamp(0.5625rem, 2.5vw, 0.75rem) !important;
+  .announcement-bar__message {
+    flex-shrink: 0;
+    font-family: var(--font-body--family);
+    font-size: clamp(0.625rem, 2.5vw, 0.75rem);
+    font-weight: 500;
     line-height: 1;
     letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
-    white-space: nowrap !important;
+    white-space: nowrap;
   }
 
-  .announcement-bar__link {
-    position: absolute;
-    inset: 0;
+  @keyframes eloura-announcement-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar__track {
+      width: 100%;
+      animation: none;
+      transform: none;
+      will-change: auto;
+    }
+
+    .announcement-bar__group {
+      width: 100%;
+      justify-content: center;
+      padding-inline-end: 0;
+    }
+
+    .announcement-bar__group[aria-hidden='true'],
+    .announcement-bar__message:not(:first-child) {
+      display: none;
+    }
   }
 {% endstylesheet %}
 
@@ -154,11 +113,12 @@
   "settings": [
     {
       "type": "range",
-      "id": "speed",
-      "label": "t:settings.scroll_speed",
-      "min": 2,
-      "max": 10,
-      "default": 5,
+      "id": "marquee_duration",
+      "label": "Ticker speed",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "default": 38,
       "unit": "sec"
     },
     {
