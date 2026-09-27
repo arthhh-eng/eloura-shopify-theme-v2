@@ -1,0 +1,44 @@
+{{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
+
+<section class="eloura-journey" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraEducation-{{ section.id }}">
+  <div class="eloura-journey__inner">
+    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.education_eyebrow' | t | escape }}</p>
+    <h2 class="eloura-journey__heading" id="ElouraEducation-{{ section.id }}">{{ 'eloura.journey.education_heading' | t | escape }}</h2>
+    <p class="eloura-journey__intro">{{ 'eloura.journey.education_intro' | t | escape }}</p>
+    <div class="eloura-journey__grid">
+      {% for index in (1..4) %}
+        {% liquid
+          assign heading_key = 'eloura.journey.education_' | append: index | append: '_heading'
+          assign text_key = 'eloura.journey.education_' | append: index | append: '_text'
+          assign source_setting = 'source_' | append: index
+        %}
+        <article class="eloura-journey__card">
+          <h3>{{ heading_key | t | escape }}</h3>
+          <p>{{ text_key | t | escape }}</p>
+          {% if section.settings[source_setting] != blank %}
+            <a class="eloura-journey__link" href="{{ section.settings[source_setting] }}" rel="noopener" target="_blank">{{ 'eloura.journey.education_source' | t | escape }}</a>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "eloura. education",
+  "tag": "section",
+  "class": "eloura-education-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#F4F2EC" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" },
+    { "type": "header", "content": "Optional verified sources" },
+    { "type": "url", "id": "source_1", "label": "Niacinamide source" },
+    { "type": "url", "id": "source_2", "label": "Hydration source" },
+    { "type": "url", "id": "source_3", "label": "Ceramides source" },
+    { "type": "url", "id": "source_4", "label": "Routine source" }
+  ],
+  "presets": [{ "name": "eloura. education" }]
+}
+{% endschema %}
