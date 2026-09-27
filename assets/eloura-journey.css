@@ -1,0 +1,112 @@
+.eloura-journey {
+  overflow: clip;
+  background: var(--eloura-section-bg, #faf9f6);
+  color: var(--eloura-section-fg, #171717);
+}
+
+.eloura-journey__inner {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  padding: clamp(72px, 9vw, 132px) clamp(20px, 5vw, 72px);
+}
+
+.eloura-journey__eyebrow {
+  margin: 0 0 18px;
+  color: color-mix(in srgb, var(--eloura-section-fg, #171717) 62%, transparent);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.eloura-journey__heading {
+  max-width: 820px;
+  margin: 0;
+  font-size: clamp(2.45rem, 5.4vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.eloura-journey__intro {
+  max-width: 700px;
+  margin: 24px 0 0;
+  color: color-mix(in srgb, var(--eloura-section-fg, #171717) 68%, transparent);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.eloura-journey__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-block-start: clamp(42px, 6vw, 76px);
+}
+
+.eloura-journey__card {
+  min-width: 0;
+  padding: clamp(24px, 3vw, 38px);
+  border: 1px solid color-mix(in srgb, var(--eloura-section-fg, #171717) 14%, transparent);
+  border-radius: 24px;
+}
+
+.eloura-journey__card h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 1.7vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.eloura-journey__card p {
+  margin: 16px 0 0;
+  color: color-mix(in srgb, var(--eloura-section-fg, #171717) 68%, transparent);
+  line-height: 1.62;
+}
+
+.eloura-journey__link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-block-start: 22px;
+  color: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.eloura-journey__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.eloura-journey__link:focus-visible,
+.eloura-product-tile:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media screen and (max-width: 989px) {
+  .eloura-journey__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .eloura-journey__inner {
+    padding-inline: 20px;
+  }
+
+  .eloura-journey__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .eloura-journey__card {
+    border-radius: 20px;
+  }
+}
