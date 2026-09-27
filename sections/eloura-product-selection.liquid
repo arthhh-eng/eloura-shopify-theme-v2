@@ -1,0 +1,60 @@
+{{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
+
+<section class="eloura-journey eloura-products" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraProducts-{{ section.id }}">
+  <div class="eloura-journey__inner">
+    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.products_eyebrow' | t | escape }}</p>
+    <h2 class="eloura-journey__heading" id="ElouraProducts-{{ section.id }}">{{ 'eloura.journey.products_heading' | t | escape }}</h2>
+    <p class="eloura-journey__intro">{{ 'eloura.journey.products_intro' | t | escape }}</p>
+    <div class="eloura-journey__grid eloura-products__grid">
+      {% for block in section.blocks %}
+        {% assign card_product = block.settings.product %}
+        {% if card_product != blank %}
+          <a class="eloura-product-tile" href="{{ card_product.url }}" {{ block.shopify_attributes }}>
+            <div class="eloura-product-tile__media">
+              {% if card_product.featured_image != blank %}
+                {{ card_product.featured_image | image_url: width: 1000 | image_tag: widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: card_product.featured_image.alt }}
+              {% endif %}
+            </div>
+            <div class="eloura-product-tile__body">
+              <h3>{{ card_product.title | escape }}</h3>
+              <div class="eloura-product-tile__price">{% render 'price', product_resource: card_product %}</div>
+              <span>{{ 'eloura.journey.products_view' | t | escape }}</span>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-products__grid { align-items: stretch; }
+  .eloura-product-tile { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid color-mix(in srgb, var(--eloura-section-fg) 13%, transparent); border-radius: 24px; color: inherit; text-decoration: none; transition: transform 220ms ease, border-color 220ms ease; }
+  .eloura-product-tile:hover { border-color: color-mix(in srgb, var(--eloura-section-fg) 36%, transparent); transform: translateY(-3px); }
+  .eloura-product-tile__media { aspect-ratio: 4 / 5; overflow: hidden; background: #f0efeb; }
+  .eloura-product-tile__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms ease; }
+  .eloura-product-tile:hover img { transform: scale(1.02); }
+  .eloura-product-tile__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 22px; }
+  .eloura-product-tile__body h3 { margin: 0; font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
+  .eloura-product-tile__price { margin-block-start: 9px; color: color-mix(in srgb, var(--eloura-section-fg) 68%, transparent); font-size: 0.95rem; }
+  .eloura-product-tile__body > span { margin-block-start: auto; padding-block-start: 24px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  @media (prefers-reduced-motion: reduce) { .eloura-product-tile, .eloura-product-tile__media img { transition: none; } .eloura-product-tile:hover, .eloura-product-tile:hover img { transform: none; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. product selection",
+  "tag": "section",
+  "class": "eloura-product-selection-section",
+  "enabled_on": { "templates": ["index"] },
+  "max_blocks": 4,
+  "settings": [
+    { "type": "color", "id": "background", "label": "Background", "default": "#FAF9F6" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" }
+  ],
+  "blocks": [
+    { "type": "product", "name": "Product", "settings": [{ "type": "product", "id": "product", "label": "Product" }] }
+  ],
+  "presets": [{ "name": "eloura. product selection", "blocks": [{ "type": "product" }, { "type": "product" }, { "type": "product" }, { "type": "product" }] }]
+}
+{% endschema %}
