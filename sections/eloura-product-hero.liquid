@@ -27,7 +27,15 @@
           alt: hero_image_alt
       }}
     {% else %}
-      <div class="eloura-visual-hero__placeholder" aria-hidden="true"></div>
+      <img
+        src="{{ 'eloura-woman-hero.jpg' | asset_url }}"
+        class="eloura-visual-hero__image"
+        alt="eloura. CLEAR"
+        width="1086"
+        height="1448"
+        loading="eager"
+        fetchpriority="high"
+      >
     {% endif %}
   </div>
 </section>
@@ -36,7 +44,7 @@
   .eloura-visual-hero {
     width: 100%;
     overflow: clip;
-    background: var(--eloura-hero-background, #f4f2ec);
+    background: var(--eloura-hero-background, #080808);
   }
 
   .eloura-visual-hero__media {
@@ -45,27 +53,40 @@
     overflow: hidden;
   }
 
-  .eloura-visual-hero__image,
-  .eloura-visual-hero__placeholder {
+  .eloura-visual-hero__image {
     display: block;
     width: 100%;
     height: 100%;
   }
 
   .eloura-visual-hero__image {
-    object-fit: cover;
+    object-fit: contain;
     object-position: var(--eloura-hero-position, center) center;
   }
 
-  .eloura-visual-hero__placeholder {
-    background:
-      radial-gradient(circle at 50% 38%, rgb(255 255 255 / 75%), transparent 34%),
-      linear-gradient(135deg, #f7f6f2, #e8e5de);
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .eloura-visual-hero__image {
+        animation: eloura-hero-page-turn linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+        transform-origin: center top;
+      }
+    }
+  }
+
+  @keyframes eloura-hero-page-turn {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-3%) scale(1.06); }
   }
 
   @media screen and (max-width: 749px) {
     .eloura-visual-hero__media {
       aspect-ratio: 3 / 4;
+    }
+
+    .eloura-visual-hero__image {
+      object-fit: cover;
     }
   }
 {% endstylesheet %}
@@ -101,8 +122,8 @@
     {
       "type": "color",
       "id": "background_color",
-      "label": "Placeholder background",
-      "default": "#F4F2EC"
+      "label": "Image background",
+      "default": "#080808"
     }
   ],
   "presets": [
