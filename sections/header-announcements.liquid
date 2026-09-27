@@ -3,7 +3,7 @@
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px; --marquee-duration: {{ section.settings.marquee_duration | default: 38 }}s;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px; --marquee-duration: {{ section.settings.marquee_duration | default: 36 }}s;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
 >
   <div class="announcement-bar__marquee" role="region" aria-label="{{ 'eloura.announcement.label' | t }}">
     <div class="announcement-bar__track">
@@ -68,7 +68,7 @@
   .announcement-bar__message {
     flex-shrink: 0;
     font-family: var(--font-body--family);
-    font-size: clamp(0.625rem, 2.5vw, 0.75rem);
+    font-size: clamp(0.6875rem, 2.75vw, 0.8125rem);
     font-weight: 500;
     line-height: 1;
     letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
