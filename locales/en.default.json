@@ -448,7 +448,10 @@
     },
     "announcement": {
       "free_shipping": "FREE SHIPPING ON ORDERS OF €99+",
-      "free_shipping_99": "FREE SHIPPING ON ORDERS OF €99+"
+      "free_shipping_99": "📦 Free shipping on orders of €99+",
+      "first_order_discount": "✨ 10% off your first order — code eloura10",
+      "everyday_care": "🌿 Clear formulas. Everyday care.",
+      "label": "Current offers"
     },
     "localization": {
       "bulgarian": "Български",
