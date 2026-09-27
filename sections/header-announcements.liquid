@@ -50,8 +50,11 @@
   .announcement-bar__track {
     display: flex;
     width: max-content;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
     will-change: transform;
     animation: eloura-announcement-marquee var(--marquee-duration) linear infinite;
+    -webkit-animation: eloura-announcement-marquee var(--marquee-duration) linear infinite;
   }
 
   .announcement-bar__group {
@@ -74,7 +77,14 @@
 
   @keyframes eloura-announcement-marquee {
     to {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @-webkit-keyframes eloura-announcement-marquee {
+    to {
+      -webkit-transform: translate3d(-50%, 0, 0);
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
@@ -82,6 +92,7 @@
     .announcement-bar__track {
       width: 100%;
       animation: none;
+      -webkit-animation: none;
       transform: none;
       will-change: auto;
     }

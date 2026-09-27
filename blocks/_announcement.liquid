@@ -1,52 +1,108 @@
-{% render 'text-block-styles' %}
+<div class="announcement-bar__marquee" role="region" aria-label="{{ 'eloura.announcement.label' | t }}">
+  <div class="announcement-bar__track">
+    <div class="announcement-bar__group">
+      <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
+      <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
+      <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
+    </div>
+    <div class="announcement-bar__group" aria-hidden="true">
+      <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
+      <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
+      <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
+    </div>
+  </div>
+</div>
 
-{%- assign block_settings = block.settings -%}
-{%- assign announcement_text = block_settings.text -%}
-{% if announcement_text == blank or announcement_text == 'БЕЗПЛАТНА ДОСТАВКА НАД 100 €' %}
-  {%- assign announcement_text = 'eloura.announcement.free_shipping_99' | t -%}
-{% endif %}
-{%- assign plain_text = announcement_text | strip_newlines | strip_html | strip -%}
-{%- assign block_index = section.blocks | find_index: 'id', block.id -%}
+{% stylesheet %}
+  .announcement-bar {
+    overflow: hidden;
+  }
 
-{%- unless plain_text == '' -%}
-  <slideshow-slide
-    ref="slides[]"
-    class="
-      announcement-bar__slide
-      text-block
-      text-block--{{ block.id }}
-      text-block--align-center
-      text-block--full-width
-      custom-typography
-      {% if block_settings.font_size != "" %}custom-font-size{% endif %}
-      {% if block_settings.weight != "" %}custom-font-weight{% endif %}
-    "
-    style="
-      {% render 'typography-style', settings: block_settings, preset: 'custom' %}
-      {% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }}; --color-rgb: {{ block_settings.text_color.rgb }};{% endif %}
-      --width: 100%;
-      --text-align: center;
-      --line-height: 1;
-    "
-    {{ block.shopify_attributes }}
-    aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
-  >
-    <p class="announcement-bar__text">
-      {{ announcement_text }}
-    </p>
+  .announcement-bar__slider,
+  .announcement-bar__slides {
+    width: 100% !important;
+    max-width: none !important;
+  }
 
-    {% if block_settings.link != blank %}
-      <a
-        class="announcement-bar__link"
-        href="{{ block_settings.link }}"
-      >
-        <span class="visually-hidden">
-          {{ announcement_text | strip_html }}
-        </span>
-      </a>
-    {% endif %}
-  </slideshow-slide>
-{%- endunless -%}
+  .announcement-bar__slides {
+    display: block !important;
+    overflow: hidden;
+  }
+
+  .announcement-bar__marquee {
+    width: 100%;
+    overflow: hidden;
+    color: #ffffff;
+  }
+
+  .announcement-bar__track {
+    display: flex;
+    width: max-content;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: eloura-announcement-marquee var(--marquee-duration, 38s) linear infinite;
+    -webkit-animation: eloura-announcement-marquee var(--marquee-duration, 38s) linear infinite;
+  }
+
+  .announcement-bar__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: clamp(3rem, 8vw, 7rem);
+    padding-inline-end: clamp(3rem, 8vw, 7rem);
+  }
+
+  .announcement-bar__message {
+    flex-shrink: 0;
+    font-family: var(--font-body--family);
+    font-size: clamp(0.625rem, 2.5vw, 0.75rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  .announcement-bar__marquee:hover .announcement-bar__track,
+  .announcement-bar__marquee:focus-within .announcement-bar__track {
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+  }
+
+  @keyframes eloura-announcement-marquee {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @-webkit-keyframes eloura-announcement-marquee {
+    to {
+      -webkit-transform: translate3d(-50%, 0, 0);
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar__track {
+      width: 100%;
+      animation: none;
+      -webkit-animation: none;
+      transform: none;
+      will-change: auto;
+    }
+
+    .announcement-bar__group {
+      width: 100%;
+      justify-content: center;
+      padding-inline-end: 0;
+    }
+
+    .announcement-bar__group[aria-hidden='true'],
+    .announcement-bar__message:not(:first-child) {
+      display: none;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
