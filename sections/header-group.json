@@ -34,7 +34,7 @@
       ],
       "name": "t:names.announcement_bar",
       "settings": {
-        "speed": 5,
+        "marquee_duration": 38,
         "section_width": "full-width",
         "divider_width": 0,
         "padding-block-start": 0,
