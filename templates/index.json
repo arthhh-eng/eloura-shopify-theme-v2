@@ -214,6 +214,7 @@
     },
     "eloura_stories": {
       "type": "eloura-homepage",
+      "disabled": true,
       "settings": {
         "clear_product": "niacinamide-gel-moisturiser",
         "hydra_product": "hydrating-serum",
@@ -249,6 +250,7 @@
     },
     "eloura_product_roles": {
       "type": "eloura-product-roles",
+      "disabled": true,
       "settings": {
         "clear_product": "niacinamide-gel-moisturiser",
         "hydra_product": "hydrating-serum",
@@ -259,9 +261,66 @@
     },
     "eloura_brand_philosophy": {
       "type": "eloura-brand-philosophy",
+      "disabled": true,
       "settings": {
         "background": "#F4F2EC",
         "foreground": "#171717"
+      }
+    },
+    "eloura_benefits": {
+      "type": "eloura-benefits",
+      "settings": {
+        "background": "#FAF9F6",
+        "foreground": "#171717"
+      }
+    },
+    "eloura_ritual": {
+      "type": "eloura-ritual",
+      "settings": {
+        "background": "#111315",
+        "foreground": "#F7F7F4"
+      }
+    },
+    "eloura_product_selection": {
+      "type": "eloura-product-selection",
+      "blocks": {
+        "clear": { "type": "product", "settings": { "product": "niacinamide-gel-moisturiser" } },
+        "hydra": { "type": "product", "settings": { "product": "hydrating-serum" } },
+        "barrier": { "type": "product", "settings": { "product": "ceramide-barrier-night-cream" } },
+        "complete": { "type": "product", "settings": { "product": "the-complete-ritual" } }
+      },
+      "block_order": ["clear", "hydra", "barrier", "complete"],
+      "settings": {
+        "background": "#FAF9F6",
+        "foreground": "#171717"
+      }
+    },
+    "eloura_education": {
+      "type": "eloura-education",
+      "settings": {
+        "background": "#F4F2EC",
+        "foreground": "#171717",
+        "source_1": "",
+        "source_2": "",
+        "source_3": "",
+        "source_4": ""
+      }
+    },
+    "eloura_reviews": {
+      "type": "eloura-reviews",
+      "settings": {
+        "show_reviews": false,
+        "background": "#FAF9F6",
+        "foreground": "#171717"
+      },
+      "disabled": true
+    },
+    "eloura_reassurance": {
+      "type": "eloura-reassurance",
+      "settings": {
+        "contact_link": "shopify://pages/contact",
+        "background": "#111315",
+        "foreground": "#F7F7F4"
       }
     },
     "eloura_faq": {
@@ -274,10 +333,16 @@
   },
   "order": [
     "hero_jVaWmY",
+    "eloura_benefits",
+    "eloura_ritual",
+    "eloura_product_selection",
+    "eloura_education",
+    "eloura_reviews",
+    "eloura_reassurance",
+    "eloura_faq",
     "eloura_stories",
     "eloura_product_roles",
     "eloura_brand_philosophy",
-    "eloura_faq",
     "product_list_fa6P9H"
   ]
 }
