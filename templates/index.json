@@ -11,18 +11,11 @@
   "sections": {
     "hero_jVaWmY": {
       "type": "eloura-product-hero",
-      "name": "eloura. product showcase",
+      "name": "eloura. image hero",
       "settings": {
         "image_alt": "",
-        "eyebrow": "",
-        "heading": "",
-        "description": "",
-        "button_label": "",
-        "button_link": "shopify://collections/all",
         "image_position": "center",
-        "desktop_height": 690,
-        "mobile_image_height": 500,
-        "background_color": "#FAF9F6"
+        "background_color": "#F4F2EC"
       }
     },
     "product_list_fa6P9H": {
