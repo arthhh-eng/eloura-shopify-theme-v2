@@ -13,8 +13,8 @@
 .ei-hint span { display:block; margin-top:16px; font-size:24px; }
 .ei-product { display:grid; gap:28px; max-width:1400px; margin-inline:auto; }
 .ei-art { position:relative; display:grid; place-items:center; isolation:isolate; background:var(--ei-light); }
-.ei-bottle { position:relative; height:360px; aspect-ratio:.28; flex:none; mix-blend-mode:multiply; }
-.ei-angle { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; opacity:0; }
+.ei-bottle { position:relative; height:360px; aspect-ratio:.28; flex:none; isolation:isolate; background:var(--ei-light); }
+.ei-angle { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; opacity:0; mix-blend-mode:multiply; }
 .ei-angle:first-child { opacity:1; }
 .ei-bottle--hydra { transform:scale(.88); transform-origin:50% 100%; }
 .ei-kicker { font-size:11px; text-transform:uppercase; letter-spacing:.14em; line-height:1.5; }
