@@ -7,6 +7,8 @@
   endif
 %}
 
+{{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
+
 <div class="eloura-routine-image">
   <div class="eloura-routine-image__inner">
     {% if desktop_image != blank %}
@@ -25,6 +27,9 @@
     {% endif %}
   </div>
 </div>
+
+{% render 'eloura-benefits-content', section_id: section.id, background: '#FAF9F6', foreground: '#171717' %}
+{% render 'eloura-routine-intro-content', section_id: section.id %}
 
 {% stylesheet %}
   .eloura-routine-image { background: #faf9f6; }
