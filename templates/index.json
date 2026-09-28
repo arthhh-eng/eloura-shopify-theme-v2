@@ -260,13 +260,6 @@
         "foreground": "#171717"
       }
     },
-    "eloura_benefits": {
-      "type": "eloura-benefits",
-      "settings": {
-        "background": "#FAF9F6",
-        "foreground": "#171717"
-      }
-    },
     "eloura_product_selection": {
       "type": "eloura-product-selection",
       "blocks": {
@@ -311,7 +304,6 @@
   },
   "order": [
     "hero_jVaWmY",
-    "eloura_benefits",
     "eloura_product_selection",
     "eloura_education",
     "eloura_reviews",
