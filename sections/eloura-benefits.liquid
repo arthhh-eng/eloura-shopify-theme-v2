@@ -1,6 +1,6 @@
 {{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
 
-{% unless template.name == 'index' or page.handle == 'routine' %}
+{% unless template.name == 'index' or template.suffix == 'routine' %}
   {% render 'eloura-benefits-content', section_id: section.id, background: section.settings.background, foreground: section.settings.foreground %}
 {% endunless %}
 
