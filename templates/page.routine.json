@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "intro": { "type": "eloura-routine-intro", "settings": {} },
+    "photo": { "type": "eloura-routine-image", "settings": {} },
+    "steps": {
+      "type": "eloura-ritual",
+      "blocks": {
+        "clear": { "type": "clear", "settings": { "product": "niacinamide-gel-moisturiser" } },
+        "hydra": { "type": "hydra", "settings": { "product": "hydrating-serum" } },
+        "barrier": { "type": "barrier", "settings": { "product": "ceramide-barrier-night-cream" } },
+        "complete": { "type": "complete", "settings": { "product": "the-complete-ritual" } }
+      },
+      "block_order": ["clear", "hydra", "barrier", "complete"],
+      "settings": { "background": "#111315", "foreground": "#F7F7F4" }
+    }
+  },
+  "order": ["intro", "photo", "steps"]
+}

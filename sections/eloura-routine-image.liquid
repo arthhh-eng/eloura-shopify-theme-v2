@@ -1,0 +1,51 @@
+{% liquid
+  assign desktop_image = section.settings.desktop_image | default: section.settings.mobile_image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+  assign image_alt = section.settings.image_alt | default: desktop_image.alt
+  if image_alt == blank
+    assign image_alt = 'eloura.routine.image_alt' | t
+  endif
+%}
+
+<div class="eloura-routine-image">
+  <div class="eloura-routine-image__inner">
+    {% if desktop_image != blank %}
+      <picture>
+        {% if section.settings.mobile_image != blank %}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_image | image_url: width: 375 }} 375w, {{ mobile_image | image_url: width: 550 }} 550w, {{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1000 }} 1000w"
+            sizes="100vw"
+          >
+        {% endif %}
+        {{ desktop_image | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1800, 2400', sizes: '(min-width: 1440px) 1440px, 100vw', loading: 'lazy', class: 'eloura-routine-image__photo', alt: image_alt }}
+      </picture>
+    {% else %}
+      <div class="eloura-routine-image__placeholder" aria-hidden="true"></div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .eloura-routine-image { background: #faf9f6; }
+  .eloura-routine-image__inner { width: min(100%, 1440px); margin-inline: auto; padding-inline: clamp(20px, 5vw, 72px); }
+  .eloura-routine-image picture { display: block; }
+  .eloura-routine-image__photo { display: block; width: 100%; height: auto; }
+  .eloura-routine-image__placeholder { width: 100%; aspect-ratio: 16 / 9; background: linear-gradient(135deg, #eeece7, #e5e2db); }
+  @media screen and (max-width: 749px) { .eloura-routine-image__inner { padding-inline: 20px; } .eloura-routine-image__placeholder { aspect-ratio: 3 / 4; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. routine photo",
+  "tag": "section",
+  "class": "eloura-routine-image-section",
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "image_picker", "id": "desktop_image", "label": "Desktop photograph" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile photograph (optional)" },
+    { "type": "text", "id": "image_alt", "label": "Image description for accessibility" }
+  ],
+  "presets": [{ "name": "eloura. routine photo" }]
+}
+{% endschema %}

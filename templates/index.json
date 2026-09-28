@@ -267,13 +267,6 @@
         "foreground": "#171717"
       }
     },
-    "eloura_ritual": {
-      "type": "eloura-ritual",
-      "settings": {
-        "background": "#111315",
-        "foreground": "#F7F7F4"
-      }
-    },
     "eloura_product_selection": {
       "type": "eloura-product-selection",
       "blocks": {
@@ -308,14 +301,6 @@
       },
       "disabled": true
     },
-    "eloura_reassurance": {
-      "type": "eloura-reassurance",
-      "settings": {
-        "contact_link": "shopify://pages/contact",
-        "background": "#111315",
-        "foreground": "#F7F7F4"
-      }
-    },
     "eloura_faq": {
       "type": "eloura-faq",
       "settings": {
@@ -327,11 +312,9 @@
   "order": [
     "hero_jVaWmY",
     "eloura_benefits",
-    "eloura_ritual",
     "eloura_product_selection",
     "eloura_education",
     "eloura_reviews",
-    "eloura_reassurance",
     "eloura_faq",
     "eloura_stories",
     "eloura_product_roles",

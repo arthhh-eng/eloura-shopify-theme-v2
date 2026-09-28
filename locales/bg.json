@@ -385,6 +385,24 @@
       "angle_side": "страничен изглед",
       "angle_back": "изглед отзад"
     },
+    "routine": {
+      "eyebrow": "РИТУАЛ В ТРИ СТЪПКИ",
+      "heading": "Рутина с ясна логика.",
+      "intro": "Следвай стъпките в този ред за ясна сутрешна или вечерна грижа.",
+      "steps_label": "Три стъпки в рутината",
+      "image_alt": "Снимка на рутината за грижа eloura.",
+      "step_1_title": "CLEAR — първа стъпка",
+      "step_1_text": "Започни с CLEAR върху чиста кожа на лицето. Нанеси равномерно и остави формулата да попие, преди да продължиш.",
+      "step_2_title": "HYDRA — втора стъпка",
+      "step_2_text": "Продължи с HYDRA за ежедневна хидратация и свеж, комфортен вид на кожата.",
+      "step_3_title": "BARRIER — последна стъпка",
+      "step_3_text": "Завърши с BARRIER вечер, за да поддържаш влагата и комфорта на кожната бариера.",
+      "closing": "Всеки продукт се предлага отделно. Избери The Complete Ritual, когато искаш трите стъпки заедно.",
+      "link_clear": "CLEAR",
+      "link_hydra": "HYDRA",
+      "link_barrier": "BARRIER",
+      "link_complete": "The Complete Ritual"
+    },
     "journey": {
       "benefits_eyebrow": "ЗАЩО ELOURA.",
       "benefits_heading": "Грижа, която остава ясна.",
@@ -492,6 +510,7 @@
     "navigation": {
       "home": "Начало",
       "products": "Продукти",
+      "routine": "Рутина",
       "contact": "Контакти"
     },
     "contact": {

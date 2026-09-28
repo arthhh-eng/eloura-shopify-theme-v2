@@ -2,14 +2,12 @@
 
 <section class="eloura-journey eloura-ritual" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraRitual-{{ section.id }}">
   <div class="eloura-journey__inner">
-    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.ritual_eyebrow' | t | escape }}</p>
-    <h2 class="eloura-journey__heading" id="ElouraRitual-{{ section.id }}">{{ 'eloura.journey.ritual_heading' | t | escape }}</h2>
-    <p class="eloura-journey__intro">{{ 'eloura.journey.ritual_intro' | t | escape }}</p>
+    <h2 class="visually-hidden" id="ElouraRitual-{{ section.id }}">{{ 'eloura.routine.steps_label' | t | escape }}</h2>
     <ol class="eloura-journey__grid eloura-ritual__steps">
       {% for index in (1..3) %}
         {% liquid
-          assign name_key = 'eloura.journey.ritual_' | append: index | append: '_name'
-          assign text_key = 'eloura.journey.ritual_' | append: index | append: '_text'
+          assign name_key = 'eloura.routine.step_' | append: index | append: '_title'
+          assign text_key = 'eloura.routine.step_' | append: index | append: '_text'
         %}
         <li class="eloura-journey__card eloura-ritual__step">
           <span aria-hidden="true">0{{ index }}</span>
@@ -18,7 +16,16 @@
         </li>
       {% endfor %}
     </ol>
-    <p class="eloura-ritual__note">{{ 'eloura.journey.ritual_note' | t | escape }}</p>
+    <p class="eloura-ritual__note">{{ 'eloura.routine.closing' | t | escape }}</p>
+    <ul class="eloura-ritual__links" role="list">
+      {% for block in section.blocks %}
+        {% assign linked_product = block.settings.product %}
+        {% if linked_product != blank %}
+          {% assign label_key = 'eloura.routine.link_' | append: block.type %}
+          <li {{ block.shopify_attributes }}><a href="{{ linked_product.url }}">{{ label_key | t | escape }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
   </div>
 </section>
 
@@ -26,6 +33,10 @@
   .eloura-ritual__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; }
   .eloura-ritual__step > span { display: block; margin-block-end: 46px; color: color-mix(in srgb, var(--eloura-section-fg) 50%, transparent); font-size: 0.75rem; letter-spacing: 0.14em; }
   .eloura-ritual__note { max-width: 760px; margin: 34px 0 0; font-size: 1rem; line-height: 1.6; }
+  .eloura-ritual__links { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 0; padding: 0; list-style: none; }
+  .eloura-ritual__links a { display: inline-flex; min-height: 44px; align-items: center; padding: 9px 18px; border: 1px solid currentColor; border-radius: 999px; color: inherit; line-height: 1.35; text-decoration: none; }
+  .eloura-ritual__links a:hover { background: var(--eloura-section-fg); color: var(--eloura-section-bg); }
+  .eloura-ritual__links a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
   @media screen and (max-width: 749px) { .eloura-ritual__steps { grid-template-columns: 1fr; } .eloura-ritual__step > span { margin-block-end: 28px; } }
 {% endstylesheet %}
 
@@ -34,10 +45,17 @@
   "name": "eloura. three-step ritual",
   "tag": "section",
   "class": "eloura-ritual-section",
-  "enabled_on": { "templates": ["index"] },
+  "enabled_on": { "templates": ["page"] },
+  "max_blocks": 4,
   "settings": [
     { "type": "color", "id": "background", "label": "Background", "default": "#111315" },
     { "type": "color", "id": "foreground", "label": "Text", "default": "#F7F7F4" }
+  ],
+  "blocks": [
+    { "type": "clear", "name": "CLEAR link", "limit": 1, "settings": [{ "type": "product", "id": "product", "label": "Product" }] },
+    { "type": "hydra", "name": "HYDRA link", "limit": 1, "settings": [{ "type": "product", "id": "product", "label": "Product" }] },
+    { "type": "barrier", "name": "BARRIER link", "limit": 1, "settings": [{ "type": "product", "id": "product", "label": "Product" }] },
+    { "type": "complete", "name": "Complete Ritual link", "limit": 1, "settings": [{ "type": "product", "id": "product", "label": "Product" }] }
   ],
   "presets": [{ "name": "eloura. three-step ritual" }]
 }

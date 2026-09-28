@@ -413,6 +413,24 @@
       "angle_side": "side view",
       "angle_back": "back view"
     },
+    "routine": {
+      "eyebrow": "A THREE-STEP RITUAL",
+      "heading": "A routine with a clear logic.",
+      "intro": "Follow the steps in this order for a simple morning or evening skincare routine.",
+      "steps_label": "Three steps of the routine",
+      "image_alt": "Photograph of the eloura. skincare routine",
+      "step_1_title": "CLEAR — first step",
+      "step_1_text": "Start with CLEAR on clean facial skin. Apply evenly and allow the formula to absorb before continuing.",
+      "step_2_title": "HYDRA — second step",
+      "step_2_text": "Continue with HYDRA for daily hydration and a fresh, comfortable-looking complexion.",
+      "step_3_title": "BARRIER — final step",
+      "step_3_text": "Finish with BARRIER in the evening to support moisture and the comfort of the skin barrier.",
+      "closing": "Each product is available separately. Choose The Complete Ritual when you want all three steps together.",
+      "link_clear": "CLEAR",
+      "link_hydra": "HYDRA",
+      "link_barrier": "BARRIER",
+      "link_complete": "The Complete Ritual"
+    },
     "journey": {
       "benefits_eyebrow": "WHY ELOURA.",
       "benefits_heading": "Care that stays clear.",
@@ -520,6 +538,7 @@
     "navigation": {
       "home": "Home",
       "products": "Products",
+      "routine": "Routine",
       "contact": "Contact"
     },
     "contact": {

@@ -126,6 +126,8 @@
                 {% when 'page_link' %}
                   {% if link.object.handle == 'contact' %}
                     {% assign drawer_link_title = 'eloura.navigation.contact' | t %}
+                  {% elsif link.object.handle == 'routine' %}
+                    {% assign drawer_link_title = 'eloura.navigation.routine' | t %}
                   {% endif %}
               {% endcase %}
               <li
@@ -290,6 +292,8 @@
                 {% when 'page_link' %}
                   {% if link.object.handle == 'contact' %}
                     {% assign drawer_link_title = 'eloura.navigation.contact' | t %}
+                  {% elsif link.object.handle == 'routine' %}
+                    {% assign drawer_link_title = 'eloura.navigation.routine' | t %}
                   {% endif %}
               {% endcase %}
               <li
