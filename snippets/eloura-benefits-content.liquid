@@ -6,7 +6,7 @@
   @param {color} foreground - Section text color.
 {% enddoc %}
 
-<section class="eloura-journey" style="--eloura-section-bg: {{ background }}; --eloura-section-fg: {{ foreground }};" aria-labelledby="ElouraBenefits-{{ section_id }}">
+<section class="eloura-journey" id="ElouraBenefitsSection-{{ section_id }}" style="--eloura-section-bg: {{ background }}; --eloura-section-fg: {{ foreground }};" aria-labelledby="ElouraBenefits-{{ section_id }}">
   <div class="eloura-journey__inner">
     <p class="eloura-journey__eyebrow">{{ 'eloura.journey.benefits_eyebrow' | t | escape }}</p>
     <h2 class="eloura-journey__heading" id="ElouraBenefits-{{ section_id }}">{{ 'eloura.journey.benefits_heading' | t | escape }}</h2>
