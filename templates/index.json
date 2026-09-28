@@ -263,7 +263,10 @@
     "eloura_product_selection": {
       "type": "eloura-product-selection",
       "blocks": {
-        "clear": { "type": "product", "settings": { "product": "niacinamide-gel-moisturiser" } },
+        "clear": {
+          "type": "product",
+          "settings": { "product": "niacinamide-gel-moisturiser" }
+        },
         "hydra": { "type": "product", "settings": { "product": "hydrating-serum" } },
         "barrier": { "type": "product", "settings": { "product": "ceramide-barrier-night-cream" } },
         "complete": { "type": "product", "settings": { "product": "the-complete-ritual" } }
