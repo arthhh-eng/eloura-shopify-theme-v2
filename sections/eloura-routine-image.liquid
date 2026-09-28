@@ -25,6 +25,11 @@
     {% else %}
       <div class="eloura-routine-image__placeholder" aria-hidden="true"></div>
     {% endif %}
+    <a class="eloura-routine-image__scroll" href="#ElouraBenefitsSection-{{ section.id }}" aria-label="{{ 'eloura.journey.benefits_eyebrow' | t | escape }}">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M12 4v16m-6-6 6 6 6-6" />
+      </svg>
+    </a>
   </div>
 </div>
 
@@ -33,10 +38,15 @@
 
 {% stylesheet %}
   .eloura-routine-image { background: #faf9f6; }
-  .eloura-routine-image__inner { width: min(100%, 1440px); margin-inline: auto; padding-inline: clamp(20px, 5vw, 72px); }
+  .eloura-routine-image__inner { position: relative; width: min(100%, 1440px); margin-inline: auto; padding-inline: clamp(20px, 5vw, 72px); }
   .eloura-routine-image picture { display: block; }
   .eloura-routine-image__photo { display: block; width: 100%; height: auto; }
   .eloura-routine-image__placeholder { width: 100%; aspect-ratio: 16 / 9; background: linear-gradient(135deg, #eeece7, #e5e2db); }
+  .eloura-routine-image__scroll { position: absolute; inset-inline-start: 50%; bottom: 22px; transform: translateX(-50%); display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #171717; color: #fff; text-decoration: none; box-shadow: 0 3px 12px #0004; }
+  .eloura-routine-image__scroll:hover { background: #383838; }
+  .eloura-routine-image__scroll:focus-visible { outline: 2px solid #171717; outline-offset: 4px; }
+  .eloura-routine-image-section .eloura-journey { scroll-margin-top: 110px; }
+  @media (prefers-reduced-motion: no-preference) { html:has(.eloura-routine-image__scroll) { scroll-behavior: smooth; } }
   @media screen and (max-width: 749px) { .eloura-routine-image__inner { padding-inline: 20px; } .eloura-routine-image__placeholder { aspect-ratio: 3 / 4; } }
 {% endstylesheet %}
 
