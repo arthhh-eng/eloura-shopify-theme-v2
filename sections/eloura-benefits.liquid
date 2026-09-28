@@ -1,24 +1,8 @@
 {{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
 
-<section class="eloura-journey" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }};" aria-labelledby="ElouraBenefits-{{ section.id }}">
-  <div class="eloura-journey__inner">
-    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.benefits_eyebrow' | t | escape }}</p>
-    <h2 class="eloura-journey__heading" id="ElouraBenefits-{{ section.id }}">{{ 'eloura.journey.benefits_heading' | t | escape }}</h2>
-    <p class="eloura-journey__intro">{{ 'eloura.journey.benefits_intro' | t | escape }}</p>
-    <div class="eloura-journey__grid">
-      {% for index in (1..4) %}
-        {% liquid
-          assign heading_key = 'eloura.journey.benefit_' | append: index | append: '_heading'
-          assign text_key = 'eloura.journey.benefit_' | append: index | append: '_text'
-        %}
-        <article class="eloura-journey__card">
-          <h3>{{ heading_key | t | escape }}</h3>
-          <p>{{ text_key | t | escape }}</p>
-        </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+{% unless template.name == 'index' or page.handle == 'routine' %}
+  {% render 'eloura-benefits-content', section_id: section.id, background: section.settings.background, foreground: section.settings.foreground %}
+{% endunless %}
 
 {% schema %}
 {
