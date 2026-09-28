@@ -1,17 +1,8 @@
 {{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
 
-<section class="eloura-journey eloura-routine-intro" aria-labelledby="ElouraRoutineIntro-{{ section.id }}">
-  <div class="eloura-journey__inner">
-    <p class="eloura-journey__eyebrow">{{ 'eloura.routine.eyebrow' | t | escape }}</p>
-    <h1 class="eloura-journey__heading" id="ElouraRoutineIntro-{{ section.id }}">{{ 'eloura.routine.heading' | t | escape }}</h1>
-    <p class="eloura-journey__intro">{{ 'eloura.routine.intro' | t | escape }}</p>
-  </div>
-</section>
-
-{% stylesheet %}
-  .eloura-routine-intro { background: #faf9f6; color: #171717; }
-  .eloura-routine-intro .eloura-journey__inner { padding-block-end: clamp(48px, 6vw, 80px); }
-{% endstylesheet %}
+{% unless page.handle == 'routine' %}
+  {% render 'eloura-routine-intro-content', section_id: section.id %}
+{% endunless %}
 
 {% schema %}
 {
