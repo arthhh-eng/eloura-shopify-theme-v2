@@ -1,0 +1,16 @@
+{% comment %}Keep the original photography intact; only the white margins are cropped by CSS.{% endcomment %}
+{%- assign angles = 'front,side,back' | split: ',' -%}
+<div class="ei-bottle ei-bottle--{{ formula }}"{% if group %} aria-hidden="true"{% endif %}>
+  {%- for angle in angles -%}
+    {%- if group and angle != 'front' -%}{%- continue -%}{%- endif -%}
+    {%- assign setting_id = 'image_' | append: angle -%}
+    {%- assign filename = 'eloura-intro-' | append: formula | append: '-' | append: angle | append: '.jpg' -%}
+    {%- assign photo = block.settings[setting_id] | default: images[filename] -%}
+    {%- if photo == blank and angle == 'front' -%}
+      {%- assign photo = block.settings.product.featured_image -%}
+    {%- endif -%}
+    {%- if photo != blank -%}
+      {{ photo | image_url: width: 900 | image_tag: widths: '360,540,720,900', sizes: '(min-width: 750px) 540px, 360px', loading: 'lazy', alt: '', class: 'ei-angle', data-angle: angle }}
+    {%- endif -%}
+  {%- endfor -%}
+</div>

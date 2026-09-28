@@ -573,5 +573,37 @@
       "newsletter_body": "Receive thoughtful updates about eloura. formulas, products and care.",
       "subscribe": "SUBSCRIBE"
     }
+  },
+  "eloura_intro": {
+    "label": "Discover eloura.",
+    "skip": "Skip intro",
+    "replay": "Replay intro",
+    "brand": "Care with a clear purpose.",
+    "scroll": "Scroll to discover",
+    "group": "Three essentials. One simple routine.",
+    "clear": {
+      "tag": "5% niacinamide",
+      "stage_1": "Niacinamide. A form of vitamin B3.",
+      "stage_2": "Helps skin retain moisture.",
+      "stage_3": "Supports a more even-looking skin tone.",
+      "stage_4": "Smoother-looking skin. A simple daily step.",
+      "role": "Even-looking tone"
+    },
+    "hydra": {
+      "tag": "Hydrating serum",
+      "stage_1": "Lightweight hydration. A fresh beginning.",
+      "stage_2": "With aloe and hyaluronic acid.",
+      "stage_3": "Moisture for fresher-looking skin.",
+      "stage_4": "A light texture. A feeling of comfort.",
+      "role": "Hydration"
+    },
+    "barrier": {
+      "tag": "Ceramide night cream",
+      "stage_1": "Ceramides help support the skin barrier.",
+      "stage_2": "The skin barrier helps retain moisture.",
+      "stage_3": "Moisture support for comfortable-feeling skin.",
+      "stage_4": "The final step in your evening care.",
+      "role": "Barrier support"
+    }
   }
 }

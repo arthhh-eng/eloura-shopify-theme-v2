@@ -9,6 +9,45 @@
  */
 {
   "sections": {
+    "eloura_immersive_intro": {
+      "type": "immersive-product-intro",
+      "blocks": {
+        "clear": {
+          "type": "product",
+          "settings": {
+            "formula": "clear",
+            "product": "niacinamide-gel-moisturiser"
+          }
+        },
+        "hydra": {
+          "type": "product",
+          "settings": {
+            "formula": "hydra",
+            "product": "hydrating-serum"
+          }
+        },
+        "barrier": {
+          "type": "product",
+          "settings": {
+            "formula": "barrier",
+            "product": "ceramide-barrier-night-cream"
+          }
+        }
+      },
+      "block_order": [
+        "clear",
+        "hydra",
+        "barrier"
+      ],
+      "settings": {
+        "enabled": true,
+        "once_per_session": false,
+        "show_replay": true,
+        "scroll_length": 1000,
+        "dark_color": "#111213",
+        "light_color": "#f6f5f2"
+      }
+    },
     "hero_jVaWmY": {
       "type": "eloura-product-hero",
       "name": "eloura. image hero",
@@ -306,6 +345,7 @@
     }
   },
   "order": [
+    "eloura_immersive_intro",
     "hero_jVaWmY",
     "eloura_product_selection",
     "eloura_education",
@@ -317,3 +357,4 @@
     "product_list_fa6P9H"
   ]
 }
+

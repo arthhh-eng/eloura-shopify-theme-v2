@@ -1,0 +1,106 @@
+{% if section.settings.enabled %}
+  {{ 'eloura-immersive-intro.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'eloura-immersive-intro.js' | asset_url }}" defer="defer"></script>
+  <eloura-immersive-intro
+    class="ei"
+    data-session="{{ section.settings.once_per_session }}"
+    data-section="{{ section.id }}"
+    style="--ei-dark: {{ section.settings.dark_color }}; --ei-light: {{ section.settings.light_color }}; --ei-distance: {{ section.settings.scroll_length }};"
+    aria-label="{{ 'eloura_intro.label' | t | escape }}"
+  >
+    <div class="ei-track">
+      <div class="ei-stage">
+        <a class="ei-skip" href="#IntroEnd-{{ section.id }}">{{ 'eloura_intro.skip' | t }} <span aria-hidden="true">↘</span></a>
+        <div class="ei-scene ei-brand" data-scene="brand">
+          <div class="ei-brand-copy">
+            <p class="ei-wordmark">eloura.</p>
+            <h2>{{ section.settings.brand_copy | default: '' | escape }}{% if section.settings.brand_copy == blank %}{{ 'eloura_intro.brand' | t }}{% endif %}</h2>
+            <p class="ei-hint">{{ 'eloura_intro.scroll' | t }} <span aria-hidden="true">↓</span></p>
+          </div>
+        </div>
+        {% for block in section.blocks %}
+          {% assign formula = block.settings.formula %}
+          {% assign prefix = 'eloura_intro.' | append: formula | append: '.' %}
+          <div class="ei-scene ei-product ei-product--{{ formula }}" data-scene="product" {{ block.shopify_attributes }}>
+            <div class="ei-art" aria-hidden="true">
+              <div class="ei-atmosphere"><i></i><i></i><i></i></div>
+              {% render 'eloura-intro-bottle', block: block, formula: formula %}
+            </div>
+            <div class="ei-copy">
+              <p class="ei-kicker">{{ prefix | append: 'tag' | t }}</p>
+              <h2>{{ formula | upcase }}</h2>
+              <div class="ei-story">
+                {% for number in (1..4) %}
+                  {% assign setting_id = 'stage_' | append: number %}
+                  {% assign key = prefix | append: setting_id %}
+                  <p data-story>{{ block.settings[setting_id] | escape }}{% if block.settings[setting_id] == blank %}{{ key | t }}{% endif %}</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="ei-scene ei-group" data-scene="group">
+          <div class="ei-lineup" aria-hidden="true">
+            {% for block in section.blocks %}
+              {% render 'eloura-intro-bottle', block: block, formula: block.settings.formula, group: true %}
+            {% endfor %}
+          </div>
+          <div class="ei-group-copy">
+            <p class="ei-kicker">The Complete Ritual</p>
+            <h2>{% if section.settings.group_copy != blank %}{{ section.settings.group_copy | escape }}{% else %}{{ 'eloura_intro.group' | t }}{% endif %}</h2>
+            <ul class="ei-roles">
+              {% for block in section.blocks %}
+                {% assign role_key = 'eloura_intro.' | append: block.settings.formula | append: '.role' %}
+                <li><strong>{{ block.settings.formula | upcase }}</strong><span>{{ role_key | t }}</span></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="ei-progress" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+    <div id="IntroEnd-{{ section.id }}" class="ei-end" tabindex="-1">
+      {% if section.settings.show_replay %}<button class="ei-replay" type="button" hidden>{{ 'eloura_intro.replay' | t }} <span aria-hidden="true">↺</span></button>{% endif %}
+    </div>
+  </eloura-immersive-intro>
+{% endif %}
+
+{% schema %}
+{
+  "name": "eloura. immersive intro",
+  "tag": "section",
+  "class": "eloura-immersive-section",
+  "enabled_on": { "templates": ["index"] },
+  "max_blocks": 3,
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Enable intro", "default": true },
+    { "type": "checkbox", "id": "once_per_session", "label": "Show once per browser session", "default": false },
+    { "type": "checkbox", "id": "show_replay", "label": "Show replay button", "default": true },
+    { "type": "range", "id": "scroll_length", "label": "Scroll distance (viewport heights × 100)", "min": 600, "max": 1600, "step": 100, "default": 1000 },
+    { "type": "color", "id": "dark_color", "label": "Introduction background", "default": "#111213" },
+    { "type": "color", "id": "light_color", "label": "Product background", "default": "#f6f5f2" },
+    { "type": "text", "id": "brand_copy", "label": "Brand heading override", "info": "Leave blank for BG / EN / RU translations. Translate custom copy with Shopify Translate & Adapt." },
+    { "type": "text", "id": "group_copy", "label": "Ritual heading override", "info": "Leave blank for translated default." }
+  ],
+  "blocks": [{
+    "type": "product", "name": "Product story",
+    "settings": [
+      { "type": "select", "id": "formula", "label": "Story", "options": [{"value":"clear","label":"CLEAR"},{"value":"hydra","label":"HYDRA"},{"value":"barrier","label":"BARRIER"}], "default": "clear" },
+      { "type": "product", "id": "product", "label": "Product" },
+      { "type": "image_picker", "id": "image_front", "label": "Front photograph" },
+      { "type": "image_picker", "id": "image_side", "label": "Side photograph" },
+      { "type": "image_picker", "id": "image_back", "label": "Back photograph" },
+      { "type": "paragraph", "content": "Original eloura. photographs are used when these fields are empty. Keep all angles aligned on the same canvas. Four short story lines follow scroll progress; blank fields use BG / EN / RU defaults." },
+      { "type": "text", "id": "stage_1", "label": "Stage 1 override" },
+      { "type": "text", "id": "stage_2", "label": "Stage 2 override" },
+      { "type": "text", "id": "stage_3", "label": "Stage 3 override" },
+      { "type": "text", "id": "stage_4", "label": "Stage 4 override" }
+    ]
+  }],
+  "presets": [{ "name": "eloura. immersive intro", "blocks": [
+    {"type":"product","settings":{"formula":"clear","product":"niacinamide-gel-moisturiser"}},
+    {"type":"product","settings":{"formula":"hydra","product":"hydrating-serum"}},
+    {"type":"product","settings":{"formula":"barrier","product":"ceramide-barrier-night-cream"}}
+  ]}]
+}
+{% endschema %}
