@@ -55,7 +55,8 @@
   .eloura-routine-image-section .eloura-journey { scroll-margin-top: 110px; }
   @media (prefers-reduced-motion: no-preference) { html:has(.eloura-routine-image__scroll) { scroll-behavior: smooth; } }
   @media screen and (min-width: 750px) { .eloura-routine-image__photo { object-fit: contain; } }
-  html.eloura-routine-image-locked { overflow: hidden; }
+  html.eloura-routine-image-locked,
+  html.eloura-routine-image-locked .page-wrapper { overflow: hidden; }
 {% endstylesheet %}
 
 {% javascript %}
@@ -69,7 +70,8 @@
       };
       updateHeight();
       window.addEventListener('resize', updateHeight, { passive: true });
-      if (!document.body.classList.contains('shopify-design-mode') && !window.location.hash && window.scrollY < 10) {
+      const scrollContainer = section.closest('.page-wrapper');
+      if (!document.body.classList.contains('shopify-design-mode') && !window.location.hash && (scrollContainer?.scrollTop ?? window.scrollY) < 10) {
         document.documentElement.classList.add('eloura-routine-image-locked');
       }
       arrow?.addEventListener('click', () => {
