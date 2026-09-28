@@ -2,7 +2,7 @@
   "sections": {
     "intro": { "type": "eloura-routine-intro", "settings": {} },
     "photo": { "type": "eloura-routine-image", "settings": {} },
-    "benefits": {
+    "routine_benefits": {
       "type": "eloura-benefits",
       "settings": {
         "background": "#FAF9F6",
@@ -21,5 +21,5 @@
       "settings": { "background": "#111315", "foreground": "#F7F7F4" }
     }
   },
-  "order": ["photo", "benefits", "intro", "steps"]
+  "order": ["photo", "routine_benefits", "intro", "steps"]
 }
