@@ -1,6 +1,6 @@
 {{ 'eloura-journey.css' | asset_url | stylesheet_tag }}
 
-{% unless page.handle == 'routine' %}
+{% unless template.suffix == 'routine' %}
   {% render 'eloura-routine-intro-content', section_id: section.id %}
 {% endunless %}
 
