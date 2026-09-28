@@ -61,7 +61,8 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.root?.removeEventListener('scroll', this.schedule);
       const wrapper = this.closest('.page-wrapper');
       // This theme scrolls its wrapper on desktop and the document on mobile.
-      this.root = wrapper && /auto|scroll/.test(getComputedStyle(wrapper).overflowY) ? wrapper : window;
+      // Cookie/dialog scroll locks temporarily set overflow:hidden; they must not change the scroll root.
+      this.root = wrapper && matchMedia('(min-width: 990px)').matches ? wrapper : window;
       this.root.addEventListener('scroll', this.schedule, { passive: true });
       if (this.motion.matches || innerHeight < 560 || !this.products.length) {
         this.simplify(); return;

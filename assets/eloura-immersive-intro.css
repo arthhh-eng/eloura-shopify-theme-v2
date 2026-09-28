@@ -12,7 +12,7 @@
 .ei-hint { margin-top:36px!important; font-size:13px; letter-spacing:.04em; }
 .ei-hint span { display:block; margin-top:16px; font-size:24px; }
 .ei-product { display:grid; gap:28px; max-width:1400px; margin-inline:auto; }
-.ei-art { position:relative; display:grid; place-items:center; isolation:isolate; }
+.ei-art { position:relative; display:grid; place-items:center; isolation:isolate; background:var(--ei-light); }
 .ei-bottle { position:relative; height:360px; aspect-ratio:.28; flex:none; mix-blend-mode:multiply; }
 .ei-angle { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; opacity:0; }
 .ei-angle:first-child { opacity:1; }
@@ -30,7 +30,7 @@
 .ei-product--hydra .ei-atmosphere i:nth-child(3) { width:13%; translate:240% -180%; }
 .ei-product--barrier .ei-atmosphere i { border-radius:46%; border-color:#c6b09555; background:#e2cbb80d; }
 .ei-group { text-align:center; }
-.ei-lineup { display:flex; justify-content:center; gap:clamp(8px,3vw,48px); align-items:end; }
+.ei-lineup { display:flex; justify-content:center; gap:clamp(8px,3vw,48px); align-items:end; background:var(--ei-light); isolation:isolate; }
 .ei-lineup .ei-bottle { height:clamp(210px,36vw,400px); }
 .ei-group h2 { font-size:clamp(28px,4.5vw,60px); max-width:22ch; margin:14px auto 26px; }
 .ei-group-copy { margin-top:26px; }
