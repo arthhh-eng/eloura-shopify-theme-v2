@@ -2,6 +2,13 @@
   "sections": {
     "intro": { "type": "eloura-routine-intro", "settings": {} },
     "photo": { "type": "eloura-routine-image", "settings": {} },
+    "benefits": {
+      "type": "eloura-benefits",
+      "settings": {
+        "background": "#FAF9F6",
+        "foreground": "#171717"
+      }
+    },
     "steps": {
       "type": "eloura-ritual",
       "blocks": {
@@ -14,5 +21,5 @@
       "settings": { "background": "#111315", "foreground": "#F7F7F4" }
     }
   },
-  "order": ["intro", "photo", "steps"]
+  "order": ["photo", "benefits", "intro", "steps"]
 }
