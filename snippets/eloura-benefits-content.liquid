@@ -1,0 +1,27 @@
+{% doc %}
+  Renders the localized eloura benefits content.
+
+  @param {string} section_id - Unique ID used by the heading relationship.
+  @param {color} background - Section background color.
+  @param {color} foreground - Section text color.
+{% enddoc %}
+
+<section class="eloura-journey" style="--eloura-section-bg: {{ background }}; --eloura-section-fg: {{ foreground }};" aria-labelledby="ElouraBenefits-{{ section_id }}">
+  <div class="eloura-journey__inner">
+    <p class="eloura-journey__eyebrow">{{ 'eloura.journey.benefits_eyebrow' | t | escape }}</p>
+    <h2 class="eloura-journey__heading" id="ElouraBenefits-{{ section_id }}">{{ 'eloura.journey.benefits_heading' | t | escape }}</h2>
+    <p class="eloura-journey__intro">{{ 'eloura.journey.benefits_intro' | t | escape }}</p>
+    <div class="eloura-journey__grid">
+      {% for index in (1..4) %}
+        {% liquid
+          assign heading_key = 'eloura.journey.benefit_' | append: index | append: '_heading'
+          assign text_key = 'eloura.journey.benefit_' | append: index | append: '_text'
+        %}
+        <article class="eloura-journey__card">
+          <h3>{{ heading_key | t | escape }}</h3>
+          <p>{{ text_key | t | escape }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
