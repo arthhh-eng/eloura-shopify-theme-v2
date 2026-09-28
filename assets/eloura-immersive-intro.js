@@ -98,13 +98,19 @@ if (!customElements.get('eloura-immersive-intro')) {
           bottle.style.transform = `translateY(${(1-local)*14}px) rotate(${(local-.5)*5}deg) scale(${scale*(.97 + .03*Math.sin(local*Math.PI))})`;
           const pose = 2 * Math.sin(Math.PI * local);
           const angles = [...bottle.querySelectorAll('.ei-angle')];
-          angles.forEach((image, angle) => { image.style.opacity = angles.length === 1 ? 1 : clamp(1 - Math.abs(pose - angle)); });
+          // Hold each real angle, with a short dissolve rather than a continuously ghosted bottle.
+          const anglePosition = clamp((pose - .42) / .16) + clamp((pose - 1.42) / .16);
+          const lower = Math.floor(anglePosition);
+          angles.forEach((image, angle) => {
+            image.style.opacity = angles.length === 1 || angle === lower ? 1
+              : angle === lower + 1 ? anglePosition - lower : 0;
+          });
           scene.querySelector('.ei-atmosphere').style.transform = `scale(${.88+local*.15}) rotate(${local*12}deg)`;
           const story = [...scene.querySelectorAll('[data-story]')];
           const beat = local * 4;
           story.forEach((line, step) => {
             const incoming = step === 0 ? 1 : clamp((beat-step) / .18);
-            const outgoing = step === 3 ? 1 : 1-clamp((beat-step-.90)/.18);
+            const outgoing = step === 3 ? 1 : 1-clamp((beat-step-.82)/.18);
             line.style.opacity = incoming*outgoing;
             line.style.transform = `translateY(${(1-incoming)*9}px)`;
           });
