@@ -1,0 +1,18 @@
+{% doc %}
+  Renders the localized Routine page introduction.
+
+  @param {string} section_id - Unique ID used by the heading relationship.
+{% enddoc %}
+
+<section class="eloura-journey eloura-routine-intro" aria-labelledby="ElouraRoutineIntro-{{ section_id }}">
+  <div class="eloura-journey__inner">
+    <p class="eloura-journey__eyebrow">{{ 'eloura.routine.eyebrow' | t | escape }}</p>
+    <h1 class="eloura-journey__heading" id="ElouraRoutineIntro-{{ section_id }}">{{ 'eloura.routine.heading' | t | escape }}</h1>
+    <p class="eloura-journey__intro">{{ 'eloura.routine.intro' | t | escape }}</p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-routine-intro { background: #faf9f6; color: #171717; }
+  .eloura-routine-intro .eloura-journey__inner { padding-block-end: clamp(48px, 6vw, 80px); }
+{% endstylesheet %}
