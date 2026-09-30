@@ -547,6 +547,20 @@
     "cart": {
       "recommendations": "You may also like"
     },
+    "modal": {
+      "cookie_heading": "COOKIE PREFERENCES",
+      "cookie_copy": "We use essential cookies to run the store. With your permission, we may also use non-essential cookies for analytics, preferences and marketing.",
+      "accept_all": "ACCEPT ALL",
+      "reject_nonessential": "REJECT NON-ESSENTIAL",
+      "privacy_policy": "PRIVACY POLICY",
+      "offer_heading": "FIRST ORDER",
+      "offer_copy": "Get 10% off your first purchase.",
+      "promo_code": "PROMO CODE",
+      "copy_code": "COPY CODE",
+      "copied": "COPIED",
+      "continue_shopping": "CONTINUE SHOPPING",
+      "close_offer": "Close offer"
+    },
     "not_found": {
       "heading": "Page not found",
       "text": "The link may be incorrect, or the page has been removed.",
@@ -558,7 +572,8 @@
           "heading": "Skin remembers care.",
           "description": "Clear formulas for everyday care, created to keep skin hydrated, calm and protected.",
           "button": "DISCOVER PRODUCTS",
-          "image_alt": "CLEAR, HYDRA and BARRIER skincare products by eloura."
+          "image_alt": "CLEAR, HYDRA and BARRIER skincare products by eloura.",
+          "photo_alt": "Woman holding eloura. CLEAR skincare"
     },
     "seo": {
           "home_title": "eloura. | Premium Skincare & Face Care",

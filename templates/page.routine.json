@@ -19,7 +19,21 @@
       },
       "block_order": ["clear", "hydra", "barrier", "complete"],
       "settings": { "background": "#111315", "foreground": "#F7F7F4" }
+    },
+    "ingredients": {
+      "type": "eloura-education",
+      "settings": {
+        "background": "#111315",
+        "foreground": "#F7F7F4"
+      }
+    },
+    "faq": {
+      "type": "eloura-faq",
+      "settings": {
+        "background": "#F7F4EE",
+        "foreground": "#171717"
+      }
     }
   },
-  "order": ["photo", "routine_benefits", "intro", "steps"]
+  "order": ["photo", "routine_benefits", "intro", "steps", "ingredients", "faq"]
 }

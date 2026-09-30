@@ -12,7 +12,8 @@
           <a class="eloura-product-tile" href="{{ card_product.url }}" {{ block.shopify_attributes }}>
             <div class="eloura-product-tile__media">
               {% if card_product.featured_image != blank %}
-                {{ card_product.featured_image | image_url: width: 1000 | image_tag: widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: card_product.featured_image.alt }}
+                {% assign card_image_alt = card_product.featured_image.alt | default: card_product.title %}
+                {{ card_product.featured_image | image_url: width: 1000 | image_tag: widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: card_image_alt }}
               {% endif %}
             </div>
             <div class="eloura-product-tile__body">

@@ -89,6 +89,8 @@
                   when 'page_link'
                     if link.object.handle == 'contact'
                       assign localized_link_title = 'eloura.navigation.contact' | t
+                    elsif link.object.handle == 'routine'
+                      assign localized_link_title = 'eloura.navigation.routine' | t
                     endif
                 endcase
                 if link.url contains '/search'

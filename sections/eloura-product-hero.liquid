@@ -3,6 +3,9 @@
   if hero_image_alt == blank and section.settings.hero_image != blank
     assign hero_image_alt = section.settings.hero_image.alt
   endif
+  if hero_image_alt == blank
+    assign hero_image_alt = 'eloura.hero.photo_alt' | t
+  endif
 %}
 
 <section
@@ -30,7 +33,7 @@
       <img
         src="{{ 'eloura-woman-hero.jpg' | asset_url }}"
         class="eloura-visual-hero__image"
-        alt="eloura. CLEAR"
+        alt="{{ 'eloura.hero.photo_alt' | t | escape }}"
         width="1086"
         height="1448"
         loading="eager"
