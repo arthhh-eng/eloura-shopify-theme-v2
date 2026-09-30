@@ -36,8 +36,16 @@
   .eloura-product-tile:hover img { transform: scale(1.02); }
   .eloura-product-tile__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 22px; }
   .eloura-product-tile__body h3 { margin: 0; font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
-  .eloura-product-tile__price { margin-block-start: 9px; color: color-mix(in srgb, var(--eloura-section-fg) 68%, transparent); font-size: 0.95rem; }
+  .eloura-product-tile__price { margin-block-start: 9px; color: color-mix(in srgb, var(--eloura-section-fg) 72%, transparent); font-size: 1.08rem; font-weight: 600; line-height: 1.3; }
+  .eloura-product-tile__price .price { font-weight: 700; }
+  .eloura-product-tile__price .compare-at-price { font-weight: 550; }
   .eloura-product-tile__body > span { margin-block-start: auto; padding-block-start: 24px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  @media screen and (max-width: 599px) {
+    .eloura-product-tile { border-radius: 20px; }
+    .eloura-product-tile__media { aspect-ratio: 1 / 1.08; }
+    .eloura-product-tile__body { padding: 18px; }
+    .eloura-product-tile__body > span { padding-block-start: 17px; }
+  }
   @media (prefers-reduced-motion: reduce) { .eloura-product-tile, .eloura-product-tile__media img { transition: none; } .eloura-product-tile:hover, .eloura-product-tile:hover img { transform: none; } }
 {% endstylesheet %}
 
