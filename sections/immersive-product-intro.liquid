@@ -10,12 +10,10 @@
   >
     <div class="ei-track">
       <div class="ei-stage">
-        <a class="ei-skip" href="#IntroEnd-{{ section.id }}">{{ 'eloura_intro.skip' | t }} <span aria-hidden="true">↘</span></a>
         <div class="ei-scene ei-brand" data-scene="brand">
           <div class="ei-brand-copy">
             <p class="ei-wordmark">eloura.</p>
             <h2>{{ section.settings.brand_copy | default: '' | escape }}{% if section.settings.brand_copy == blank %}{{ 'eloura_intro.brand' | t }}{% endif %}</h2>
-            <p class="ei-hint">{{ 'eloura_intro.scroll' | t }} <span aria-hidden="true">↓</span></p>
           </div>
         </div>
         <div class="ei-scene ei-trio" data-scene="trio">

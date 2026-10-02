@@ -624,10 +624,8 @@
   },
   "eloura_intro": {
     "label": "Discover eloura.",
-    "skip": "Skip intro",
     "replay": "Replay intro",
     "brand": "Care with a clear purpose.",
-    "scroll": "Scroll to discover",
     "group": "Three essentials. One simple routine.",
     "trio": {
       "clear": {

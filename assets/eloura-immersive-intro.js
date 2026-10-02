@@ -8,7 +8,6 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.brand = this.querySelector('[data-scene="brand"]');
       this.trio = this.querySelector('[data-scene="trio"]');
       this.items = [...this.querySelectorAll('.ei-trio-item')];
-      this.end = this.querySelector('.ei-end');
       this.key = `eloura-intro:${this.dataset.section}:v1`;
       this.motion = matchMedia('(prefers-reduced-motion: reduce)');
       this.abort = new AbortController();
@@ -17,18 +16,11 @@ if (!customElements.get('eloura-immersive-intro')) {
         if (!this.frame) this.frame = requestAnimationFrame(() => { this.frame = 0; this.paint(); });
       };
       this.configure = this.configure.bind(this);
-      this.querySelector('.ei-skip').addEventListener('click', event => {
-        event.preventDefault();
-        this.finish();
-        this.end.focus({ preventScroll: true });
-        this.end.scrollIntoView({ behavior: 'instant', block: 'start' });
-      }, options);
       this.querySelector('.ei-replay')?.addEventListener('click', () => {
         this.classList.remove('is-skipped');
         this.remember(false);
         this.configure();
         this.scrollIntoView({ behavior: 'instant', block: 'start' });
-        this.querySelector('.ei-skip').focus({ preventScroll: true });
       }, options);
       window.addEventListener('resize', this.configure, options);
       this.motion.addEventListener('change', this.configure, options);
@@ -53,7 +45,6 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.classList.remove('is-enhanced');
       this.scenes.forEach(scene => scene.style.removeProperty('opacity'));
       this.items.forEach(item => { item.style.removeProperty('opacity'); item.style.removeProperty('transform'); });
-      this.style.removeProperty('--ei-control');
     }
     configure() {
       this.root?.removeEventListener('scroll', this.schedule);
@@ -79,7 +70,6 @@ if (!customElements.get('eloura-immersive-intro')) {
       const progress = clamp((rootTop - this.track.getBoundingClientRect().top) / Math.max(1, distance));
       // One short scroll: the brand screen fades out, then CLEAR | HYDRA | BARRIER settle in and hold.
       this.style.setProperty('--ei-progress', progress);
-      this.style.setProperty('--ei-control', progress < .25 ? '#fff' : '#171717');
       this.brand.style.opacity = 1 - clamp((progress - .08) / .22);
       this.trio.style.opacity = clamp((progress - .15) / .2);
       this.items.forEach((item, index) => {
