@@ -410,7 +410,10 @@
       "link_clear": "CLEAR",
       "link_hydra": "HYDRA",
       "link_barrier": "BARRIER",
-      "link_complete": "The Complete Ritual"
+      "link_complete": "The Complete Ritual",
+      "offer_formula": "CLEAR + HYDRA + BARRIER",
+      "offer_text": "Трите стъпки заедно. Безплатна доставка.",
+      "offer_view": "Виж продукта"
     },
     "journey": {
       "benefits_eyebrow": "ЗАЩО ELOURA.",

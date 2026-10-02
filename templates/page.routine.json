@@ -20,6 +20,10 @@
       "block_order": ["clear", "hydra", "barrier", "complete"],
       "settings": { "background": "#111315", "foreground": "#F7F7F4" }
     },
+    "ritual_offer": {
+      "type": "eloura-ritual-offer",
+      "settings": { "product": "the-complete-ritual", "background": "#111315", "foreground": "#F7F7F4" }
+    },
     "ingredients": {
       "type": "eloura-education",
       "settings": {
@@ -35,5 +39,5 @@
       }
     }
   },
-  "order": ["photo", "routine_benefits", "intro", "steps", "ingredients", "faq"]
+  "order": ["photo", "routine_benefits", "intro", "steps", "ritual_offer", "ingredients", "faq"]
 }

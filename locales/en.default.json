@@ -429,7 +429,10 @@
       "link_clear": "CLEAR",
       "link_hydra": "HYDRA",
       "link_barrier": "BARRIER",
-      "link_complete": "The Complete Ritual"
+      "link_complete": "The Complete Ritual",
+      "offer_formula": "CLEAR + HYDRA + BARRIER",
+      "offer_text": "All three steps together. Free shipping.",
+      "offer_view": "View product"
     },
     "journey": {
       "benefits_eyebrow": "WHY ELOURA.",
