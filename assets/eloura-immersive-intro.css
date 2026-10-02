@@ -1,3 +1,4 @@
+/* eloura. homepage intro: wordmark and headline only; native scroll drives the scenes. */
 .ei { display:block; background:var(--ei-light); color:#171717; font-family:var(--font-body--family, sans-serif); }
 .ei *, .ei *::before, .ei *::after { box-sizing:border-box; }
 .ei h2, .ei h3, .ei p { margin:0; }
