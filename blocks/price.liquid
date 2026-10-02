@@ -90,6 +90,47 @@
 
 {% render 'payment-terms-styles' %}
 
+{% stylesheet %}
+  /* eloura.: prominent, soft price on the main product page only (not cards, cart, upsell or sticky bar). */
+  .product-information .product-details product-price [ref='priceContainer'] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 10px;
+    row-gap: 2px;
+  }
+
+  .product-information .product-details product-price :is(.price, .compare-at-price) {
+    font-family: ui-rounded, 'SF Pro Rounded', var(--font-body--family);
+    font-feature-settings: 'ss01' 1;
+    font-variant-numeric: proportional-nums;
+    line-height: 1.2;
+  }
+
+  .product-information .product-details product-price .price {
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: rgb(var(--color-rgb, var(--color-foreground-rgb)));
+  }
+
+  .product-information .product-details product-price .compare-at-price {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-information .product-details product-price .price {
+      font-size: 28px;
+    }
+
+    .product-information .product-details product-price .compare-at-price {
+      font-size: 17px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_price",
