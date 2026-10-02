@@ -13,6 +13,15 @@
       "type": "eloura-routine-intro",
       "settings": {}
     },
+    "eloura_faq_JVEwEc": {
+      "type": "eloura-faq",
+      "disabled": true,
+      "name": "eloura. FAQ",
+      "settings": {
+        "background": "#F4F2EC",
+        "foreground": "#171717"
+      }
+    },
     "photo": {
       "type": "eloura-routine-image",
       "settings": {
@@ -60,16 +69,18 @@
     },
     "eloura_ritual_offer_Ah84FD": {
       "type": "eloura-ritual-offer",
+      "disabled": true,
       "name": "eloura. ritual offer",
       "settings": {
         "product": "the-complete-ritual",
         "background": "#111315",
-        "foreground": "#F7F7F4"
+        "foreground": "#f7f7f4"
       }
     }
   },
   "order": [
     "intro",
+    "eloura_faq_JVEwEc",
     "photo",
     "steps",
     "eloura_ritual_offer_Ah84FD"
