@@ -1,43 +1,77 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "intro": { "type": "eloura-routine-intro", "settings": {} },
-    "photo": { "type": "eloura-routine-image", "settings": {} },
-    "routine_benefits": {
-      "type": "eloura-benefits",
+    "intro": {
+      "type": "eloura-routine-intro",
+      "settings": {}
+    },
+    "photo": {
+      "type": "eloura-routine-image",
       "settings": {
-        "background": "#FAF9F6",
-        "foreground": "#171717"
+        "image_alt": ""
       }
     },
     "steps": {
       "type": "eloura-ritual",
       "blocks": {
-        "clear": { "type": "clear", "settings": { "product": "niacinamide-gel-moisturiser" } },
-        "hydra": { "type": "hydra", "settings": { "product": "hydrating-serum" } },
-        "barrier": { "type": "barrier", "settings": { "product": "ceramide-barrier-night-cream" } },
-        "complete": { "type": "complete", "settings": { "product": "the-complete-ritual" } }
+        "clear": {
+          "type": "clear",
+          "settings": {
+            "product": "niacinamide-gel-moisturiser"
+          }
+        },
+        "hydra": {
+          "type": "hydra",
+          "settings": {
+            "product": "hydrating-serum"
+          }
+        },
+        "barrier": {
+          "type": "barrier",
+          "settings": {
+            "product": "ceramide-barrier-night-cream"
+          }
+        },
+        "complete": {
+          "type": "complete",
+          "settings": {
+            "product": "the-complete-ritual"
+          }
+        }
       },
-      "block_order": ["clear", "hydra", "barrier", "complete"],
-      "settings": { "background": "#111315", "foreground": "#F7F7F4" }
-    },
-    "ritual_offer": {
-      "type": "eloura-ritual-offer",
-      "settings": { "product": "the-complete-ritual", "background": "#111315", "foreground": "#F7F7F4" }
-    },
-    "ingredients": {
-      "type": "eloura-education",
+      "block_order": [
+        "clear",
+        "hydra",
+        "barrier",
+        "complete"
+      ],
       "settings": {
+        "background": "#111315",
+        "foreground": "#f7f7f4"
+      }
+    },
+    "eloura_ritual_offer_Ah84FD": {
+      "type": "eloura-ritual-offer",
+      "name": "eloura. ritual offer",
+      "settings": {
+        "product": "the-complete-ritual",
         "background": "#111315",
         "foreground": "#F7F7F4"
       }
-    },
-    "faq": {
-      "type": "eloura-faq",
-      "settings": {
-        "background": "#F7F4EE",
-        "foreground": "#171717"
-      }
     }
   },
-  "order": ["photo", "routine_benefits", "intro", "steps", "ritual_offer", "ingredients", "faq"]
+  "order": [
+    "intro",
+    "photo",
+    "steps",
+    "eloura_ritual_offer_Ah84FD"
+  ]
 }
