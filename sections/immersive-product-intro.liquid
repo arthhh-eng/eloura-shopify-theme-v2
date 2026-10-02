@@ -5,7 +5,7 @@
     class="ei"
     data-session="{{ section.settings.once_per_session }}"
     data-section="{{ section.id }}"
-    style="--ei-dark: {{ section.settings.dark_color }}; --ei-light: {{ section.settings.light_color }}; --ei-distance: {{ section.settings.scroll_length }};"
+    style="--ei-dark: {{ section.settings.dark_color }}; --ei-light: {{ section.settings.light_color }}; --ei-distance: {{ section.settings.scroll_length }}; --ei-hydra-scale: {{ section.settings.hydra_scale | divided_by: 100.0 }};"
     aria-label="{{ 'eloura_intro.label' | t | escape }}"
   >
     <div class="ei-track">
@@ -18,43 +18,23 @@
             <p class="ei-hint">{{ 'eloura_intro.scroll' | t }} <span aria-hidden="true">↓</span></p>
           </div>
         </div>
-        {% for block in section.blocks %}
-          {% assign formula = block.settings.formula %}
-          {% assign prefix = 'eloura_intro.' | append: formula | append: '.' %}
-          <div class="ei-scene ei-product ei-product--{{ formula }}" data-scene="product" {{ block.shopify_attributes }}>
-            <div class="ei-art" aria-hidden="true">
-              <div class="ei-atmosphere"><i></i><i></i><i></i></div>
-              {% render 'eloura-intro-bottle', block: block, formula: formula %}
-            </div>
-            <div class="ei-copy">
-              <p class="ei-kicker">{{ prefix | append: 'tag' | t }}</p>
-              <h2>{{ formula | upcase }}</h2>
-              <div class="ei-story">
-                {% for number in (1..4) %}
-                  {% assign setting_id = 'stage_' | append: number %}
-                  {% assign key = prefix | append: setting_id %}
-                  <p data-story>{{ block.settings[setting_id] | escape }}{% if block.settings[setting_id] == blank %}{{ key | t }}{% endif %}</p>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-        <div class="ei-scene ei-group" data-scene="group">
-          <div class="ei-lineup" aria-hidden="true">
+        <div class="ei-scene ei-trio" data-scene="trio">
+          <ul class="ei-trio-list" role="list">
             {% for block in section.blocks %}
-              {% render 'eloura-intro-bottle', block: block, formula: block.settings.formula, group: true %}
+              {% assign formula = block.settings.formula %}
+              {% assign prefix = 'eloura_intro.trio.' | append: formula | append: '.' %}
+              <li class="ei-trio-item ei-trio-item--{{ formula }}" {{ block.shopify_attributes }}>
+                <div class="ei-trio-art">
+                  {% render 'eloura-intro-bottle', block: block, formula: formula, group: true, sizes: '(min-width: 750px) 360px, 240px' %}
+                </div>
+                <div class="ei-trio-copy">
+                  <h3 class="ei-trio-name">{{ prefix | append: 'name' | t }}</h3>
+                  <p class="ei-trio-ingredient">{{ prefix | append: 'ingredient' | t }}</p>
+                  <p class="ei-trio-benefit">{{ prefix | append: 'benefit' | t }}</p>
+                </div>
+              </li>
             {% endfor %}
-          </div>
-          <div class="ei-group-copy">
-            <p class="ei-kicker">The Complete Ritual</p>
-            <h2>{% if section.settings.group_copy != blank %}{{ section.settings.group_copy | escape }}{% else %}{{ 'eloura_intro.group' | t }}{% endif %}</h2>
-            <ul class="ei-roles">
-              {% for block in section.blocks %}
-                {% assign role_key = 'eloura_intro.' | append: block.settings.formula | append: '.role' %}
-                <li><strong>{{ block.settings.formula | upcase }}</strong><span>{{ role_key | t }}</span></li>
-              {% endfor %}
-            </ul>
-          </div>
+          </ul>
         </div>
         <div class="ei-progress" aria-hidden="true"><span></span></div>
       </div>
@@ -76,25 +56,19 @@
     { "type": "checkbox", "id": "enabled", "label": "Enable intro", "default": true },
     { "type": "checkbox", "id": "once_per_session", "label": "Show once per browser session", "default": false },
     { "type": "checkbox", "id": "show_replay", "label": "Show replay button", "default": true },
-    { "type": "range", "id": "scroll_length", "label": "Scroll distance (viewport heights × 100)", "min": 600, "max": 1600, "step": 100, "default": 1000 },
+    { "type": "range", "id": "scroll_length", "label": "Scroll distance (viewport heights × 100)", "min": 150, "max": 300, "step": 25, "default": 200 },
+    { "type": "range", "id": "hydra_scale", "label": "HYDRA bottle height (%)", "info": "HYDRA is 30 ml. Aim for about 70% of the visible height of the 50 ml bottles.", "min": 60, "max": 100, "step": 2, "unit": "%", "default": 80 },
     { "type": "color", "id": "dark_color", "label": "Introduction background", "default": "#111213" },
     { "type": "color", "id": "light_color", "label": "Product background", "default": "#f6f5f2" },
-    { "type": "text", "id": "brand_copy", "label": "Brand heading override", "info": "Leave blank for BG / EN / RU translations. Translate custom copy with Shopify Translate & Adapt." },
-    { "type": "text", "id": "group_copy", "label": "Ritual heading override", "info": "Leave blank for translated default." }
+    { "type": "text", "id": "brand_copy", "label": "Brand heading override", "info": "Leave blank for BG / EN / RU translations. Translate custom copy with Shopify Translate & Adapt." }
   ],
   "blocks": [{
-    "type": "product", "name": "Product story",
+    "type": "product", "name": "Product",
     "settings": [
       { "type": "select", "id": "formula", "label": "Story", "options": [{"value":"clear","label":"CLEAR"},{"value":"hydra","label":"HYDRA"},{"value":"barrier","label":"BARRIER"}], "default": "clear" },
       { "type": "product", "id": "product", "label": "Product" },
       { "type": "image_picker", "id": "image_front", "label": "Front photograph" },
-      { "type": "image_picker", "id": "image_side", "label": "Side photograph" },
-      { "type": "image_picker", "id": "image_back", "label": "Back photograph" },
-      { "type": "paragraph", "content": "Original eloura. photographs are used when these fields are empty. Keep all angles aligned on the same canvas. Four short story lines follow scroll progress; blank fields use BG / EN / RU defaults." },
-      { "type": "text", "id": "stage_1", "label": "Stage 1 override" },
-      { "type": "text", "id": "stage_2", "label": "Stage 2 override" },
-      { "type": "text", "id": "stage_3", "label": "Stage 3 override" },
-      { "type": "text", "id": "stage_4", "label": "Stage 4 override" }
+      { "type": "paragraph", "content": "The original eloura. front photograph is used when this field is empty. Name, key ingredient and benefit come from the BG / EN / RU translations (eloura_intro.trio)." }
     ]
   }],
   "presets": [{ "name": "eloura. immersive intro", "blocks": [

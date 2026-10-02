@@ -5,7 +5,9 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.track = this.querySelector('.ei-track');
       this.stage = this.querySelector('.ei-stage');
       this.scenes = [...this.querySelectorAll('[data-scene]')];
-      this.products = this.scenes.filter(scene => scene.dataset.scene === 'product');
+      this.brand = this.querySelector('[data-scene="brand"]');
+      this.trio = this.querySelector('[data-scene="trio"]');
+      this.items = [...this.querySelectorAll('.ei-trio-item')];
       this.end = this.querySelector('.ei-end');
       this.key = `eloura-intro:${this.dataset.section}:v1`;
       this.motion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -49,12 +51,8 @@ if (!customElements.get('eloura-immersive-intro')) {
     finish() { this.remember(true); }
     simplify() {
       this.classList.remove('is-enhanced');
-      this.scenes.forEach(scene => {
-        scene.style.removeProperty('opacity');
-        scene.querySelectorAll('[data-story], .ei-bottle, .ei-angle, .ei-atmosphere').forEach(node => {
-          node.style.removeProperty('opacity'); node.style.removeProperty('transform');
-        });
-      });
+      this.scenes.forEach(scene => scene.style.removeProperty('opacity'));
+      this.items.forEach(item => { item.style.removeProperty('opacity'); item.style.removeProperty('transform'); });
       this.style.removeProperty('--ei-control');
     }
     configure() {
@@ -64,16 +62,13 @@ if (!customElements.get('eloura-immersive-intro')) {
       // Cookie/dialog scroll locks temporarily set overflow:hidden; they must not change the scroll root.
       this.root = wrapper && matchMedia('(min-width: 990px)').matches ? wrapper : window;
       this.root.addEventListener('scroll', this.schedule, { passive: true });
-      if (this.motion.matches || innerHeight < 560 || !this.products.length) {
+      if (this.motion.matches || innerHeight < 560 || !this.trio || !this.items.length) {
         this.simplify(); return;
       }
       this.classList.add('is-enhanced');
       // Long translations, custom copy and zoom get a readable static fallback.
-      const tooTall = this.products.some(scene => {
-        const copy = scene.querySelector('.ei-copy');
-        return copy.offsetHeight + 310 > this.stage.clientHeight && innerWidth < 750;
-      });
-      if (tooTall) { this.simplify(); return; }
+      const list = this.trio.querySelector('.ei-trio-list');
+      if (list.offsetHeight + 132 > this.stage.clientHeight) { this.simplify(); return; }
       this.schedule();
     }
     paint() {
@@ -82,45 +77,15 @@ if (!customElements.get('eloura-immersive-intro')) {
       const rootTop = this.root === window ? 0 : this.root.getBoundingClientRect().top;
       const distance = this.track.offsetHeight - this.stage.offsetHeight;
       const progress = clamp((rootTop - this.track.getBoundingClientRect().top) / Math.max(1, distance));
-      const width = .78 / this.products.length;
-      const ranges = [[0, .10], ...this.products.map((_, i) => [.10 + i * width, .10 + (i + 1) * width]), [.88, 1]];
+      // One short scroll: the brand screen fades out, then CLEAR | HYDRA | BARRIER settle in and hold.
       this.style.setProperty('--ei-progress', progress);
-      this.style.setProperty('--ei-control', progress < .09 ? '#fff' : '#171717');
-      this.scenes.forEach((scene, index) => {
-        const [start, end] = ranges[index];
-        const local = clamp((progress - start) / (end - start));
-        const opacity = index === 0 ? 1 - clamp((progress - .075) / .035)
-          : clamp((progress - start + .015) / .025) * (index === this.scenes.length - 1 ? 1 : 1 - clamp((progress - end + .01) / .025));
-        scene.style.opacity = opacity;
-        if (scene.dataset.scene === 'product') {
-          const bottle = scene.querySelector('.ei-bottle');
-          const scale = bottle.classList.contains('ei-bottle--hydra') ? .88 : 1;
-          bottle.style.transform = `translateY(${(1-local)*14}px) rotate(${(local-.5)*5}deg) scale(${scale*(.97 + .03*Math.sin(local*Math.PI))})`;
-          const pose = 2 * Math.sin(Math.PI * local);
-          const angles = [...bottle.querySelectorAll('.ei-angle')];
-          // Hold each real angle, with a short dissolve rather than a continuously ghosted bottle.
-          const anglePosition = clamp((pose - .42) / .16) + clamp((pose - 1.42) / .16);
-          const lower = Math.floor(anglePosition);
-          angles.forEach((image, angle) => {
-            image.style.opacity = angles.length === 1 || angle === lower ? 1
-              : angle === lower + 1 ? anglePosition - lower : 0;
-          });
-          scene.querySelector('.ei-atmosphere').style.transform = `scale(${.88+local*.15}) rotate(${local*12}deg)`;
-          const story = [...scene.querySelectorAll('[data-story]')];
-          const beat = local * 4;
-          story.forEach((line, step) => {
-            const incoming = step === 0 ? 1 : clamp((beat-step) / .18);
-            const outgoing = step === 3 ? 1 : 1-clamp((beat-step-.82)/.18);
-            line.style.opacity = incoming*outgoing;
-            line.style.transform = `translateY(${(1-incoming)*9}px)`;
-          });
-        }
-        if (scene.dataset.scene === 'group') {
-          scene.querySelectorAll('.ei-bottle').forEach((bottle, i) => {
-            const scale = bottle.classList.contains('ei-bottle--hydra') ? .88 : 1;
-            bottle.style.transform = `translate(${(i-1)*(1-local)*24}px, ${(1-local)*(i===1?28:12)}px) scale(${scale})`;
-          });
-        }
+      this.style.setProperty('--ei-control', progress < .25 ? '#fff' : '#171717');
+      this.brand.style.opacity = 1 - clamp((progress - .08) / .22);
+      this.trio.style.opacity = clamp((progress - .15) / .2);
+      this.items.forEach((item, index) => {
+        const local = clamp((progress - .18 - index * .05) / .25);
+        item.style.opacity = local;
+        item.style.transform = `translateY(${(1 - local) * 24}px)`;
       });
       if (progress >= .995) this.finish();
     }

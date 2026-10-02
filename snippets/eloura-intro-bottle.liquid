@@ -1,5 +1,6 @@
 {% comment %}Keep the original photography intact; only the white margins are cropped by CSS.{% endcomment %}
 {%- assign angles = 'front,side,back' | split: ',' -%}
+{%- assign image_sizes = sizes | default: '(min-width: 750px) 540px, 360px' -%}
 <div class="ei-bottle ei-bottle--{{ formula }}"{% if group %} aria-hidden="true"{% endif %}>
   {%- for angle in angles -%}
     {%- if group and angle != 'front' -%}{%- continue -%}{%- endif -%}
@@ -10,7 +11,7 @@
       {%- assign photo = block.settings.product.featured_image -%}
     {%- endif -%}
     {%- if photo != blank -%}
-      {{ photo | image_url: width: 900 | image_tag: widths: '360,540,720,900', sizes: '(min-width: 750px) 540px, 360px', loading: 'lazy', alt: '', class: 'ei-angle', data-angle: angle }}
+      {{ photo | image_url: width: 900 | image_tag: widths: '360,540,720,900', sizes: image_sizes, loading: 'lazy', alt: '', class: 'ei-angle', data-angle: angle }}
     {%- endif -%}
   {%- endfor -%}
 </div>
