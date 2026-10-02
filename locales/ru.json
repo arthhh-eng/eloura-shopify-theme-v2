@@ -585,6 +585,14 @@
       "newsletter_heading": "Забота, которая остаётся с вами.",
       "newsletter_body": "Получайте важные новости о формулах, продуктах и уходе от eloura.",
       "subscribe": "ПОДПИСАТЬСЯ"
+    },
+    "pdp": {
+      "benefit": {
+        "niacinamide_gel_moisturiser": "5% ниацинамид · 50 ml · Более ровный вид тона и больше увлажнения.",
+        "hydrating_serum": "Гиалуроновая кислота · 30 ml · Лёгкое увлажнение и свежий вид.",
+        "ceramide_barrier_night_cream": "Церамиды · 50 ml · Поддержка кожного барьера ночью.",
+        "the_complete_ritual": "CLEAR + HYDRA + BARRIER · Все три шага вместе."
+      }
     }
   },
   "eloura_intro": {

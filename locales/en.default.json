@@ -590,6 +590,14 @@
       "newsletter_heading": "Care that stays with you.",
       "newsletter_body": "Receive thoughtful updates about eloura. formulas, products and care.",
       "subscribe": "SUBSCRIBE"
+    },
+    "pdp": {
+      "benefit": {
+        "niacinamide_gel_moisturiser": "5% niacinamide · 50 ml · A more even-looking tone and more moisture.",
+        "hydrating_serum": "Hyaluronic acid · 30 ml · Lightweight hydration and a fresh look.",
+        "ceramide_barrier_night_cream": "Ceramides · 50 ml · Overnight support for the skin barrier.",
+        "the_complete_ritual": "CLEAR + HYDRA + BARRIER · All three steps together."
+      }
     }
   },
   "eloura_intro": {

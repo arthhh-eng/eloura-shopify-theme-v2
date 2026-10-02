@@ -148,11 +148,17 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
+                },
+                "eloura_pdp_benefit": {
+                  "type": "eloura-pdp-benefit",
+                  "settings": {},
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_xpVMaM",
-                "price_tVjtKg"
+                "price_tVjtKg",
+                "eloura_pdp_benefit"
               ]
             },
             "divider_VJhene": {

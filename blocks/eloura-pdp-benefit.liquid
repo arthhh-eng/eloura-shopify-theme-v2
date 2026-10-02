@@ -1,0 +1,28 @@
+{% liquid
+  assign pdp_product = closest.product
+  assign benefit_key = 'eloura.pdp.benefit.' | append: pdp_product.handle | replace: '-', '_'
+  assign benefit_text = benefit_key | t
+  assign has_benefit = true
+  if pdp_product == blank or benefit_text == blank or benefit_text contains 'translation missing' or benefit_text == benefit_key
+    assign has_benefit = false
+  endif
+%}
+
+{% if has_benefit %}
+  <p class="eloura-pdp-benefit" {{ block.shopify_attributes }}>{{ benefit_text | escape }}</p>
+{% endif %}
+
+{% stylesheet %}
+  .eloura-pdp-benefit { margin: 0; color: rgb(var(--color-foreground-rgb, 23 23 23) / 0.68); font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. benefit line",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Text comes from translations: eloura.pdp.benefit.<product handle with underscores>. Nothing is shown when no text exists for the product." }
+  ],
+  "presets": [{ "name": "eloura. benefit line" }]
+}
+{% endschema %}
