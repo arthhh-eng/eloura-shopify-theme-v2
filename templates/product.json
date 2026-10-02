@@ -216,6 +216,11 @@
               },
               "block_order": []
             },
+            "eloura_pdp_delivery": {
+              "type": "eloura-pdp-delivery",
+              "settings": {},
+              "blocks": {}
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "t:names.product_description",
@@ -247,6 +252,7 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "eloura_pdp_delivery",
             "text_aEtTtq"
           ]
         },

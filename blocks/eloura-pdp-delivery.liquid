@@ -1,0 +1,31 @@
+<ul class="eloura-pdp-delivery" role="list" aria-label="{{ 'eloura.pdp.delivery.label' | t | escape }}" {{ block.shopify_attributes }}>
+  <li class="eloura-pdp-delivery__item">
+    <svg class="eloura-pdp-delivery__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg>
+    <span>{{ 'eloura.pdp.delivery.processing' | t | escape }}</span>
+  </li>
+  <li class="eloura-pdp-delivery__item">
+    <svg class="eloura-pdp-delivery__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 6.5h11v9.5h-11zM13.5 9.5h4l3.5 3.5v3h-7.5"/><circle cx="6.5" cy="17.5" r="1.75"/><circle cx="17" cy="17.5" r="1.75"/></svg>
+    <span>{{ 'eloura.pdp.delivery.delivery_bg' | t | escape }}</span>
+  </li>
+  <li class="eloura-pdp-delivery__item">
+    <svg class="eloura-pdp-delivery__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1 1 0 0 1 0 1.4l-7.3 7.3a1 1 0 0 1-1.4 0z"/><circle cx="8" cy="8" r="1.4"/></svg>
+    <span>{{ 'eloura.pdp.delivery.free_shipping' | t | escape }}</span>
+  </li>
+</ul>
+
+{% stylesheet %}
+  .eloura-pdp-delivery { display: grid; gap: 10px; width: 100%; margin: 0; padding: 14px 16px; list-style: none; border: 1px solid rgb(var(--color-foreground-rgb, 23 23 23) / 0.12); border-radius: 16px; background: rgb(var(--color-foreground-rgb, 23 23 23) / 0.02); }
+  .eloura-pdp-delivery__item { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 0.875rem; line-height: 1.4; }
+  .eloura-pdp-delivery__icon { flex: none; width: 20px; height: 20px; opacity: 0.8; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. delivery info",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Texts come from translations: eloura.pdp.delivery." }
+  ],
+  "presets": [{ "name": "eloura. delivery info" }]
+}
+{% endschema %}

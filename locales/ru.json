@@ -592,6 +592,12 @@
         "hydrating_serum": "Гиалуроновая кислота · 30 ml · Лёгкое увлажнение и свежий вид.",
         "ceramide_barrier_night_cream": "Церамиды · 50 ml · Поддержка кожного барьера ночью.",
         "the_complete_ritual": "CLEAR + HYDRA + BARRIER · Все три шага вместе."
+      },
+      "delivery": {
+        "label": "Доставка",
+        "processing": "Обработка: до 1 дня",
+        "delivery_bg": "Доставка по Болгарии: 1–3 дня",
+        "free_shipping": "Бесплатная доставка от 89 €"
       }
     }
   },

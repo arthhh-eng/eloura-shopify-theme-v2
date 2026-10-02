@@ -597,6 +597,12 @@
         "hydrating_serum": "Hyaluronic acid · 30 ml · Lightweight hydration and a fresh look.",
         "ceramide_barrier_night_cream": "Ceramides · 50 ml · Overnight support for the skin barrier.",
         "the_complete_ritual": "CLEAR + HYDRA + BARRIER · All three steps together."
+      },
+      "delivery": {
+        "label": "Delivery",
+        "processing": "Processing: up to 1 day",
+        "delivery_bg": "Delivery in Bulgaria: 1–3 days",
+        "free_shipping": "Free shipping from €89"
       }
     }
   },
