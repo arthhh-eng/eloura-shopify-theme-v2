@@ -1,4 +1,4 @@
-/* Native scrolling drives one sticky scene. No wheel/touch interception or animation library. */
+/* Native scrolling drives one sticky scene (brand, then the three products). No wheel/touch interception or animation library. */
 if (!customElements.get('eloura-immersive-intro')) {
   customElements.define('eloura-immersive-intro', class extends HTMLElement {
     connectedCallback() {
