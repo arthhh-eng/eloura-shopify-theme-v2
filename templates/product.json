@@ -221,6 +221,13 @@
               "settings": {},
               "blocks": {}
             },
+            "eloura_pdp_ritual_upsell": {
+              "type": "eloura-pdp-ritual-upsell",
+              "settings": {
+                "product": "the-complete-ritual"
+              },
+              "blocks": {}
+            },
             "eloura_pdp_accordion": {
               "type": "accordion",
               "settings": {
@@ -308,6 +315,7 @@
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "eloura_pdp_delivery",
+            "eloura_pdp_ritual_upsell",
             "eloura_pdp_accordion"
           ]
         },

@@ -611,6 +611,11 @@
       "returns": {
         "text_html": "We process orders within 1 day. Delivery in Bulgaria takes 1–3 days by courier. Shipping €3.90 — free on orders from €89. Returns follow our {{ link }}.",
         "link": "Refund policy"
+      },
+      "upsell": {
+        "title": "Get all three steps",
+        "line": "The Complete Ritual · Free shipping",
+        "cta": "View the set"
       }
     }
   },
