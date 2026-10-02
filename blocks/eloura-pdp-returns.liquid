@@ -1,0 +1,28 @@
+{% liquid
+  assign refund_url = '/policies/refund-policy'
+  if shop.refund_policy != blank
+    assign refund_url = shop.refund_policy.url
+  endif
+  assign link_label = 'eloura.pdp.returns.link' | t | escape
+  capture refund_link
+    echo '<a href="' | append: refund_url | append: '">' | append: link_label | append: '</a>'
+  endcapture
+%}
+
+<p class="eloura-pdp-returns" {{ block.shopify_attributes }}>{{ 'eloura.pdp.returns.text_html' | t: link: refund_link }}</p>
+
+{% stylesheet %}
+  .eloura-pdp-returns { margin: 0; font-size: 0.9375rem; line-height: 1.6; text-wrap: pretty; }
+  .eloura-pdp-returns a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. returns text",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Text comes from translations: eloura.pdp.returns. The link opens the refund policy." }
+  ],
+  "presets": [{ "name": "eloura. returns text" }]
+}
+{% endschema %}

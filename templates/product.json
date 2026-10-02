@@ -221,30 +221,85 @@
               "settings": {},
               "blocks": {}
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
+            "eloura_pdp_accordion": {
+              "type": "accordion",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "icon": "plus",
+                "dividers": true,
+                "type_preset": "paragraph",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "eloura_pdp_row_about": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "About the product",
+                    "heading_key": "eloura.pdp.accordion.about",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "eloura_pdp_description": {
+                      "type": "text",
+                      "name": "t:names.product_description",
+                      "settings": {
+                        "text": "{{ closest.product.description }}",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "eloura_pdp_description"
+                  ]
+                },
+                "eloura_pdp_row_delivery": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Delivery & returns",
+                    "heading_key": "eloura.pdp.accordion.delivery_returns",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "eloura_pdp_returns": {
+                      "type": "eloura-pdp-returns",
+                      "settings": {},
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "eloura_pdp_returns"
+                  ]
+                }
+              },
+              "block_order": [
+                "eloura_pdp_row_about",
+                "eloura_pdp_row_delivery"
+              ]
             }
           },
           "block_order": [
@@ -253,7 +308,7 @@
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "eloura_pdp_delivery",
-            "text_aEtTtq"
+            "eloura_pdp_accordion"
           ]
         },
         "disclosures": {

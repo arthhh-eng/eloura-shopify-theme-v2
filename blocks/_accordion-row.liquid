@@ -16,7 +16,7 @@
         width: block_settings.width,
         class_name: 'details__icon'
       %}
-      {{ block_settings.heading }}
+      {% if block_settings.heading_key != blank %}{{ block_settings.heading_key | t }}{% else %}{{ block_settings.heading }}{% endif %}
       <span class="svg-wrapper icon-caret icon-animated">
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </span>
@@ -54,6 +54,12 @@
       "id": "heading",
       "label": "t:settings.heading",
       "default": "t:text_defaults.accordion_heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_key",
+      "label": "Heading translation key",
+      "info": "Optional. A key from the theme translations (e.g. eloura.pdp.accordion.about). When set, it replaces the heading above in every language."
     },
     {
       "type": "checkbox",
