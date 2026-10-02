@@ -364,6 +364,52 @@
       white-space: nowrap;
     }
   }
+
+  /* eloura.: sticky add to cart is a mobile-only shortcut with a visible label. */
+  @media screen and (min-width: 750px) {
+    sticky-add-to-cart {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .sticky-add-to-cart__bar {
+      gap: 12px;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__image {
+      display: none;
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__title {
+      display: block;
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__price {
+      flex: none;
+      white-space: nowrap;
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__price .compare-at-price {
+      display: none;
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__button {
+      flex: none;
+      width: auto;
+      padding-inline: 18px;
+      white-space: nowrap;
+    }
+
+    .sticky-add-to-cart__bar .sticky-add-to-cart__button .svg-wrapper {
+      display: none;
+    }
+
+    .sticky-add-to-cart__bar .add-to-cart-text__content {
+      display: initial;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

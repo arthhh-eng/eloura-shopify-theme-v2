@@ -332,6 +332,7 @@
         "disclosures"
       ],
       "settings": {
+        "enable_sticky_add_to_cart": true,
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
         "equal_columns": false,
