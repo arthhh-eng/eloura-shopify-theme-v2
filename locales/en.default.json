@@ -606,7 +606,10 @@
       },
       "accordion": {
         "about": "About the product",
-        "delivery_returns": "Delivery & returns"
+        "delivery_returns": "Delivery & returns",
+        "key_ingredients": "Key ingredients",
+        "how_to_use": "How to use",
+        "inci": "Full ingredients (INCI)"
       },
       "returns": {
         "text_html": "We process orders within 1 day. Delivery in Bulgaria takes 1–3 days by courier. Shipping €3.90 — free on orders from €89. Returns follow our {{ link }}.",

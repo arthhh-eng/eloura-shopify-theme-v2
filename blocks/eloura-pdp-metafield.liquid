@@ -1,0 +1,60 @@
+{% liquid
+  assign field = block.settings.field
+  assign field_value = closest.product.metafields.custom[field].value | strip
+%}
+
+{% if field_value != blank %}
+  {% case field %}
+    {% when 'key_ingredients' %}
+      {% assign lines = field_value | newline_to_br | split: '<br />' %}
+      <ul class="eloura-pdp-meta eloura-pdp-meta--list" role="list" {{ block.shopify_attributes }}>
+        {% for raw_line in lines %}
+          {% assign line = raw_line | strip %}
+          {% if line == blank %}{% continue %}{% endif %}
+          {% assign parts = line | split: ' — ' %}
+          <li>
+            {%- if parts.size > 1 -%}
+              {%- assign ingredient_name = parts.first -%}
+              {%- assign ingredient_text = line | remove_first: ingredient_name | remove_first: ' — ' -%}
+              <strong>{{ ingredient_name | escape }}</strong> — {{ ingredient_text | escape }}
+            {%- else -%}
+              {{ line | escape }}
+            {%- endif -%}
+          </li>
+        {% endfor %}
+      </ul>
+    {% when 'inci' %}
+      <p class="eloura-pdp-meta eloura-pdp-meta--inci" {{ block.shopify_attributes }}>{{ field_value | escape }}</p>
+    {% else %}
+      <p class="eloura-pdp-meta" {{ block.shopify_attributes }}>{{ field_value | escape | newline_to_br }}</p>
+  {% endcase %}
+{% endif %}
+
+{% stylesheet %}
+  .eloura-pdp-meta { margin: 0; font-size: 0.9375rem; line-height: 1.6; text-wrap: pretty; }
+  .eloura-pdp-meta--list { display: grid; gap: 8px; padding: 0 0 0 1.1em; list-style: disc; }
+  .eloura-pdp-meta--list li { margin: 0; padding-left: 2px; }
+  .eloura-pdp-meta--list strong { font-weight: 600; }
+  .eloura-pdp-meta--inci { color: rgb(var(--color-foreground-rgb, 23 23 23) / 0.62); font-size: 0.8125rem; line-height: 1.55; overflow-wrap: anywhere; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. metafield text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "field",
+      "label": "Product metafield",
+      "options": [
+        { "value": "key_ingredients", "label": "custom.key_ingredients (list)" },
+        { "value": "how_to_use", "label": "custom.how_to_use" },
+        { "value": "inci", "label": "custom.inci (small text)" }
+      ],
+      "default": "key_ingredients"
+    }
+  ],
+  "presets": [{ "name": "eloura. metafield text" }]
+}
+{% endschema %}

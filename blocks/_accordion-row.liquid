@@ -1,4 +1,14 @@
 {% assign block_settings = block.settings %}
+{% liquid
+  assign row_visible = true
+  if block_settings.required_metafield != blank and block_settings.required_metafield != 'none'
+    assign required_value = closest.product.metafields.custom[block_settings.required_metafield].value | strip
+    if required_value == blank
+      assign row_visible = false
+    endif
+  endif
+%}
+{% if row_visible %}
 
 {% capture accordion_row_children %}
   <details
@@ -35,6 +45,7 @@
   open_by_default_on_desktop: block_settings.open_by_default,
   open_by_default_on_mobile: block_settings.open_by_default
 %}
+{% endif %}
 
 {% schema %}
 {
@@ -60,6 +71,18 @@
       "id": "heading_key",
       "label": "Heading translation key",
       "info": "Optional. A key from the theme translations (e.g. eloura.pdp.accordion.about). When set, it replaces the heading above in every language."
+    },
+    {
+      "type": "select",
+      "id": "required_metafield",
+      "label": "Show only when this product metafield has content",
+      "options": [
+        { "value": "none", "label": "Always show" },
+        { "value": "key_ingredients", "label": "custom.key_ingredients" },
+        { "value": "how_to_use", "label": "custom.how_to_use" },
+        { "value": "inci", "label": "custom.inci" }
+      ],
+      "default": "none"
     },
     {
       "type": "checkbox",

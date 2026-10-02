@@ -283,6 +283,72 @@
                     "eloura_pdp_description"
                   ]
                 },
+                "eloura_pdp_row_key_ingredients": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Key ingredients",
+                    "heading_key": "eloura.pdp.accordion.key_ingredients",
+                    "required_metafield": "key_ingredients",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "eloura_pdp_meta_key_ingredients": {
+                      "type": "eloura-pdp-metafield",
+                      "settings": {
+                        "field": "key_ingredients"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "eloura_pdp_meta_key_ingredients"
+                  ]
+                },
+                "eloura_pdp_row_how_to_use": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "How to use",
+                    "heading_key": "eloura.pdp.accordion.how_to_use",
+                    "required_metafield": "how_to_use",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "eloura_pdp_meta_how_to_use": {
+                      "type": "eloura-pdp-metafield",
+                      "settings": {
+                        "field": "how_to_use"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "eloura_pdp_meta_how_to_use"
+                  ]
+                },
+                "eloura_pdp_row_inci": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Full ingredients (INCI)",
+                    "heading_key": "eloura.pdp.accordion.inci",
+                    "required_metafield": "inci",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "eloura_pdp_meta_inci": {
+                      "type": "eloura-pdp-metafield",
+                      "settings": {
+                        "field": "inci"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "eloura_pdp_meta_inci"
+                  ]
+                },
                 "eloura_pdp_row_delivery": {
                   "type": "_accordion-row",
                   "settings": {
@@ -305,6 +371,9 @@
               },
               "block_order": [
                 "eloura_pdp_row_about",
+                "eloura_pdp_row_key_ingredients",
+                "eloura_pdp_row_how_to_use",
+                "eloura_pdp_row_inci",
                 "eloura_pdp_row_delivery"
               ]
             }
