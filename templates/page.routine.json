@@ -69,7 +69,6 @@
     },
     "eloura_ritual_offer_Ah84FD": {
       "type": "eloura-ritual-offer",
-      "disabled": true,
       "name": "eloura. ritual offer",
       "settings": {
         "product": "the-complete-ritual",
@@ -82,7 +81,7 @@
     "intro",
     "eloura_faq_JVEwEc",
     "photo",
-    "steps",
-    "eloura_ritual_offer_Ah84FD"
+    "eloura_ritual_offer_Ah84FD",
+    "steps"
   ]
 }
