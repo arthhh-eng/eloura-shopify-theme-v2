@@ -92,6 +92,30 @@ class StickyAddToCartComponent extends Component {
       if (signal.aborted) return;
       if (this.#isStuck && this.#isChatActive()) this.#hideStickyBar();
     });
+
+    // Step aside while the chat is open, and come back when it closes if the buy buttons are still scrolled past.
+    const chat = document.querySelector('shopify-chat');
+    if (chat) {
+      const chatObserver = new MutationObserver(() => {
+        if (this.#isChatActive()) {
+          if (this.#isStuck) this.#hideStickyBar();
+        } else if (!this.#isStuck && !this.#hiddenByBottom && this.#buyButtonsScrolledPast()) {
+          this.#showStickyBar();
+        }
+      });
+      chatObserver.observe(chat, { attributes: true, attributeFilter: ['open'] });
+      signal.addEventListener('abort', () => chatObserver.disconnect());
+    }
+  }
+
+  /**
+   * @returns {boolean} Whether the main buy buttons are above the viewport.
+   */
+  #buyButtonsScrolledPast() {
+    const buyButtonsBlock = this.#getProductForm()?.closest('.buy-buttons-block');
+    if (!buyButtonsBlock) return false;
+    const rect = buyButtonsBlock.getBoundingClientRect();
+    return rect.bottom < 0;
   }
 
   disconnectedCallback() {
@@ -336,21 +360,18 @@ class StickyAddToCartComponent extends Component {
 
   // Helper methods
   /**
-   * Checks whether the Shopify Chat is active on the page.
-   * When active, the sticky bar must stay hidden to avoid overlapping the chat UI.
+   * Checks whether the Shopify Chat panel is open.
+   * While it is open the sticky bar stays hidden so it doesn't overlap the chat UI.
    *
-   * <shopify-chat> is rendered unconditionally by chat-drawer.liquid, but
-   * the "Ask anything" button only paints once the Inbox app has installed
-   * and upgraded the element. Gate on the registration of the custom element
-   * (the same signal chat-drawer.liquid uses via customElements.whenDefined)
-   * so the inert placeholder on shops without Inbox doesn't suppress the
-   * sticky bar.
+   * <shopify-chat> is rendered on every page by chat-drawer.liquid, so its mere
+   * presence can't be the signal: that kept the bar hidden on every product page
+   * whenever Inbox was installed. Only an open chat (the `open` attribute) counts.
    *
    * @returns {boolean}
    */
   #isChatActive() {
     if (!customElements.get('shopify-chat')) return false;
-    return Boolean(document.querySelector('shopify-chat'));
+    return Boolean(document.querySelector('shopify-chat[open]'));
   }
 
   /**
