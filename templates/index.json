@@ -48,24 +48,13 @@
         "light_color": "#f6f5f2"
       }
     },
-    "eloura_brand_hero": {
-      "type": "eloura-brand-hero",
+    "hero_jVaWmY": {
+      "type": "eloura-product-hero",
+      "name": "eloura. image hero",
       "settings": {
         "image_alt": "",
-        "heading": "",
-        "show_subheading": true,
-        "subheading": "",
-        "show_link": true,
-        "link": "",
-        "background": "#F6F5F2",
-        "foreground": "#111213"
-      }
-    },
-    "eloura_key_ingredients": {
-      "type": "eloura-key-ingredients",
-      "settings": {
-        "background": "#0B0B0C",
-        "foreground": "#F7F7F4"
+        "image_position": "center",
+        "background_color": "#080808"
       }
     },
     "product_list_fa6P9H": {
@@ -315,25 +304,16 @@
       "blocks": {
         "clear": {
           "type": "product",
-          "settings": { "product": "niacinamide-gel-moisturiser", "image_scale": 100 }
+          "settings": { "product": "niacinamide-gel-moisturiser" }
         },
-        "hydra": { "type": "product", "settings": { "product": "hydrating-serum", "image_scale": 80 } },
-        "barrier": { "type": "product", "settings": { "product": "ceramide-barrier-night-cream", "image_scale": 100 } },
-        "complete": { "type": "product", "settings": { "product": "the-complete-ritual", "image_scale": 100 } }
+        "hydra": { "type": "product", "settings": { "product": "hydrating-serum" } },
+        "barrier": { "type": "product", "settings": { "product": "ceramide-barrier-night-cream" } },
+        "complete": { "type": "product", "settings": { "product": "the-complete-ritual" } }
       },
-      "block_order": ["complete", "clear", "hydra", "barrier"],
+      "block_order": ["clear", "hydra", "barrier", "complete"],
       "settings": {
         "background": "#FAF9F6",
-        "foreground": "#171717",
-        "feature_first": true
-      }
-    },
-    "eloura_comparison": {
-      "type": "eloura-comparison",
-      "settings": {
-        "background": "#000000",
-        "foreground": "#F7F7F4",
-        "check_color": "#3C8A5A"
+        "foreground": "#171717"
       }
     },
     "eloura_education": {
@@ -396,10 +376,8 @@
   },
   "order": [
     "eloura_immersive_intro",
-    "eloura_brand_hero",
-    "eloura_key_ingredients",
+    "hero_jVaWmY",
     "eloura_product_selection",
-    "eloura_comparison",
     "eloura_education",
     "eloura_reviews",
     "eloura_faq",
