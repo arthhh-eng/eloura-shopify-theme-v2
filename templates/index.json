@@ -330,11 +330,41 @@
     "eloura_reviews": {
       "type": "eloura-reviews",
       "settings": {
-        "show_reviews": false,
         "background": "#FAF9F6",
         "foreground": "#171717"
       },
-      "disabled": true
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "enabled": false
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "enabled": false
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "enabled": false
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "enabled": false
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ]
     },
     "eloura_faq": {
       "type": "eloura-faq",

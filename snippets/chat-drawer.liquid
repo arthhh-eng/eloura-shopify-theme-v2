@@ -9,12 +9,22 @@
   {% render 'chat-drawer' %}
 {% enddoc %}
 
+{% liquid
+  assign chat_avatar = 'eloura-chat-victoria.jpeg' | asset_url
+  if settings.eloura_chat_avatar != blank
+    assign chat_avatar = settings.eloura_chat_avatar | image_url: width: 160
+  endif
+%}
+<style>
+  #chat-drawer { --eloura-chat-avatar: url({{ chat_avatar | json }}); }
+</style>
 <theme-drawer id="chat-drawer">
   <dialog
     ref="panel"
     class="theme-drawer__dialog chat-drawer"
   >
     <shopify-chat
+      title="{{ 'eloura.chat.identity' | t | escape }}"
       mode="standalone"
       mode-switch
     ></shopify-chat>
@@ -119,5 +129,57 @@
      "Ask anything" launcher stays visible. */
   .theme-drawer__dialog.chat-drawer:has(shopify-chat:defined) {
     display: flex;
+  }
+  shopify-chat {
+    --shopify-chat-activator-offset: max(20px, env(safe-area-inset-bottom));
+  }
+
+  shopify-chat::part(activator) {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #e9e7e2;
+    color: transparent;
+    font-size: 0;
+    box-shadow: 0 4px 20px #0002;
+    overflow: visible;
+  }
+
+  shopify-chat::part(activator)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--eloura-chat-avatar) 52% 22% / 200% auto no-repeat;
+    pointer-events: none;
+  }
+
+  shopify-chat::part(activator)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #29854b;
+    pointer-events: none;
+  }
+
+  shopify-chat::part(activator):focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 4px;
+  }
+
+  shopify-chat::part(dialog) { border-radius: 24px; }
+
+  body:has([data-eloura-consent]:not([hidden])) shopify-chat::part(activator),
+  body:has([data-eloura-offer]:not([hidden])) shopify-chat::part(activator) {
+    visibility: hidden;
+    pointer-events: none;
   }
 {% endstylesheet %}

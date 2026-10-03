@@ -373,6 +373,16 @@
     }
   },
   "eloura": {
+    "chat": { "identity": "Victoria · AI assistant · Online" },
+    "reviews": {
+      "heading": "Your impressions",
+      "empty": "We look forward to your first impressions.",
+      "editor_note": "Editor preview only. Only enabled reviews with a photo, title, text and author are published.",
+      "draft": "Unpublished preview · illustrative rating",
+      "rating": "Rated {{ rating }} out of 5",
+      "previous": "Previous reviews",
+      "next": "Next reviews"
+    },
     "homepage": {
       "hero_description": "Clear formulas for the everyday moments when you want to feel good in your own skin.",
       "hero_button": "DISCOVER PRODUCTS",

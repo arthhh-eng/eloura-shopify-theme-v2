@@ -2131,5 +2131,16 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "eloura. chat avatar",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "eloura_chat_avatar",
+        "label": "Chat launcher portrait",
+        "info": "Overrides the supplied Victoria portrait on the Inbox launcher. The conversation avatar and greeting are managed by Shopify Inbox."
+      }
+    ]
   }
 ]
