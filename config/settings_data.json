@@ -85,7 +85,12 @@
         "settings": {
           "greeting_message": "Hi! I'm Victoria, eloura.'s AI assistant 🤍 I can help with products, routines, delivery or your order.",
           "show_featured_products": true,
-          "featured_products": [],
+          "featured_products": [
+            "the-complete-ritual",
+            "niacinamide-gel-moisturiser",
+            "hydrating-serum",
+            "ceramide-barrier-night-cream"
+          ],
           "background_color": "#ffffff",
           "font_color": "#171717",
           "agent_invert_activator_colors": true,
