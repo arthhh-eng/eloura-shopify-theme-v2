@@ -678,5 +678,48 @@
       "stage_4": "The final step in your evening care.",
       "role": "Barrier support"
     }
+  },
+  "eloura_home": {
+    "hero": {
+      "heading": "We help women feel good in their own skin.",
+      "subheading": "Clear formulas for everyday care and confidence without filters.",
+      "link": "Explore the products",
+      "image_alt": "Woman in a white blazer holding eloura. CLEAR"
+    },
+    "ingredients": {
+      "eyebrow": "The ingredients",
+      "heading": "Three key ingredients. One clear routine.",
+      "niacinamide": {
+        "name": "Niacinamide",
+        "formula": "CLEAR",
+        "text": "Helps support a more even-looking tone and a balanced skin appearance."
+      },
+      "hyaluronic": {
+        "name": "Hyaluronic Acid",
+        "formula": "HYDRA",
+        "text": "Helps retain moisture for a more hydrated and fresh-looking appearance."
+      },
+      "ceramides": {
+        "name": "Ceramides",
+        "formula": "BARRIER",
+        "text": "Help support the skin barrier and essential moisture retention."
+      }
+    },
+    "comparison": {
+      "heading": "What makes eloura. different",
+      "intro": "Clear care with a considered sequence and understandable formulas — without unnecessary promises.",
+      "caption": "Comparison of eloura. and a fragmented routine",
+      "other_column": "Fragmented routine",
+      "yes": "Yes",
+      "no": "No",
+      "varies": "Varies",
+      "rows": {
+        "sequence": "Clear three-step sequence",
+        "set": "Complete ritual available in one set",
+        "separate": "Products also available separately",
+        "explained": "Ingredient roles and usage clearly explained",
+        "focus": "Focus on hydration and skin-barrier support"
+      }
+    }
   }
 }

@@ -9,12 +9,25 @@
       {% for block in section.blocks %}
         {% assign card_product = block.settings.product %}
         {% if card_product != blank %}
-          <a class="eloura-product-tile" href="{{ card_product.url }}" {{ block.shopify_attributes }}>
+          {%- liquid
+            assign is_featured = false
+            if forloop.first and section.settings.feature_first
+              assign is_featured = true
+            endif
+            assign card_sizes = '(min-width: 990px) 22vw, (min-width: 600px) 33vw, 38vw'
+            if is_featured
+              assign card_sizes = '(min-width: 990px) 34vw, 100vw'
+            endif
+          -%}
+          <a class="eloura-product-tile{% if is_featured %} eloura-product-tile--featured{% endif %}" href="{{ card_product.url }}" style="--tile-image-scale: {{ block.settings.image_scale | divided_by: 100.0 }};" {{ block.shopify_attributes }}>
             <div class="eloura-product-tile__media">
               {% if card_product.featured_image != blank %}
                 {% assign card_image_alt = card_product.featured_image.alt | default: card_product.title %}
-                {{ card_product.featured_image | image_url: width: 1000 | image_tag: widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: card_image_alt }}
+                {{ card_product.featured_image | image_url: width: 1000 | image_tag: widths: '320, 480, 640, 800, 1000', sizes: card_sizes, loading: 'lazy', alt: card_image_alt }}
               {% endif %}
+              {% unless card_product.available %}
+                <span class="eloura-product-tile__badge">{{ 'content.product_badge_sold_out' | t | escape }}</span>
+              {% endunless %}
             </div>
             <div class="eloura-product-tile__body">
               <h3>{{ card_product.title | escape }}</h3>
@@ -29,25 +42,48 @@
 </section>
 
 {% stylesheet %}
-  .eloura-products__grid { align-items: stretch; }
+  /* Layout: the first product (The Complete Ritual) is the large card; the singles follow.
+     Images keep one ratio and are shown whole (contain), so bottle sizes stay comparable;
+     a per-product image scale lets HYDRA (30 ml) sit smaller than the 50 ml bottles. */
+  .eloura-journey__grid.eloura-products__grid { grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); align-items: stretch; }
   .eloura-product-tile { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid color-mix(in srgb, var(--eloura-section-fg) 13%, transparent); border-radius: 24px; color: inherit; text-decoration: none; transition: transform 220ms ease, border-color 220ms ease; }
   .eloura-product-tile:hover { border-color: color-mix(in srgb, var(--eloura-section-fg) 36%, transparent); transform: translateY(-3px); }
-  .eloura-product-tile__media { aspect-ratio: 4 / 5; overflow: hidden; background: #f0efeb; }
-  .eloura-product-tile__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms ease; }
-  .eloura-product-tile:hover img { transform: scale(1.02); }
+  .eloura-product-tile:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  .eloura-product-tile__media { position: relative; display: grid; aspect-ratio: 4 / 5; place-items: center; overflow: hidden; background: #fff; }
+  .eloura-product-tile__media img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; transform: scale(var(--tile-image-scale, 1)); transform-origin: center bottom; transition: transform 400ms ease; }
+  .eloura-product-tile:hover img { transform: scale(calc(var(--tile-image-scale, 1) * 1.02)); }
+  .eloura-product-tile__badge { position: absolute; z-index: 1; inset-block-start: 14px; inset-inline-start: 14px; padding: 6px 10px; border-radius: 999px; background: var(--eloura-section-fg); color: var(--eloura-section-bg); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
   .eloura-product-tile__body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 22px; }
-  .eloura-product-tile__body h3 { margin: 0; font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
+  .eloura-product-tile__body h3 { margin: 0; font-size: 1.2rem; font-weight: 500; line-height: 1.25; overflow-wrap: break-word; }
+  .eloura-product-tile--featured .eloura-product-tile__body h3 { font-size: clamp(1.3rem, 1.9vw, 1.7rem); }
   .eloura-product-tile__price { margin-block-start: 9px; color: color-mix(in srgb, var(--eloura-section-fg) 72%, transparent); font-size: 1.08rem; font-weight: 600; line-height: 1.3; }
   .eloura-product-tile__price .price { font-weight: 700; }
   .eloura-product-tile__price .compare-at-price { font-weight: 550; }
   .eloura-product-tile__body > span { margin-block-start: auto; padding-block-start: 24px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-  @media screen and (max-width: 599px) {
-    .eloura-product-tile { border-radius: 20px; }
-    .eloura-product-tile__media { aspect-ratio: 1 / 1.08; }
-    .eloura-product-tile__body { padding: 18px; }
-    .eloura-product-tile__body > span { padding-block-start: 17px; }
+  @media screen and (min-width: 990px) {
+    /* The singles are shorter than the featured card: let their image area take the extra height. */
+    .eloura-product-tile:not(.eloura-product-tile--featured) .eloura-product-tile__media { flex: 1 0 auto; }
+    .eloura-product-tile:not(.eloura-product-tile--featured) .eloura-product-tile__body { flex: 0 0 auto; }
   }
-  @media (prefers-reduced-motion: reduce) { .eloura-product-tile, .eloura-product-tile__media img { transition: none; } .eloura-product-tile:hover, .eloura-product-tile:hover img { transform: none; } }
+  @media screen and (max-width: 989px) {
+    .eloura-journey__grid.eloura-products__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .eloura-product-tile--featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .eloura-product-tile--featured .eloura-product-tile__body { justify-content: center; padding: clamp(22px, 4vw, 40px); }
+    .eloura-product-tile--featured .eloura-product-tile__body > span { margin-block-start: 0; }
+  }
+  @media screen and (max-width: 599px) {
+    .eloura-journey__grid.eloura-products__grid { grid-template-columns: 1fr; }
+    .eloura-product-tile { border-radius: 20px; }
+    .eloura-product-tile--featured { display: flex; }
+    .eloura-product-tile--featured .eloura-product-tile__media { aspect-ratio: 1 / 1; }
+    /* Singles become compact rows: image left, details right. */
+    .eloura-product-tile:not(.eloura-product-tile--featured) { display: grid; grid-template-columns: 38% minmax(0, 1fr); }
+    .eloura-product-tile:not(.eloura-product-tile--featured) .eloura-product-tile__body { padding: 16px; }
+    .eloura-product-tile:not(.eloura-product-tile--featured) .eloura-product-tile__body h3 { font-size: 1.02rem; }
+    .eloura-product-tile__body { padding: 18px; }
+    .eloura-product-tile__body > span { padding-block-start: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .eloura-product-tile, .eloura-product-tile__media img { transition: none; } .eloura-product-tile:hover { transform: none; } .eloura-product-tile:hover img { transform: scale(var(--tile-image-scale, 1)); } }
 {% endstylesheet %}
 
 {% schema %}
@@ -59,10 +95,18 @@
   "max_blocks": 4,
   "settings": [
     { "type": "color", "id": "background", "label": "Background", "default": "#FAF9F6" },
-    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" }
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#171717" },
+    { "type": "checkbox", "id": "feature_first", "label": "Show the first product as the large card", "default": true }
   ],
   "blocks": [
-    { "type": "product", "name": "Product", "settings": [{ "type": "product", "id": "product", "label": "Product" }] }
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "range", "id": "image_scale", "label": "Image size", "info": "Use about 80% for HYDRA (30 ml) so it reads smaller than the 50 ml bottles.", "min": 60, "max": 100, "step": 2, "unit": "%", "default": 100 }
+      ]
+    }
   ],
   "presets": [{ "name": "eloura. product selection", "blocks": [{ "type": "product" }, { "type": "product" }, { "type": "product" }, { "type": "product" }] }]
 }

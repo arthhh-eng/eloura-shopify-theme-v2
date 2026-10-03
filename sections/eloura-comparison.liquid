@@ -1,0 +1,232 @@
+{% comment %}
+  "What makes eloura. different": a two-column comparison against a fragmented routine
+  (not against any named brand). Cell values are fixed in `rows` below and kept to what is
+  objectively true of a single-brand set versus separately assembled products:
+    yes = check, no = dash, varies = the word "Varies".
+  Copy comes from the BG / EN / RU locale files (eloura_home.comparison.*).
+{% endcomment %}
+{%- assign rows = 'sequence:varies,set:no,separate:yes,explained:varies,focus:varies' | split: ',' -%}
+
+<section
+  class="eloura-compare"
+  style="--ecm-bg: {{ section.settings.background }}; --ecm-fg: {{ section.settings.foreground }}; --ecm-check: {{ section.settings.check_color }};"
+  aria-labelledby="ElouraCompareHeading-{{ section.id }}"
+>
+  <div class="eloura-compare__inner">
+    <h2 class="eloura-compare__heading" id="ElouraCompareHeading-{{ section.id }}">
+      {{- 'eloura_home.comparison.heading' | t | escape -}}
+    </h2>
+    <p class="eloura-compare__intro">{{ 'eloura_home.comparison.intro' | t | escape }}</p>
+
+    <div class="eloura-compare__table-wrap">
+      <table class="eloura-compare__table">
+        <caption class="visually-hidden">{{ 'eloura_home.comparison.caption' | t | escape }}</caption>
+        <thead>
+          <tr>
+            <td class="eloura-compare__corner"></td>
+            <th scope="col" class="eloura-compare__col eloura-compare__col--brand">eloura.</th>
+            <th scope="col" class="eloura-compare__col">{{ 'eloura_home.comparison.other_column' | t | escape }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for row in rows -%}
+            {%- assign parts = row | split: ':' -%}
+            {%- assign feature_key = 'eloura_home.comparison.rows.' | append: parts[0] -%}
+            <tr>
+              <th scope="row" class="eloura-compare__feature">{{ feature_key | t | escape }}</th>
+              <td class="eloura-compare__cell eloura-compare__cell--brand">
+                <span class="eloura-compare__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-9" /></svg>
+                </span>
+                <span class="visually-hidden">{{ 'eloura_home.comparison.yes' | t | escape }}</span>
+              </td>
+              <td class="eloura-compare__cell">
+                {%- case parts[1] -%}
+                  {%- when 'yes' -%}
+                    <span class="eloura-compare__check eloura-compare__check--muted" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-9" /></svg>
+                    </span>
+                    <span class="visually-hidden">{{ 'eloura_home.comparison.yes' | t | escape }}</span>
+                  {%- when 'no' -%}
+                    <span class="eloura-compare__dash" aria-hidden="true">&mdash;</span>
+                    <span class="visually-hidden">{{ 'eloura_home.comparison.no' | t | escape }}</span>
+                  {%- else -%}
+                    <span class="eloura-compare__varies">{{ 'eloura_home.comparison.varies' | t | escape }}</span>
+                {%- endcase -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-compare {
+    overflow: clip;
+    background: var(--ecm-bg, #000);
+    color: var(--ecm-fg, #f7f7f4);
+  }
+
+  .eloura-compare__inner {
+    width: min(100%, 1040px);
+    margin-inline: auto;
+    padding: clamp(64px, 9vw, 128px) clamp(16px, 5vw, 72px);
+  }
+
+  .eloura-compare__heading {
+    max-width: 20ch;
+    margin: 0 auto;
+    color: inherit;
+    font-size: clamp(1.9rem, 4.6vw, 3.9rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .eloura-compare__intro {
+    max-width: 56ch;
+    margin: 20px auto 0;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.6;
+    text-align: center;
+    opacity: 0.72;
+    text-wrap: pretty;
+  }
+
+  .eloura-compare__table-wrap {
+    margin-top: clamp(36px, 6vw, 64px);
+  }
+
+  .eloura-compare__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  .eloura-compare__corner {
+    width: auto;
+  }
+
+  .eloura-compare__col {
+    width: clamp(92px, 27vw, 200px);
+    padding: 16px 6px;
+    font-size: clamp(0.72rem, 2.4vw, 0.9rem);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    vertical-align: bottom;
+    overflow-wrap: break-word;
+    opacity: 0.68;
+  }
+
+  .eloura-compare__col--brand {
+    width: clamp(76px, 22vw, 180px);
+    border: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 34%, transparent);
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+    background: color-mix(in srgb, var(--ecm-fg, #f7f7f4) 9%, transparent);
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    letter-spacing: -0.01em;
+    opacity: 1;
+  }
+
+  .eloura-compare__feature,
+  .eloura-compare__cell {
+    padding: 20px 8px;
+    border-top: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 14%, transparent);
+  }
+
+  .eloura-compare__feature {
+    padding-inline: 0 12px;
+    font-size: clamp(0.92rem, 1.6vw, 1.08rem);
+    font-weight: 450;
+    line-height: 1.4;
+    text-align: left;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .eloura-compare__cell {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .eloura-compare__cell--brand {
+    border-inline: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 34%, transparent);
+    background: color-mix(in srgb, var(--ecm-fg, #f7f7f4) 9%, transparent);
+  }
+
+  tbody tr:last-child .eloura-compare__cell--brand {
+    border-bottom: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 34%, transparent);
+    border-radius: 0 0 14px 14px;
+  }
+
+  tbody tr:last-child .eloura-compare__feature,
+  tbody tr:last-child .eloura-compare__cell:not(.eloura-compare__cell--brand) {
+    border-bottom: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 14%, transparent);
+  }
+
+  .eloura-compare__check {
+    display: inline-grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ecm-check, #3c8a5a);
+    vertical-align: middle;
+  }
+
+  .eloura-compare__check svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .eloura-compare__check--muted {
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--ecm-fg, #f7f7f4) 40%, transparent);
+  }
+
+  .eloura-compare__check--muted svg {
+    stroke: color-mix(in srgb, var(--ecm-fg, #f7f7f4) 78%, transparent);
+  }
+
+  .eloura-compare__dash {
+    font-size: 1.1rem;
+    opacity: 0.5;
+  }
+
+  .eloura-compare__varies {
+    display: inline-block;
+    font-size: clamp(0.72rem, 2.3vw, 0.85rem);
+    line-height: 1.3;
+    opacity: 0.6;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. comparison",
+  "tag": "section",
+  "class": "eloura-comparison-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "paragraph", "content": "Heading, rows and column names come from the BG / EN / RU translations (eloura_home.comparison). The comparison is against a fragmented routine, never a named brand." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#000000" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#F7F7F4" },
+    { "type": "color", "id": "check_color", "label": "Check mark", "default": "#3C8A5A" }
+  ],
+  "presets": [{ "name": "eloura. comparison" }]
+}
+{% endschema %}

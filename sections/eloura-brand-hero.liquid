@@ -1,0 +1,239 @@
+{% comment %}
+  eloura. brand hero: photograph plus the brand statement.
+  Copy comes from the BG / EN / RU locale files (eloura_home.hero.*) unless overridden in the Theme Editor.
+  Mobile (< 750px): photo first, statement below it. Tablet/desktop: statement left, photo right.
+  The photo always keeps its own aspect ratio, so nothing is cropped and there is no layout shift.
+{% endcomment %}
+{% liquid
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+
+  assign image_alt = section.settings.image_alt
+  if image_alt == blank and desktop_image != blank
+    assign image_alt = desktop_image.alt
+  endif
+  if image_alt == blank
+    assign image_alt = 'eloura_home.hero.image_alt' | t
+  endif
+
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'eloura_home.hero.heading' | t
+  endif
+  assign subheading = section.settings.subheading
+  if subheading == blank
+    assign subheading = 'eloura_home.hero.subheading' | t
+  endif
+%}
+
+<section
+  class="eloura-brand-hero"
+  style="--ebh-bg: {{ section.settings.background }}; --ebh-fg: {{ section.settings.foreground }};"
+  aria-labelledby="ElouraBrandHeroHeading-{{ section.id }}"
+>
+  <div class="eloura-brand-hero__media">
+    {%- if desktop_image != blank -%}
+      <picture>
+        {%- if section.settings.mobile_image != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_image | image_url: width: 480 }} 480w, {{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1100 }} 1100w, {{ mobile_image | image_url: width: 1500 }} 1500w"
+            sizes="100vw"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+          >
+        {%- endif -%}
+        {{
+          desktop_image
+          | image_url: width: 1600
+          | image_tag:
+            widths: '480, 750, 900, 1100, 1300, 1600',
+            sizes: '(min-width: 750px) 50vw, 100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'eloura-brand-hero__image',
+            alt: image_alt
+        }}
+      </picture>
+    {%- else -%}
+      <img
+        class="eloura-brand-hero__image"
+        src="{{ 'eloura-hero-clear.jpg' | asset_url }}"
+        srcset="{{ 'eloura-hero-clear-750.jpg' | asset_url }} 750w, {{ 'eloura-hero-clear.jpg' | asset_url }} 1122w"
+        sizes="(min-width: 750px) 50vw, 100vw"
+        width="1122"
+        height="1402"
+        alt="{{ image_alt | escape }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="eloura-brand-hero__copy">
+    <p class="eloura-brand-hero__brand">eloura.</p>
+    <h1 class="eloura-brand-hero__heading" id="ElouraBrandHeroHeading-{{ section.id }}">{{ heading | escape }}</h1>
+    {%- if section.settings.show_subheading -%}
+      <p class="eloura-brand-hero__text">{{ subheading | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.show_link -%}
+      <a class="eloura-brand-hero__link" href="{{ section.settings.link | default: routes.all_products_collection_url }}">
+        {{- 'eloura_home.hero.link' | t | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .eloura-brand-hero {
+    display: grid;
+    width: 100%;
+    overflow: clip;
+    background: var(--ebh-bg, #f6f5f2);
+    color: var(--ebh-fg, #111213);
+  }
+
+  .eloura-brand-hero__media {
+    min-width: 0;
+  }
+
+  .eloura-brand-hero__media picture {
+    display: block;
+  }
+
+  /* width/height attributes reserve the space, so the photo never shifts the layout. */
+  .eloura-brand-hero__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .eloura-brand-hero__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+    padding: 36px 20px 48px;
+  }
+
+  .eloura-brand-hero__brand {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    opacity: 0.62;
+  }
+
+  .eloura-brand-hero__heading {
+    max-width: 17ch;
+    margin: 0;
+    color: inherit;
+    font-size: clamp(1.9rem, 7.4vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  .eloura-brand-hero__text {
+    max-width: 40ch;
+    margin: 0;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.6;
+    opacity: 0.74;
+    text-wrap: pretty;
+  }
+
+  .eloura-brand-hero__link {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 12px 28px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  .eloura-brand-hero__link:hover {
+    background: var(--ebh-fg, #111213);
+    color: var(--ebh-bg, #f6f5f2);
+  }
+
+  .eloura-brand-hero__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  @media screen and (min-width: 750px) {
+    /* The photo column is capped so the portrait image stays within one screen height. */
+    .eloura-brand-hero {
+      grid-template-columns: minmax(0, 1fr) min(50%, calc(min(92svh, 1000px) * 0.8));
+      align-items: center;
+    }
+
+    .eloura-brand-hero__media {
+      order: 2;
+    }
+
+    .eloura-brand-hero__copy {
+      padding: clamp(40px, 6vw, 112px) clamp(28px, 5vw, 88px);
+      gap: 20px;
+    }
+
+    .eloura-brand-hero__heading {
+      font-size: clamp(2.1rem, 4.4vw, 4.6rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eloura-brand-hero__link {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. brand hero",
+  "tag": "section",
+  "class": "eloura-brand-hero-section",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "When empty, the eloura. CLEAR photograph from the theme is used. Portrait images (4:5) work best."
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image (optional)",
+      "info": "Shown below 750px. Only used when an Image is also selected."
+    },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "info": "Leave blank for the BG / EN / RU translation." },
+    { "type": "header", "content": "Text" },
+    { "type": "text", "id": "heading", "label": "Heading override", "info": "Leave blank for the BG / EN / RU translations. Custom text is the same in every language unless translated with Translate & Adapt." },
+    { "type": "checkbox", "id": "show_subheading", "label": "Show supporting text", "default": true },
+    { "type": "text", "id": "subheading", "label": "Supporting text override", "info": "Leave blank for the BG / EN / RU translations." },
+    { "type": "checkbox", "id": "show_link", "label": "Show products button", "default": true },
+    { "type": "url", "id": "link", "label": "Button link", "info": "Defaults to all products." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F6F5F2" },
+    { "type": "color", "id": "foreground", "label": "Text", "default": "#111213" }
+  ],
+  "presets": [{ "name": "eloura. brand hero" }]
+}
+{% endschema %}
