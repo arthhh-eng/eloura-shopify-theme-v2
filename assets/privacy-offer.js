@@ -6,8 +6,11 @@
   const consentUiKey = 'eloura:cookie-consent-ui:v1';
   const offerKey = 'eloura:first-order-offer:v4';
   const offerDays = 30;
-  let activeRoot = consentRoot || null;
-  let activeDialog = consentDialog || null;
+  // Wait before offering the code so it never lands on top of the consent choice.
+  const offerDelay = 20000;
+  let activeRoot = null;
+  let activeDialog = null;
+  let offerTimer = 0;
   let returnFocus = null;
 
   const focusable = (root) => [...root.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter((el) => !el.hidden && el.offsetParent !== null);
@@ -67,12 +70,22 @@
     }
   };
 
-  const showOffer = (force = false) => {
-    if (!offerRoot || (!force && offerWasSeen())) return;
-    window.setTimeout(() => {
+  const scheduleOffer = () => {
+    if (!offerRoot || offerTimer || offerWasSeen() || window.Shopify?.designMode) return;
+    offerTimer = window.setTimeout(function tryOpen() {
+      // Don't stack on another modal or an open drawer (cart, chat, menu); try again shortly.
+      if (activeRoot || document.querySelector('dialog[open]')) {
+        offerTimer = window.setTimeout(tryOpen, 5000);
+        return;
+      }
       openModal(offerRoot, offerDialog);
       markOfferSeen();
-    }, 220);
+    }, offerDelay);
+  };
+
+  const showConsent = () => {
+    if (!consentRoot || window.Shopify?.designMode) return;
+    openModal(consentRoot, consentDialog);
   };
 
   const loadConsentApi = (callback) => {
@@ -113,7 +126,7 @@
 
         markConsentUiChoice();
         closeModal(consentRoot, false);
-        showOffer(true);
+        scheduleOffer();
       });
     });
   };
@@ -174,19 +187,23 @@
     }
   });
 
-  if (consentRoot && !consentRoot.hidden) {
-    lock();
-    requestAnimationFrame(() => consentDialog?.focus());
-  }
-
+  // The consent window ships hidden and only opens when Shopify says this visitor still needs to choose.
+  // If the Customer Privacy API can't load (blocker, slow network), the store stays usable.
   loadConsentApi((error) => {
-    if (error || !window.Shopify?.customerPrivacy) {
-      console.warn('[eloura] Customer Privacy API could not be initialized on page load; consent UI stays visible and will retry when a choice is made.');
+    const privacy = window.Shopify?.customerPrivacy;
+    if (error || !privacy) {
+      console.warn('[eloura] Customer Privacy API could not be initialized; consent window not shown.', error || 'missing API');
+      scheduleOffer();
       return;
     }
 
-    if (consentUiChoiceWasMade() && hasRecordedConsent()) {
-      closeModal(consentRoot, false);
+    const choiceRecorded = consentUiChoiceWasMade() && hasRecordedConsent();
+    const bannerNeeded = typeof privacy.shouldShowBanner === 'function' ? privacy.shouldShowBanner() : !hasRecordedConsent();
+
+    if (!choiceRecorded && bannerNeeded) {
+      showConsent();
+    } else {
+      scheduleOffer();
     }
   });
 })();

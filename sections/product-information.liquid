@@ -302,6 +302,15 @@
       }
     }
 
+    /* With the Inbox chat button docked bottom-right, float the bar above it instead of under it. */
+    body:has(shopify-chat:defined) .sticky-add-to-cart__bar {
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
+      width: calc(100% - 24px);
+      border-radius: calc(
+        var(--style-border-radius-buttons-primary) + min(var(--padding-sm), var(--style-border-radius-buttons-primary))
+      );
+    }
+
     .sticky-add-to-cart__bar .add-to-cart-text__content {
       display: none;
     }
