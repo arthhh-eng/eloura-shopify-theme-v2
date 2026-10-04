@@ -43,7 +43,7 @@
         "enabled": true,
         "once_per_session": false,
         "show_replay": true,
-        "scroll_length": 200,
+        "scroll_length": 150,
         "dark_color": "#111213",
         "light_color": "#f6f5f2"
       }

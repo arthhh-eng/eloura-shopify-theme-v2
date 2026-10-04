@@ -8,6 +8,7 @@
 %}
 
 {% if offer != blank %}
+  <script src="{{ 'eloura-ritual-add.js' | asset_url }}" type="module"></script>
   <div class="eloura-ritual-card-wrap" style="--erc-bg: {{ section.settings.background }}; --erc-fg: {{ section.settings.foreground }};">
     <article class="eloura-ritual-card" aria-labelledby="ElouraRitualCard-{{ section.id }}">
       <a class="eloura-ritual-card__media" href="{{ offer.url }}" tabindex="-1" aria-hidden="true">
@@ -21,6 +22,7 @@
         <p class="eloura-ritual-card__text">{{ 'eloura.routine.offer_text' | t | escape }}</p>
         <div class="eloura-ritual-card__price">{% render 'price', product_resource: offer %}</div>
         <div class="eloura-ritual-card__actions">
+          <eloura-ritual-add id="ElouraRitualAdd-{{ section.id }}" class="eloura-ritual-card__add">
           {%- form 'product', offer, class: 'eloura-ritual-card__form' -%}
             <input type="hidden" name="id" value="{{ variant.id }}">
             <input type="hidden" name="quantity" value="1">
@@ -32,6 +34,8 @@
               {%- endif -%}
             </button>
           {%- endform -%}
+            <p class="eloura-ritual-card__error" role="status" data-ritual-error></p>
+          </eloura-ritual-add>
           <a class="eloura-ritual-card__button eloura-ritual-card__button--link" href="{{ offer.url }}">{{ 'eloura.routine.offer_view' | t | escape }}</a>
         </div>
       </div>
@@ -55,6 +59,9 @@
   .eloura-ritual-card__price .compare-at-price { color: color-mix(in srgb, var(--erc-fg, #f7f7f4) 55%, transparent); font-size: 0.95rem; font-weight: 500; text-decoration: line-through; }
   .eloura-ritual-card__actions { display: grid; width: 100%; gap: 12px; margin: 22px 0 0; }
   .eloura-ritual-card__form { width: 100%; margin: 0; }
+  .eloura-ritual-card__add { display: block; width: 100%; }
+  .eloura-ritual-card__error { margin: 8px 0 0; font-size: 0.8125rem; line-height: 1.4; }
+  .eloura-ritual-card__error:empty { display: none; }
   .eloura-ritual-card__button { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: center; margin: 0; padding: 12px 22px; border: 1px solid var(--erc-fg, #f7f7f4); border-radius: 999px; box-shadow: none; font: inherit; font-size: 0.95rem; font-weight: 500; line-height: 1.3; letter-spacing: 0; text-align: center; text-decoration: none; text-transform: none; cursor: pointer; appearance: none; }
   .eloura-ritual-card__button--add { background: var(--erc-fg, #f7f7f4); color: var(--erc-bg, #111315); }
   .eloura-ritual-card__button--add:hover { background: color-mix(in srgb, var(--erc-fg, #f7f7f4) 86%, var(--erc-bg, #111315)); }

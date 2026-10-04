@@ -45,6 +45,7 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.classList.remove('is-enhanced');
       this.scenes.forEach(scene => scene.style.removeProperty('opacity'));
       this.items.forEach(item => { item.style.removeProperty('opacity'); item.style.removeProperty('transform'); });
+      this.trio?.classList.remove('is-active');
     }
     configure() {
       this.root?.removeEventListener('scroll', this.schedule);
@@ -72,6 +73,7 @@ if (!customElements.get('eloura-immersive-intro')) {
       this.style.setProperty('--ei-progress', progress);
       this.brand.style.opacity = 1 - clamp((progress - .08) / .22);
       this.trio.style.opacity = clamp((progress - .15) / .2);
+      this.trio.classList.toggle('is-active', progress > .35);
       this.items.forEach((item, index) => {
         const local = clamp((progress - .18 - index * .05) / .25);
         item.style.opacity = local;

@@ -19,6 +19,18 @@
       </div>
     </div>
   </div>
+  <button
+    type="button"
+    class="announcement-bar__toggle"
+    aria-pressed="false"
+    aria-label="{{ 'eloura.announcement.pause' | t | escape }}"
+    data-label-pause="{{ 'eloura.announcement.pause' | t | escape }}"
+    data-label-play="{{ 'eloura.announcement.play' | t | escape }}"
+    onclick="const p=this.getAttribute('aria-pressed')!=='true';this.setAttribute('aria-pressed',p);this.setAttribute('aria-label',p?this.dataset.labelPlay:this.dataset.labelPause);this.closest('.announcement-bar').toggleAttribute('data-paused',p);"
+  >
+    <svg class="announcement-bar__icon-pause" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" focusable="false"><path d="M3 2h2v8H3zM7 2h2v8H7z" fill="currentColor"/></svg>
+    <svg class="announcement-bar__icon-play" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" focusable="false"><path d="M3 2l7 4-7 4z" fill="currentColor"/></svg>
+  </button>
 </aside>
 
 {% stylesheet %}
@@ -45,6 +57,40 @@
         animation-play-state: paused;
       }
     }
+  }
+
+  .announcement-bar[data-paused] .announcement-bar__track {
+    animation-play-state: paused;
+  }
+
+  .announcement-bar__toggle {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-inline: 4px 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .announcement-bar__toggle:hover,
+  .announcement-bar__toggle:focus-visible {
+    opacity: 1;
+  }
+
+  .announcement-bar__icon-play,
+  .announcement-bar[data-paused] .announcement-bar__icon-pause {
+    display: none;
+  }
+
+  .announcement-bar[data-paused] .announcement-bar__icon-play {
+    display: block;
   }
 
   .announcement-bar__track {
@@ -103,6 +149,7 @@
       padding-inline-end: 0;
     }
 
+    .announcement-bar__toggle,
     .announcement-bar__group[aria-hidden='true'],
     .announcement-bar__message:not(:first-child) {
       display: none;
