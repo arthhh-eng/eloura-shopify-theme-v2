@@ -18,7 +18,6 @@
 .eloura-reviews__stars-fill{position:absolute;inset:0 auto 0 0;overflow:hidden;width:min(100%,calc(var(--full) * (var(--star) + var(--star-gap)) + var(--partial) * var(--star)))}
 .eloura-reviews__score{font-size:.75rem;line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--eloura-section-fg) 62%,transparent)}
 .eloura-reviews__author{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0;font-size:.92rem;font-weight:500;line-height:1.35}
-.eloura-reviews__product{font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--eloura-section-fg) 55%,transparent)}
 .eloura-reviews__text{margin:8px 0 0;font-size:.85rem;line-height:1.55;color:color-mix(in srgb,var(--eloura-section-fg) 82%,transparent);text-wrap:pretty}
 .eloura-reviews__editor-note{margin:0 0 12px;font-size:.8rem;line-height:1.5;opacity:.7}
 .eloura-reviews__controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}

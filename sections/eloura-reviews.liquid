@@ -104,7 +104,6 @@
                   {% if block.settings.customer != blank %}
                     <p class="eloura-reviews__author">
                       {{- block.settings.customer | escape -}}
-                      {%- if block.settings.product != blank %}<span class="eloura-reviews__product">{{ block.settings.product | escape }}</span>{% endif -%}
                     </p>
                   {% endif %}
                   {% if review_text != blank %}<p class="eloura-reviews__text">{{ review_text | escape | newline_to_br }}</p>{% endif %}
@@ -249,11 +248,6 @@
           "id": "customer",
           "label": "Customer name",
           "info": "Shown unchanged in every language."
-        },
-        {
-          "type": "text",
-          "id": "product",
-          "label": "Product name (optional)"
         },
         {
           "type": "textarea",
