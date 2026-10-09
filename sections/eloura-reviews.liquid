@@ -10,53 +10,138 @@
   if empty_text == blank
     assign empty_text = 'eloura.reviews.empty' | t
   endif
+  assign locale_code = request.locale.iso_code | split: '-' | first
   assign review_count = 0
   for block in section.blocks
-    if block.settings.enabled and block.settings.photo != blank and block.settings.title != blank and block.settings.review != blank and block.settings.customer != blank
+    assign review_text = block.settings.review_bg
+    if locale_code == 'en' and block.settings.review_en != blank
+      assign review_text = block.settings.review_en
+    elsif locale_code == 'ru' and block.settings.review_ru != blank
+      assign review_text = block.settings.review_ru
+    endif
+    if block.settings.enabled and block.settings.photo != blank and block.settings.customer != blank and review_text != blank
       assign review_count = review_count | plus: 1
     endif
   endfor
+  assign show_carousel = false
+  if review_count > 0 or request.design_mode
+    assign show_carousel = true
+  endif
 %}
 <section class="eloura-journey eloura-reviews" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }}; --reviews-top: {{ section.settings.padding_top }}px; --reviews-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="ElouraReviews-{{ section.id }}">
   <div class="eloura-journey__inner">
     <h2 class="eloura-journey__heading" id="ElouraReviews-{{ section.id }}">{{ heading | escape }}</h2>
     {% if review_count == 0 %}<p class="eloura-journey__intro">{{ empty_text | escape }}</p>{% endif %}
-    {% if review_count > 0 or request.design_mode %}
-      <eloura-review-carousel>
+    {% if show_carousel %}
+      <eloura-review-carousel
+        class="eloura-reviews__carousel"
+        role="region"
+        aria-roledescription="{{ 'eloura.reviews.carousel' | t | escape }}"
+        aria-labelledby="ElouraReviews-{{ section.id }}"
+        {% if section.settings.autoplay %}data-autoplay="6000"{% endif %}
+      >
         {% if request.design_mode %}<p class="eloura-reviews__editor-note">{{ 'eloura.reviews.editor_note' | t }}</p>{% endif %}
         <ul class="eloura-reviews__track" id="ReviewsTrack-{{ section.id }}" tabindex="0" aria-label="{{ heading | escape }}">
+          {% assign slide_index = 0 %}
           {% for block in section.blocks %}
             {% liquid
+              assign review_text = block.settings.review_bg
+              if locale_code == 'en' and block.settings.review_en != blank
+                assign review_text = block.settings.review_en
+              elsif locale_code == 'ru' and block.settings.review_ru != blank
+                assign review_text = block.settings.review_ru
+              endif
               assign complete = false
-              if block.settings.enabled and block.settings.photo != blank and block.settings.title != blank and block.settings.review != blank and block.settings.customer != blank
+              if block.settings.enabled and block.settings.photo != blank and block.settings.customer != blank and review_text != blank
                 assign complete = true
               endif
             %}
             {% if complete or request.design_mode %}
-              <li class="eloura-reviews__card" {{ block.shopify_attributes }}>
-                {% if block.settings.photo != blank %}
-                  {% assign photo_alt = block.settings.photo_alt | default: block.settings.photo.alt %}
-                  {{ block.settings.photo | image_url: width: 960 | image_tag: widths: '320, 480, 640, 800, 960', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 44vw, 80vw', loading: 'lazy', alt: photo_alt, class: 'eloura-reviews__photo' }}
-                {% else %}
-                  <div class="eloura-reviews__placeholder" aria-hidden="true">{{ 'image' | placeholder_svg_tag }}</div>
-                {% endif %}
+              {% liquid
+                assign slide_index = slide_index | plus: 1
+                assign rating_tenths = block.settings.rating | times: 10 | round
+                assign rating_whole = rating_tenths | divided_by: 10 | floor
+                assign rating_decimal = rating_tenths | modulo: 10
+                assign rating_label = rating_whole | append: '.' | append: rating_decimal
+                assign decimal_separator = 'eloura.reviews.decimal_separator' | t
+                assign rating_display = rating_whole | append: decimal_separator | append: rating_decimal
+                assign rating_full = rating_whole
+                assign rating_partial = rating_decimal | divided_by: 10.0
+              %}
+              <li
+                class="eloura-reviews__card"
+                role="group"
+                aria-roledescription="{{ 'eloura.reviews.slide' | t | escape }}"
+                aria-label="{{ 'eloura.reviews.slide_label' | t: index: slide_index, name: block.settings.customer | escape }}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="eloura-reviews__media">
+                  {% if block.settings.photo != blank %}
+                    {% liquid
+                      assign photo_alt = block.settings.photo_alt
+                      if photo_alt == blank
+                        assign photo_alt = 'eloura.reviews.photo_alt' | t: name: block.settings.customer
+                      endif
+                      assign focal = block.settings.photo.presentation.focal_point | default: '50% 50%'
+                      assign photo_style = 'object-position: ' | append: focal
+                    %}
+                    {{ block.settings.photo | image_url: width: 1080 | image_tag: widths: '360, 480, 640, 800, 960, 1080', sizes: '(min-width: 1024px) 30vw, (min-width: 750px) 45vw, 82vw', loading: 'lazy', alt: photo_alt, class: 'eloura-reviews__photo', style: photo_style }}
+                  {% else %}
+                    <div class="eloura-reviews__placeholder" aria-hidden="true">{{ 'image' | placeholder_svg_tag }}</div>
+                  {% endif %}
+                </div>
                 <div class="eloura-reviews__body">
                   {% unless complete %}<p class="eloura-reviews__editor-note">{{ 'eloura.reviews.draft' | t }}</p>{% endunless %}
-                  <div class="eloura-reviews__rating" role="img" aria-label="{{ 'eloura.reviews.rating' | t: rating: block.settings.rating | escape }}">
-                    {% for star in (1..5) %}<span aria-hidden="true">{% if star <= block.settings.rating %}★{% else %}☆{% endif %}</span>{% endfor %}
-                  </div>
-                  {% if block.settings.title != blank %}<h3>{{ block.settings.title | escape }}</h3>{% endif %}
-                  {% if block.settings.review != blank %}<p class="eloura-reviews__text">{{ block.settings.review | escape | newline_to_br }}</p>{% endif %}
-                  {% if block.settings.customer != blank %}<p class="eloura-reviews__author">{{ block.settings.customer | escape }}</p>{% endif %}
-                  {% if block.settings.date != blank %}<p class="eloura-reviews__date">{{ block.settings.date | escape }}</p>{% endif %}
+                  <p class="eloura-reviews__rating">
+                    <span class="visually-hidden">{{ 'eloura.reviews.rating' | t: rating: rating_display }}</span>
+                    <span class="eloura-reviews__stars" aria-hidden="true" style="--full: {{ rating_full }}; --partial: {{ rating_partial }};" data-rating="{{ rating_label }}">
+                      {%- capture star -%}<svg viewBox="0 0 24 24" focusable="false"><path d="M12 2.6l2.82 6.06 6.64.78-4.9 4.55 1.3 6.56L12 17.27l-5.86 3.28 1.3-6.56-4.9-4.55 6.64-.78z"/></svg>{%- endcapture -%}
+                      <span class="eloura-reviews__stars-base">{% for i in (1..5) %}{{ star }}{% endfor %}</span>
+                      <span class="eloura-reviews__stars-fill">{% for i in (1..5) %}{{ star }}{% endfor %}</span>
+                    </span>
+                    <span class="eloura-reviews__score" aria-hidden="true">{{ 'eloura.reviews.score' | t: rating: rating_display }}</span>
+                  </p>
+                  {% if block.settings.customer != blank %}
+                    <p class="eloura-reviews__author">
+                      {{- block.settings.customer | escape -}}
+                      {%- if block.settings.product != blank %}<span class="eloura-reviews__product">{{ block.settings.product | escape }}</span>{% endif -%}
+                    </p>
+                  {% endif %}
+                  {% if review_text != blank %}<p class="eloura-reviews__text">{{ review_text | escape | newline_to_br }}</p>{% endif %}
                 </div>
               </li>
             {% endif %}
           {% endfor %}
         </ul>
         <div class="eloura-reviews__controls" hidden>
-          <button type="button" data-review-prev aria-controls="ReviewsTrack-{{ section.id }}" aria-label="{{ 'eloura.reviews.previous' | t | escape }}" disabled>←</button>
-          <button type="button" data-review-next aria-controls="ReviewsTrack-{{ section.id }}" aria-label="{{ 'eloura.reviews.next' | t | escape }}">→</button>
+          <div class="eloura-reviews__dots" role="group" aria-label="{{ 'eloura.reviews.pagination' | t | escape }}">
+            {% for i in (1..slide_index) %}
+              <button type="button" class="eloura-reviews__dot" data-review-dot="{{ forloop.index0 }}" aria-controls="ReviewsTrack-{{ section.id }}" aria-label="{{ 'eloura.reviews.go_to' | t: index: forloop.index, count: slide_index | escape }}"></button>
+            {% endfor %}
+          </div>
+          <div class="eloura-reviews__buttons">
+            {% if section.settings.autoplay %}
+              <button
+                type="button"
+                class="eloura-reviews__button eloura-reviews__toggle"
+                data-review-toggle
+                aria-controls="ReviewsTrack-{{ section.id }}"
+                data-label-pause="{{ 'eloura.reviews.pause' | t | escape }}"
+                data-label-play="{{ 'eloura.reviews.play' | t | escape }}"
+                aria-label="{{ 'eloura.reviews.pause' | t | escape }}"
+                hidden
+              >
+                <svg class="eloura-reviews__icon-pause" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5 3.5v9M11 3.5v9"/></svg>
+                <svg class="eloura-reviews__icon-play" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5.5 3.5l7 4.5-7 4.5z"/></svg>
+              </button>
+            {% endif %}
+            <button type="button" class="eloura-reviews__button" data-review-prev aria-controls="ReviewsTrack-{{ section.id }}" aria-label="{{ 'eloura.reviews.previous' | t | escape }}" disabled>
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3L5 8l5 5"/></svg>
+            </button>
+            <button type="button" class="eloura-reviews__button" data-review-next aria-controls="ReviewsTrack-{{ section.id }}" aria-label="{{ 'eloura.reviews.next' | t | escape }}">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5"/></svg>
+            </button>
+          </div>
         </div>
       </eloura-review-carousel>
     {% endif %}
@@ -85,6 +170,13 @@
       "id": "empty_text",
       "label": "Empty-state text",
       "info": "Leave blank for the BG / EN / RU default."
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay every 6 seconds",
+      "info": "Shows a pause/play button. Always off for visitors who prefer reduced motion.",
+      "default": false
     },
     {
       "type": "color",
@@ -129,12 +221,13 @@
           "id": "enabled",
           "label": "Publish this real review",
           "default": false,
-          "info": "Published only when photo, title, text and author are complete. Obtain permission to use the review and photograph."
+          "info": "Turn on only for a genuine customer review you have permission to use. Unpublished cards are visible only in the theme editor."
         },
         {
           "type": "image_picker",
           "id": "photo",
-          "label": "Customer photograph"
+          "label": "Photograph",
+          "info": "Set the focal point on the image to control cropping."
         },
         {
           "type": "text",
@@ -144,32 +237,39 @@
         {
           "type": "range",
           "id": "rating",
-          "label": "Rating",
+          "label": "Rating (out of 5)",
           "min": 1,
           "max": 5,
-          "step": 1,
-          "default": 5
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Review title"
-        },
-        {
-          "type": "textarea",
-          "id": "review",
-          "label": "Review text"
+          "step": 0.1,
+          "default": 5,
+          "info": "Use the rating the customer actually gave."
         },
         {
           "type": "text",
           "id": "customer",
-          "label": "Author name"
+          "label": "Customer name",
+          "info": "Shown unchanged in every language."
         },
         {
           "type": "text",
-          "id": "date",
-          "label": "Date (optional)",
-          "info": "Use your preferred display format. Translate with the review."
+          "id": "product",
+          "label": "Product name (optional)"
+        },
+        {
+          "type": "textarea",
+          "id": "review_bg",
+          "label": "Review text — Bulgarian",
+          "info": "Also used when no translation is filled in."
+        },
+        {
+          "type": "textarea",
+          "id": "review_en",
+          "label": "Review text — English"
+        },
+        {
+          "type": "textarea",
+          "id": "review_ru",
+          "label": "Review text — Russian"
         }
       ]
     }

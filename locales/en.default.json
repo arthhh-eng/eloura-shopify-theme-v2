@@ -377,11 +377,21 @@
     "reviews": {
       "heading": "Your impressions",
       "empty": "We look forward to your first impressions.",
-      "editor_note": "Editor preview only. Only enabled reviews with a photo, title, text and author are published.",
-      "draft": "Unpublished preview · illustrative rating",
+      "editor_note": "Editor preview only. The storefront shows only reviews with “Publish this real review” turned on and a photo, name and text.",
+      "draft": "Unpublished preview",
       "rating": "Rated {{ rating }} out of 5",
-      "previous": "Previous reviews",
-      "next": "Next reviews"
+      "score": "{{ rating }} / 5",
+      "decimal_separator": ".",
+      "previous": "Previous review",
+      "next": "Next review",
+      "carousel": "carousel",
+      "slide": "review",
+      "slide_label": "{{ index }}: {{ name }}",
+      "pagination": "Choose a review",
+      "go_to": "Review {{ index }} of {{ count }}",
+      "pause": "Pause automatic scrolling",
+      "play": "Play automatic scrolling",
+      "photo_alt": "Photo for {{ name }}’s review"
     },
     "homepage": {
       "hero_description": "Clear formulas for the everyday moments when you want to feel good in your own skin.",

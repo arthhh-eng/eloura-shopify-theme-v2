@@ -331,31 +331,59 @@
       "type": "eloura-reviews",
       "settings": {
         "background": "#FAF9F6",
-        "foreground": "#171717"
+        "foreground": "#171717",
+        "autoplay": true
       },
       "blocks": {
         "review_1": {
           "type": "review",
           "settings": {
-            "enabled": false
+            "enabled": true,
+            "photo": "shopify://shop_images/eloura-review-desislava-set.png",
+            "rating": 5,
+            "customer": "Десислава К.",
+            "review_bg": "Опаковките са толкова красиви, че веднага ми се прииска да ги поръчам. Изчистени цветове и много приятен дизайн — нямам търпение да изпробвам целия комплект!",
+            "review_en": "The packaging is so beautiful that I immediately wanted to order it. Clean colours and a really lovely design — I can't wait to try the whole set!",
+            "review_ru": "Упаковка настолько красивая, что мне сразу захотелось её заказать. Чистые цвета и очень приятный дизайн — не терпится попробовать весь набор!"
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
-            "enabled": false
+            "enabled": true,
+            "photo": "shopify://shop_images/eloura-review-radoslava-barrier.png",
+            "rating": 4.9,
+            "customer": "Радослава М.",
+            "product": "BARRIER",
+            "review_bg": "Използвам BARRIER всяка вечер от две седмици. Кожата ми вече е по-мека, добре хидратирана и не усещам обичайното опъване след измиване. Изглежда по-гладка, свежа и спокойна. Много съм доволна и ще продължа да го използвам.",
+            "review_en": "I've been using BARRIER every evening for two weeks. My skin is already softer and well hydrated, and I don't feel the usual tightness after washing. It looks smoother, fresher and calmer. I'm very happy with it and will keep using it.",
+            "review_ru": "Пользуюсь BARRIER каждый вечер уже две недели. Кожа уже стала мягче, хорошо увлажнена, и я не чувствую привычной стянутости после умывания. Она выглядит более гладкой, свежей и спокойной. Я очень довольна и продолжу им пользоваться."
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
-            "enabled": false
+            "enabled": true,
+            "photo": "shopify://shop_images/eloura-review-ivelina-clear.png",
+            "rating": 4.8,
+            "customer": "Ивелина Д.",
+            "product": "CLEAR",
+            "review_bg": "Флаконът е много удобен и пасва идеално в ръката ми. Използвам CLEAR от две седмици и забелязвам, че кожата ми се омазнява по-малко през деня и изглежда по-чиста и балансирана.",
+            "review_en": "The bottle is very convenient and fits perfectly in my hand. I've been using CLEAR for two weeks and I notice that my skin gets less oily during the day and looks cleaner and more balanced.",
+            "review_ru": "Флакон очень удобный и идеально лежит в руке. Пользуюсь CLEAR две недели и замечаю, что кожа меньше жирнится в течение дня и выглядит более чистой и сбалансированной."
           }
         },
         "review_4": {
           "type": "review",
           "settings": {
-            "enabled": false
+            "enabled": true,
+            "photo": "shopify://shop_images/eloura-review-simona-hydra.png",
+            "rating": 4.7,
+            "customer": "Симона П.",
+            "product": "HYDRA",
+            "review_bg": "Опаковката е красива, но най-много ми хареса усещането след нанасяне. С HYDRA кожата ми се усеща по-мека и хидратирана, а опъването след измиване е по-малко. Вече е част от сутрешната ми грижа.",
+            "review_en": "The packaging is beautiful, but what I liked most was how my skin felt after applying it. With HYDRA my skin feels softer and hydrated, and there is less tightness after washing. It's already part of my morning routine.",
+            "review_ru": "Упаковка красивая, но больше всего мне понравилось ощущение после нанесения. С HYDRA кожа ощущается более мягкой и увлажнённой, а стянутости после умывания стало меньше. Теперь это часть моего утреннего ухода."
           }
         }
       },
