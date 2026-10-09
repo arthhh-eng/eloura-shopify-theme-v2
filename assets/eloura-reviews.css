@@ -1,27 +1,27 @@
 .eloura-reviews .eloura-journey__inner{padding-block:min(var(--reviews-top),clamp(48px,7vw,var(--reviews-top))) min(var(--reviews-bottom),clamp(48px,7vw,var(--reviews-bottom)))}
-.eloura-reviews .eloura-journey__heading{font-size:clamp(2rem,3.4vw,3.25rem)}
-.eloura-reviews__carousel{display:block;margin-top:clamp(24px,3vw,40px)}
-.eloura-reviews__track{--gap:20px;--visible:3;position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - (var(--visible) - 1) * var(--gap)) / var(--visible));gap:var(--gap);list-style:none;margin:-4px;padding:4px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.eloura-reviews .eloura-journey__heading{font-size:clamp(1.75rem,2.6vw,2.5rem)}
+.eloura-reviews__carousel{display:block;margin-top:clamp(20px,2.4vw,32px)}
+.eloura-reviews__track{--gap:16px;position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:clamp(200px,20vw,272px);gap:var(--gap);list-style:none;margin:-4px;padding:4px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .eloura-reviews__track::-webkit-scrollbar{display:none}
 .eloura-reviews__track.is-animating{scroll-snap-type:none}
 .eloura-reviews__track.is-dragging{cursor:grabbing;user-select:none}
-.eloura-reviews__card{display:flex;flex-direction:column;min-width:0;margin:0;padding:10px;border:1px solid color-mix(in srgb,var(--eloura-section-fg) 9%,transparent);border-radius:30px;background:color-mix(in srgb,#fff 70%,var(--eloura-section-bg));scroll-snap-align:start;overflow-wrap:break-word}
-.eloura-reviews__media{overflow:hidden;border-radius:22px;aspect-ratio:4/5;background:color-mix(in srgb,var(--eloura-section-fg) 5%,var(--eloura-section-bg))}
+.eloura-reviews__card{display:flex;flex-direction:column;min-width:0;margin:0;padding:8px;border:1px solid color-mix(in srgb,var(--eloura-section-fg) 9%,transparent);border-radius:26px;background:color-mix(in srgb,#fff 70%,var(--eloura-section-bg));scroll-snap-align:start;overflow-wrap:break-word}
+.eloura-reviews__media{overflow:hidden;border-radius:20px;aspect-ratio:1/1;background:color-mix(in srgb,var(--eloura-section-fg) 5%,var(--eloura-section-bg))}
 .eloura-reviews__photo,.eloura-reviews__placeholder{display:block;width:100%;height:100%;object-fit:cover}
 .eloura-reviews__placeholder svg{width:100%;height:100%;fill:currentColor;opacity:.25}
-.eloura-reviews__body{display:flex;flex-direction:column;flex:1;padding:20px 12px 14px}
-.eloura-reviews__rating{display:flex;align-items:center;gap:10px;margin:0 0 12px}
-.eloura-reviews__stars{--star:16px;--star-gap:3px;position:relative;display:inline-block;flex:none;line-height:0}
+.eloura-reviews__body{display:flex;flex-direction:column;flex:1;padding:14px 10px 10px}
+.eloura-reviews__rating{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.eloura-reviews__stars{--star:13px;--star-gap:2px;position:relative;display:inline-block;flex:none;line-height:0}
 .eloura-reviews__stars-base,.eloura-reviews__stars-fill{display:flex;gap:var(--star-gap)}
 .eloura-reviews__stars svg{flex:none;width:var(--star);height:var(--star);fill:currentColor}
 .eloura-reviews__stars-base{opacity:.16}
 .eloura-reviews__stars-fill{position:absolute;inset:0 auto 0 0;overflow:hidden;width:min(100%,calc(var(--full) * (var(--star) + var(--star-gap)) + var(--partial) * var(--star)))}
-.eloura-reviews__score{font-size:.8rem;line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--eloura-section-fg) 62%,transparent)}
-.eloura-reviews__author{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0;font-size:1rem;font-weight:500;line-height:1.35}
-.eloura-reviews__product{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--eloura-section-fg) 55%,transparent)}
-.eloura-reviews__text{margin:10px 0 0;font-size:.95rem;line-height:1.62;color:color-mix(in srgb,var(--eloura-section-fg) 82%,transparent);text-wrap:pretty}
+.eloura-reviews__score{font-size:.75rem;line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--eloura-section-fg) 62%,transparent)}
+.eloura-reviews__author{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0;font-size:.92rem;font-weight:500;line-height:1.35}
+.eloura-reviews__product{font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:color-mix(in srgb,var(--eloura-section-fg) 55%,transparent)}
+.eloura-reviews__text{margin:8px 0 0;font-size:.85rem;line-height:1.55;color:color-mix(in srgb,var(--eloura-section-fg) 82%,transparent);text-wrap:pretty}
 .eloura-reviews__editor-note{margin:0 0 12px;font-size:.8rem;line-height:1.5;opacity:.7}
-.eloura-reviews__controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px}
+.eloura-reviews__controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
 .eloura-reviews__controls[hidden],.eloura-reviews__dot[hidden],.eloura-reviews__button[hidden]{display:none}
 .eloura-reviews__dots{display:flex;align-items:center;gap:2px}
 .eloura-reviews__dot{position:relative;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer}
@@ -36,7 +36,6 @@
 .eloura-reviews__toggle .eloura-reviews__icon-play,.eloura-reviews__toggle.is-paused .eloura-reviews__icon-pause{display:none}
 .eloura-reviews__toggle.is-paused .eloura-reviews__icon-play{display:block}
 .eloura-reviews :focus-visible{outline:2px solid currentColor;outline-offset:3px}
-.eloura-reviews__track:focus-visible{outline-offset:-1px;border-radius:30px}
-@media(max-width:1023px){.eloura-reviews__track{--visible:2}}
-@media(max-width:749px){.eloura-reviews__track{--gap:12px;grid-auto-columns:82%}.eloura-reviews__card{border-radius:28px;padding:8px}.eloura-reviews__media{border-radius:20px}.eloura-reviews__body{padding:16px 10px 12px}}
+.eloura-reviews__track:focus-visible{outline-offset:-1px;border-radius:26px}
+@media(max-width:749px){.eloura-reviews__track{--gap:12px;grid-auto-columns:62%}.eloura-reviews__card{border-radius:24px;padding:6px}.eloura-reviews__media{border-radius:18px}.eloura-reviews__body{padding:12px 8px 8px}}
 @media(prefers-reduced-motion:reduce){.eloura-reviews__dot::before,.eloura-reviews__button{transition:none}}

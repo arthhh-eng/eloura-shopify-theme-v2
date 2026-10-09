@@ -375,7 +375,7 @@
   "eloura": {
     "chat": { "identity": "Victoria · AI assistant · Online" },
     "reviews": {
-      "heading": "Your impressions",
+      "heading": "Customer reviews",
       "empty": "We look forward to your first impressions.",
       "editor_note": "Editor preview only. The storefront shows only reviews with “Publish this real review” turned on and a photo, name and text.",
       "draft": "Unpublished preview",

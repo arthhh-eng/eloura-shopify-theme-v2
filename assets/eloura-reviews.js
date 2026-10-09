@@ -98,6 +98,7 @@ if (!customElements.get('eloura-review-carousel')) {
 
     positions() {
       const max = Math.max(0, this.track.scrollWidth - this.track.clientWidth);
+      if (max < 12) return [0];
       const start = parseFloat(getComputedStyle(this.track).paddingLeft) || 0;
       const list = [];
       for (const card of this.track.children) {
