@@ -217,3 +217,23 @@ footer .utilities a:hover { opacity: 0.62; }
   line-height: 1;
   text-decoration: none;
 }
+
+/* Mobile header: flag language button next to the account icon */
+.eloura-lang-mobile {
+  display: flex;
+  align-items: center;
+  margin-inline-end: 4px;
+}
+
+.eloura-lang-mobile .eloura-lang__button {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 7px;
+  gap: 5px;
+  font-size: 11px;
+}
+
+.eloura-lang-mobile .eloura-lang__flag-wrap {
+  width: 18px;
+  height: 13.5px;
+}
