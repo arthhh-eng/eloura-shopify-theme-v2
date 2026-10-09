@@ -373,7 +373,7 @@
     }
   },
   "eloura": {
-    "chat": { "identity": "Victoria · AI assistant · Online" },
+    "chat": { "identity": "AI assistant · Online" },
     "reviews": {
       "heading": "Customer reviews",
       "empty": "We look forward to your first impressions.",
