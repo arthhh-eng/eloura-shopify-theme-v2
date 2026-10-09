@@ -222,13 +222,7 @@
   %}
   {% if show_language and show_country == false %}
     <div class="dropdown-localization mobile:hidden">
-      {% render 'localization-form',
-        show_country: show_country,
-        show_language: show_language,
-        localization_style: 'dropdown',
-        form_style: form_style,
-        form_id: section.id
-      %}
+      {% render 'eloura-language-switcher', id: section.id %}
     </div>
   {% elsif show_country %}
     <dropdown-localization-component
