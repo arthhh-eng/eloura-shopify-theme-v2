@@ -626,6 +626,9 @@
         style="--menu-drawer-animation-index: {{ linklist.links.size }};"
       >
         <a class="eloura-drawer-wordmark" href="{{ routes.root_url }}" aria-label="eloura.">eloura.</a>
+        {%- if localization.available_languages.size > 1 -%}
+          {% render 'eloura-language-switcher', id: 'drawer', placement: 'up' %}
+        {%- endif -%}
       </div>
 
       {% liquid

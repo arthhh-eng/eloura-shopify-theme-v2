@@ -221,10 +221,7 @@
     assign form_style = localization_font | append: localization_font_size | append: color_shadow
   %}
   {% if show_language and show_country == false %}
-    <div class="dropdown-localization mobile:hidden">
-      {%- comment -%} Flag language switcher (desktop) {%- endcomment -%}
-      {% render 'eloura-language-switcher', id: section.id %}
-    </div>
+    {%- comment -%} Language switcher lives in the menu drawer (snippets/header-drawer.liquid) {%- endcomment -%}
   {% elsif show_country %}
     <dropdown-localization-component
       class="dropdown-localization mobile:hidden"

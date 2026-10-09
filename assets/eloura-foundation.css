@@ -204,6 +204,10 @@ footer .utilities a:hover { opacity: 0.62; }
 
 /* Drawer footer: eloura. wordmark in place of the language picker */
 #header-component .menu-drawer__utility-links {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-block: auto 0;
   margin-inline: 0;
   padding: 24px clamp(24px, 5vw, 40px) 28px;
@@ -218,23 +222,7 @@ footer .utilities a:hover { opacity: 0.62; }
   text-decoration: none;
 }
 
-/* Mobile header: flag language button next to the account icon */
-.eloura-lang-mobile {
-  display: flex;
-  align-items: center;
-  margin-inline-end: 4px;
+#header-component .menu-drawer__utility-links .eloura-lang--up .eloura-lang__menu {
+  left: auto;
+  right: 0;
 }
-
-.eloura-lang-mobile .eloura-lang__button {
-  height: 32px;
-  min-width: 32px;
-  padding: 0 7px;
-  gap: 5px;
-  font-size: 11px;
-}
-
-.eloura-lang-mobile .eloura-lang__flag-wrap {
-  width: 18px;
-  height: 13.5px;
-}
-
