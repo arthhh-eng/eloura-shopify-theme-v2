@@ -222,6 +222,7 @@
   %}
   {% if show_language and show_country == false %}
     <div class="dropdown-localization mobile:hidden">
+      {%- comment -%} Flag language switcher {%- endcomment -%}
       {% render 'eloura-language-switcher', id: section.id %}
     </div>
   {% elsif show_country %}
