@@ -64,6 +64,7 @@
   {{- block.shopify_attributes -}}
 >
   {%- if localization.available_languages.size > 1 -%}
+    {%- comment -%} Mobile flag language button {%- endcomment -%}
     <div class="eloura-lang-mobile desktop:hidden">
       {% render 'eloura-language-switcher', id: 'mobile' %}
     </div>
