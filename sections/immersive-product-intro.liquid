@@ -22,7 +22,9 @@
             {% for block in section.blocks %}
               {% assign formula = block.settings.formula %}
               {% assign prefix = 'eloura_intro.trio.' | append: formula | append: '.' %}
+              {% assign product_url = block.settings.product.url %}
               <li class="ei-trio-item ei-trio-item--{{ formula }}" {{ block.shopify_attributes }}>
+                {% if product_url != blank %}<a class="ei-trio-link" href="{{ product_url }}">{% endif %}
                 <div class="ei-trio-art">
                   {% render 'eloura-intro-bottle', block: block, formula: formula, group: true, sizes: '(min-width: 750px) 360px, 240px' %}
                 </div>
@@ -31,6 +33,7 @@
                   <p class="ei-trio-ingredient">{{ prefix | append: 'ingredient' | t }}</p>
                   <p class="ei-trio-benefit">{{ prefix | append: 'benefit' | t }}</p>
                 </div>
+                {% if product_url != blank %}</a>{% endif %}
               </li>
             {% endfor %}
           </ul>

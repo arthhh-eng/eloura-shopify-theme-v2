@@ -43,7 +43,7 @@ if (!customElements.get('eloura-immersive-intro')) {
     finish() { this.remember(true); }
     simplify() {
       this.classList.remove('is-enhanced');
-      this.scenes.forEach(scene => scene.style.removeProperty('opacity'));
+      this.scenes.forEach(scene => { scene.style.removeProperty('opacity'); scene.classList.remove('is-active'); });
       this.items.forEach(item => { item.style.removeProperty('opacity'); item.style.removeProperty('transform'); });
     }
     configure() {
@@ -71,7 +71,10 @@ if (!customElements.get('eloura-immersive-intro')) {
       // One short scroll: the brand screen fades out, then CLEAR | HYDRA | BARRIER settle in and hold.
       this.style.setProperty('--ei-progress', progress);
       this.brand.style.opacity = 1 - clamp((progress - .08) / .22);
-      this.trio.style.opacity = clamp((progress - .15) / .2);
+      const trioOpacity = clamp((progress - .15) / .2);
+      this.trio.style.opacity = trioOpacity;
+      // Products only take taps once they are clearly visible, so a tap on the brand screen never opens a page.
+      this.trio.classList.toggle('is-active', trioOpacity > .6);
       this.items.forEach((item, index) => {
         const local = clamp((progress - .18 - index * .05) / .25);
         item.style.opacity = local;

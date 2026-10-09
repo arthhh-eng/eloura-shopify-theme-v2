@@ -16,6 +16,8 @@
 .ei-trio { --ei-trio-h:min(40svh, 340px, calc((100vw - 52px) / .9)); padding:56px 16px; background:var(--ei-light); }
 .ei-trio-list { list-style:none; margin:0 auto; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; max-width:980px; }
 .ei-trio-item { min-width:0; display:flex; flex-direction:column; align-items:center; text-align:center; }
+/* The whole product (photo and text) opens its page on a tap; a scroll gesture never fires a click. */
+.ei-trio-link { display:flex; flex-direction:column; align-items:center; width:100%; text-decoration:none; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .ei-trio-art { display:flex; align-items:flex-end; justify-content:center; height:var(--ei-trio-h); }
 .ei-trio .ei-bottle { height:100%; }
 .ei-trio .ei-bottle--hydra { height:calc(var(--ei-hydra-scale, .8) * 100%); }
@@ -32,6 +34,7 @@
 .ei.is-enhanced .ei-stage { height:100svh; position:sticky; top:0; overflow:hidden; isolation:isolate; }
 .ei.is-enhanced .ei-scene { position:absolute; inset:0; opacity:0; pointer-events:none; width:100%; padding:100px 16px 32px; will-change:opacity; }
 .ei.is-enhanced .ei-brand { display:grid; place-items:center; opacity:1; }
+.ei.is-enhanced .ei-trio.is-active { pointer-events:auto; }
 .ei.is-enhanced .ei-trio { display:flex; flex-direction:column; justify-content:center; }
 .ei.is-enhanced .ei-trio-item { will-change:transform, opacity; }
 .ei.is-enhanced .ei-progress { display:block; position:absolute; bottom:0; left:0; width:100%; height:2px; background:#8882; }
