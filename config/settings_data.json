@@ -83,7 +83,7 @@
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
         "settings": {
-          "greeting_message": "Hi! I'm Victoria, eloura.'s AI assistant 🤍 I can help with products, routines, delivery or your order.",
+          "greeting_message": "Hi! I'm eloura.'s AI assistant 🤍 I can help with products, routines, delivery or your order.",
           "show_featured_products": true,
           "featured_products": [],
           "background_color": "#ffffff",
