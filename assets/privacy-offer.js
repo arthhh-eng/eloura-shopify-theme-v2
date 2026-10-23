@@ -6,8 +6,8 @@
   const consentUiKey = 'eloura:cookie-consent-ui:v1';
   const offerKey = 'eloura:first-order-offer:v4';
   const offerDays = 30;
-  let activeRoot = consentRoot || null;
-  let activeDialog = consentDialog || null;
+  let activeRoot = null;
+  let activeDialog = null;
   let returnFocus = null;
 
   const focusable = (root) => [...root.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter((el) => !el.hidden && el.offsetParent !== null);
@@ -97,7 +97,11 @@
     loadConsentApi((loadError) => {
       const privacy = window.Shopify?.customerPrivacy;
       if (loadError || !privacy?.setTrackingConsent) {
-        console.warn('[eloura] Shopify Customer Privacy API is unavailable; consent window remains open.', loadError || 'missing API');
+        // Never trap the shopper: remember the choice locally and let them continue.
+        console.warn('[eloura] Shopify Customer Privacy API is unavailable; consent choice kept locally only.', loadError || 'missing API');
+        markConsentUiChoice();
+        closeModal(consentRoot, false);
+        showOffer(true);
         return;
       }
 
@@ -174,19 +178,20 @@
     }
   });
 
-  if (consentRoot && !consentRoot.hidden) {
-    lock();
-    requestAnimationFrame(() => consentDialog?.focus());
-  }
+  // The consent window ships hidden and opens only for visitors who still need to choose,
+  // so returning shoppers don't get a flash and a scroll lock on every page.
+  const showConsent = () => {
+    if (!consentRoot || window.Shopify?.designMode) return;
+    openModal(consentRoot, consentDialog);
+  };
 
   loadConsentApi((error) => {
     if (error || !window.Shopify?.customerPrivacy) {
-      console.warn('[eloura] Customer Privacy API could not be initialized on page load; consent UI stays visible and will retry when a choice is made.');
+      console.warn('[eloura] Customer Privacy API could not be initialized on page load.', error || 'missing API');
+      if (!consentUiChoiceWasMade()) showConsent();
       return;
     }
 
-    if (consentUiChoiceWasMade() && hasRecordedConsent()) {
-      closeModal(consentRoot, false);
-    }
+    if (!(consentUiChoiceWasMade() && hasRecordedConsent())) showConsent();
   });
 })();
