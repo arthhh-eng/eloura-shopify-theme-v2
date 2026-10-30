@@ -1,0 +1,574 @@
+{% comment %}
+  HYDRA product page, everything below the first screen: why HYDRA, how it feels,
+  how to use, key ingredients, routine suggestions, FAQ, final buy block and the
+  fixed buy bar. All texts come from translations: eloura.hydra_pdp.
+  Ingredients and INCI come from the product's custom.key_ingredients / custom.inci
+  metafields (translated in Shopify), so nothing here invents a formula.
+  The buy buttons in this section press the product form's own add-to-cart button,
+  so price, variant, quantity rules and the cart drawer stay the theme's.
+{% endcomment %}
+{% liquid
+  assign hydra = product
+  assign variant = hydra.selected_or_first_available_variant
+  assign key_ingredients = hydra.metafields.custom.key_ingredients.value | strip
+  assign inci = hydra.metafields.custom.inci.value | strip
+
+  assign experience_image = hydra.media[1].preview_image | default: hydra.featured_image
+  assign cta_image = hydra.featured_image
+
+  assign clear = section.settings.clear_product | default: all_products['niacinamide-gel-moisturiser']
+  assign barrier = section.settings.barrier_product | default: all_products['ceramide-barrier-night-cream']
+  assign ritual = section.settings.ritual_product | default: all_products['the-complete-ritual']
+
+  assign refund_url = '/policies/refund-policy'
+  if shop.refund_policy != blank
+    assign refund_url = shop.refund_policy.url
+  endif
+  assign refund_label = 'eloura.pdp.returns.link' | t | escape
+  capture refund_link
+    echo '<a href="' | append: refund_url | append: '">' | append: refund_label | append: '</a>'
+  endcapture
+%}
+
+{% if hydra != blank %}
+  <div
+    class="eloura-hydra"
+    data-eloura-hydra
+    data-product-id="{{ hydra.id }}"
+    data-added-text="{{ 'eloura.hydra_pdp.sticky.added' | t | escape }}"
+  >
+    {%- comment -%} 2. Why HYDRA {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--light" aria-labelledby="HydraWhy-{{ section.id }}">
+      <div class="eloura-hydra__inner">
+        <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.why.eyebrow' | t | escape }}</p>
+        <h2 id="HydraWhy-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.why.heading' | t | escape }}</h2>
+        <ul class="eloura-hydra__benefits" role="list">
+          <li class="eloura-hydra__benefit">
+            <svg class="eloura-hydra__icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 4.5c4.6 5.6 8 10.2 8 14.2a8 8 0 0 1-16 0c0-4 3.4-8.6 8-14.2z"/><path d="M12.2 19.5a4 4 0 0 0 3.8 3.4"/></svg>
+            <h3 class="eloura-hydra__benefit-title">{{ 'eloura.hydra_pdp.why.b1_title' | t | escape }}</h3>
+            <p class="eloura-hydra__text">{{ 'eloura.hydra_pdp.why.b1_text' | t | escape }}</p>
+          </li>
+          <li class="eloura-hydra__benefit">
+            <svg class="eloura-hydra__icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12c3.7-2.7 7.3-2.7 11 0s7.3 2.7 11 0"/><path d="M5 18c3.7-2.7 7.3-2.7 11 0s7.3 2.7 11 0"/></svg>
+            <h3 class="eloura-hydra__benefit-title">{{ 'eloura.hydra_pdp.why.b2_title' | t | escape }}</h3>
+            <p class="eloura-hydra__text">{{ 'eloura.hydra_pdp.why.b2_text' | t | escape }}</p>
+          </li>
+          <li class="eloura-hydra__benefit">
+            <svg class="eloura-hydra__icon" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="11"/><path d="M11.5 18.5c2.5 2.6 6.5 2.6 9 0"/></svg>
+            <h3 class="eloura-hydra__benefit-title">{{ 'eloura.hydra_pdp.why.b3_title' | t | escape }}</h3>
+            <p class="eloura-hydra__text">{{ 'eloura.hydra_pdp.why.b3_text' | t | escape }}</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    {%- comment -%} 3. Product experience {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--milk" aria-labelledby="HydraExperience-{{ section.id }}">
+      <div class="eloura-hydra__inner eloura-hydra__split">
+        {%- if experience_image != blank -%}
+          <div class="eloura-hydra__media">
+            {{
+              experience_image
+              | image_url: width: 1200
+              | image_tag:
+                widths: '360, 540, 720, 960, 1200',
+                sizes: '(min-width: 990px) 480px, (min-width: 750px) 42vw, 78vw',
+                loading: 'lazy',
+                alt: hydra.title,
+                class: 'eloura-hydra__media-img'
+            }}
+          </div>
+        {%- endif -%}
+        <div class="eloura-hydra__split-body">
+          <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.experience.eyebrow' | t | escape }}</p>
+          <h2 id="HydraExperience-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.experience.heading' | t | escape }}</h2>
+          <dl class="eloura-hydra__points">
+            <div class="eloura-hydra__point">
+              <dt>{{ 'eloura.hydra_pdp.experience.texture_title' | t | escape }}</dt>
+              <dd>{{ 'eloura.hydra_pdp.experience.texture_text' | t | escape }}</dd>
+            </div>
+            <div class="eloura-hydra__point">
+              <dt>{{ 'eloura.hydra_pdp.experience.apply_title' | t | escape }}</dt>
+              <dd>{{ 'eloura.hydra_pdp.experience.apply_text' | t | escape }}</dd>
+            </div>
+            <div class="eloura-hydra__point">
+              <dt>{{ 'eloura.hydra_pdp.experience.routine_title' | t | escape }}</dt>
+              <dd>{{ 'eloura.hydra_pdp.experience.routine_text' | t | escape }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} 4. How to use {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--light" aria-labelledby="HydraHow-{{ section.id }}">
+      <div class="eloura-hydra__inner">
+        <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.how.eyebrow' | t | escape }}</p>
+        <h2 id="HydraHow-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.how.heading' | t | escape }}</h2>
+        <p class="eloura-hydra__pill">
+          <span class="eloura-hydra__pill-label">{{ 'eloura.hydra_pdp.how.when_label' | t | escape }}</span>
+          {{ 'eloura.hydra_pdp.how.when' | t | escape }}
+        </p>
+        <ol class="eloura-hydra__steps" role="list">
+          {%- for i in (1..3) -%}
+            {%- assign step_title = 'eloura.hydra_pdp.how.s' | append: i | append: '_title' -%}
+            {%- assign step_text = 'eloura.hydra_pdp.how.s' | append: i | append: '_text' -%}
+            <li class="eloura-hydra__step{% if i == 2 %} eloura-hydra__step--current{% endif %}">
+              <span class="eloura-hydra__step-number" aria-hidden="true">{{ i }}</span>
+              <h3 class="eloura-hydra__step-title">{{ step_title | t | escape }}</h3>
+              <p class="eloura-hydra__text">{{ step_text | t | escape }}</p>
+            </li>
+          {%- endfor -%}
+        </ol>
+      </div>
+    </section>
+
+    {%- comment -%} 5. Ingredients (from Shopify metafields only) {%- endcomment -%}
+    {%- if key_ingredients != blank or inci != blank -%}
+      <section class="eloura-hydra__block eloura-hydra__block--milk" aria-labelledby="HydraIngredients-{{ section.id }}">
+        <div class="eloura-hydra__inner">
+          <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.ingredients.eyebrow' | t | escape }}</p>
+          <h2 id="HydraIngredients-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.ingredients.heading' | t | escape }}</h2>
+          {%- if key_ingredients != blank -%}
+            {%- assign lines = key_ingredients | newline_to_br | split: '<br />' -%}
+            <ul class="eloura-hydra__ingredients" role="list">
+              {%- for raw_line in lines -%}
+                {%- assign line = raw_line | strip -%}
+                {%- if line == blank -%}{%- continue -%}{%- endif -%}
+                {%- assign parts = line | split: ' — ' -%}
+                <li class="eloura-hydra__ingredient">
+                  {%- if parts.size > 1 -%}
+                    {%- assign ingredient_name = parts.first -%}
+                    {%- assign ingredient_text = line | remove_first: ingredient_name | remove_first: ' — ' -%}
+                    <h3 class="eloura-hydra__ingredient-name">{{ ingredient_name | escape }}</h3>
+                    <p class="eloura-hydra__text">{{ ingredient_text | escape }}</p>
+                  {%- else -%}
+                    <p class="eloura-hydra__text">{{ line | escape }}</p>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if inci != blank -%}
+            <details class="eloura-hydra__inci">
+              <summary>{{ 'eloura.hydra_pdp.ingredients.inci' | t | escape }}</summary>
+              <p>{{ inci | escape }}</p>
+            </details>
+          {%- endif -%}
+        </div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} 6. Complete your routine {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--light" aria-labelledby="HydraRoutine-{{ section.id }}">
+      <div class="eloura-hydra__inner">
+        <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.routine.eyebrow' | t | escape }}</p>
+        <h2 id="HydraRoutine-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.routine.heading' | t | escape }}</h2>
+        <ul class="eloura-hydra__routine" role="list">
+          {%- for slot in (1..3) -%}
+            {%- liquid
+              case slot
+                when 1
+                  assign item = clear
+                  assign item_key = 'clear'
+                when 2
+                  assign item = barrier
+                  assign item_key = 'barrier'
+                else
+                  assign item = ritual
+                  assign item_key = 'ritual'
+              endcase
+              if item == blank or item.id == hydra.id
+                continue
+              endif
+              assign key_base = 'eloura.hydra_pdp.routine.' | append: item_key
+            -%}
+            <li class="eloura-hydra__card">
+              <a class="eloura-hydra__card-media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if item.featured_image != blank -%}
+                  {{
+                    item.featured_image
+                    | image_url: width: 600
+                    | image_tag:
+                      widths: '200, 300, 400, 600',
+                      sizes: '(min-width: 750px) 260px, 30vw',
+                      loading: 'lazy',
+                      alt: '',
+                      class: 'eloura-hydra__card-img'
+                  }}
+                {%- endif -%}
+              </a>
+              <div class="eloura-hydra__card-body">
+                <p class="eloura-hydra__card-step">{{ key_base | append: '_step' | t | escape }}</p>
+                <h3 class="eloura-hydra__card-name">
+                  <a href="{{ item.url }}">{{ key_base | append: '_name' | t | escape }}</a>
+                </h3>
+                <p class="eloura-hydra__card-line">{{ key_base | append: '_line' | t | escape }}</p>
+                <div class="eloura-hydra__card-price">{% render 'price', product_resource: item %}</div>
+                <a class="eloura-hydra__card-link" href="{{ item.url }}" aria-hidden="true" tabindex="-1">{{ 'eloura.hydra_pdp.routine.view' | t | escape }}</a>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <p class="eloura-hydra__note">{{ 'eloura.hydra_pdp.routine.shipping_note' | t | escape }}</p>
+      </div>
+    </section>
+
+    {%- comment -%} 7. FAQ {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--milk" aria-labelledby="HydraFaq-{{ section.id }}">
+      <div class="eloura-hydra__inner eloura-hydra__inner--narrow">
+        <p class="eloura-hydra__eyebrow">{{ 'eloura.hydra_pdp.faq.eyebrow' | t | escape }}</p>
+        <h2 id="HydraFaq-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.faq.heading' | t | escape }}</h2>
+        <div class="eloura-hydra__faq">
+          {%- for i in (1..5) -%}
+            {%- assign q_key = 'eloura.hydra_pdp.faq.q' | append: i -%}
+            <details class="eloura-hydra__faq-item">
+              <summary>
+                <h3 class="eloura-hydra__faq-question">{{ q_key | t | escape }}</h3>
+                <span class="eloura-hydra__plus" aria-hidden="true"></span>
+              </summary>
+              <div class="eloura-hydra__faq-answer">
+                {%- if i == 5 -%}
+                  <p>{{ 'eloura.hydra_pdp.faq.a5_html' | t: link: refund_link }}</p>
+                {%- else -%}
+                  {%- assign a_key = 'eloura.hydra_pdp.faq.a' | append: i -%}
+                  <p>{{ a_key | t | escape }}</p>
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} 8. Final purchase block {%- endcomment -%}
+    <section class="eloura-hydra__block eloura-hydra__block--cta" aria-labelledby="HydraCta-{{ section.id }}" data-eloura-hydra-cta>
+      <div class="eloura-hydra__inner eloura-hydra__cta">
+        {%- if cta_image != blank -%}
+          <div class="eloura-hydra__cta-media">
+            {{
+              cta_image
+              | image_url: width: 600
+              | image_tag:
+                widths: '240, 360, 480, 600',
+                sizes: '(min-width: 750px) 240px, 44vw',
+                loading: 'lazy',
+                alt: hydra.title,
+                class: 'eloura-hydra__cta-img'
+            }}
+          </div>
+        {%- endif -%}
+        <div class="eloura-hydra__cta-body">
+          <h2 id="HydraCta-{{ section.id }}" class="eloura-hydra__heading">{{ 'eloura.hydra_pdp.cta.heading' | t | escape }}</h2>
+          <p class="eloura-hydra__text">{{ 'eloura.hydra_pdp.cta.text' | t | escape }}</p>
+          <div class="eloura-hydra__cta-price">{% render 'price', product_resource: hydra, show_sale_price_first: true %}</div>
+          <button
+            type="button"
+            class="eloura-hydra__buy button"
+            data-eloura-buy
+            {% unless variant.available %}disabled{% endunless %}
+          >
+            <span data-eloura-buy-label>
+              {%- if variant.available -%}
+                {{- 'products.product.add_to_cart' | t -}}
+              {%- else -%}
+                {{- 'products.product.sold_out' | t -}}
+              {%- endif -%}
+            </span>
+          </button>
+          <p class="eloura-hydra__note">{{ 'eloura.hydra_pdp.cta.note' | t | escape }}</p>
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} Fixed buy bar: shown while neither the main nor the final buy button is on screen {%- endcomment -%}
+    {%- if variant.available -%}
+      <div
+        class="eloura-hydra-bar"
+        role="region"
+        aria-label="{{ 'eloura.hydra_pdp.sticky.label' | t | escape }}"
+        data-eloura-hydra-bar
+        hidden
+      >
+        {%- if hydra.featured_image != blank -%}
+          {{
+            hydra.featured_image
+            | image_url: width: 120
+            | image_tag: loading: 'lazy', alt: '', class: 'eloura-hydra-bar__img', srcset: null, sizes: null
+          }}
+        {%- endif -%}
+        <div class="eloura-hydra-bar__info">
+          <p class="eloura-hydra-bar__name">HYDRA <span class="eloura-hydra-bar__volume">· {{ 'eloura.hydra_pdp.hero.volume' | t | escape }}</span></p>
+          <p class="eloura-hydra-bar__price">{% render 'format-price', price: variant.price %}</p>
+        </div>
+        <button type="button" class="eloura-hydra-bar__button button" data-eloura-buy>
+          <span data-eloura-buy-label>{{ 'eloura.hydra_pdp.sticky.button' | t | escape }}</span>
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <script type="module">
+    import { StandardEvents } from '@shopify/events';
+
+    const root = document.querySelector('[data-eloura-hydra]');
+    if (root && !root.dataset.ready) {
+      root.dataset.ready = 'true';
+      const productId = root.dataset.productId;
+      const bar = root.querySelector('[data-eloura-hydra-bar]');
+      const buyButtons = root.querySelectorAll('[data-eloura-buy]');
+      const getProductForm = () =>
+        document.querySelector(`product-form-component[data-product-id="${productId}"]`);
+
+      // One add per tap: while an add is in flight, further submits of this
+      // product's form (main button, final block or bar) are ignored.
+      let busy = false;
+      let busyTimer;
+      let lastButton = null;
+      const setBusy = (value) => {
+        busy = value;
+        clearTimeout(busyTimer);
+        buyButtons.forEach((button) => button.setAttribute('aria-busy', String(value)));
+        if (value) busyTimer = setTimeout(() => setBusy(false), 6000);
+      };
+
+      window.addEventListener(
+        'submit',
+        (event) => {
+          const form = event.target;
+          if (!(form instanceof HTMLFormElement)) return;
+          const productForm = form.closest('product-form-component');
+          if (!productForm || productForm.dataset.productId !== productId) return;
+          if (busy) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+          setBusy(true);
+        },
+        true
+      );
+
+      const showAdded = () => {
+        if (!lastButton) return;
+        const button = lastButton;
+        lastButton = null;
+        const label = button.querySelector('[data-eloura-buy-label]');
+        if (!label) return;
+        const original = label.textContent;
+        label.textContent = root.dataset.addedText;
+        button.dataset.added = 'true';
+        setTimeout(() => {
+          label.textContent = original;
+          delete button.dataset.added;
+        }, 1800);
+      };
+
+      document.addEventListener(StandardEvents.cartLinesUpdate, (event) => {
+        if (!busy) return;
+        const promise = 'promise' in event && event.promise instanceof Promise ? event.promise : Promise.resolve();
+        promise
+          .then((result) => {
+            if (!result?.detail?.didError) showAdded();
+          })
+          .catch(() => {})
+          .finally(() => setBusy(false));
+      });
+      document.addEventListener(StandardEvents.cartError, () => {
+        lastButton = null;
+        setBusy(false);
+      });
+
+      root.addEventListener('click', (event) => {
+        const button = event.target instanceof Element ? event.target.closest('[data-eloura-buy]') : null;
+        if (!button || button.disabled || busy) return;
+        const mainButton = getProductForm()?.querySelector('[ref="addToCartButton"]');
+        if (!mainButton || mainButton.disabled) {
+          getProductForm()?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        lastButton = button;
+        mainButton.dataset.puppet = 'true';
+        mainButton.click();
+        mainButton.dataset.puppet = 'false';
+      });
+
+      // Fixed bar: visible only while no other buy button and no footer is on screen.
+      const mainBlock = getProductForm()?.closest('.buy-buttons-block');
+      const cta = root.querySelector('[data-eloura-hydra-cta]');
+      const footer = document.querySelector('footer') ?? document.querySelector('[class*="footer-group"]');
+      const watched = [mainBlock, cta, footer].filter(Boolean);
+      if (bar && mainBlock && 'IntersectionObserver' in window) {
+        const onScreen = new Set();
+        const update = () => {
+          const show = onScreen.size === 0;
+          bar.hidden = false;
+          bar.dataset.visible = String(show);
+          bar.inert = !show;
+          document.body.classList.toggle('eloura-hydra-bar-on', show);
+        };
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) onScreen.add(entry.target);
+            else onScreen.delete(entry.target);
+          });
+          update();
+        });
+        watched.forEach((element) => observer.observe(element));
+      }
+    }
+  </script>
+{% endif %}
+
+{% stylesheet %}
+  .eloura-hydra {
+    --hydra-ink: #171717;
+    --hydra-milk: #f4f2ec;
+    --hydra-cream: #ece6dc;
+    --hydra-line: rgb(23 23 23 / 0.12);
+    --hydra-muted: rgb(23 23 23 / 0.66);
+    color: var(--hydra-ink);
+  }
+  .eloura-hydra__block { padding-block: clamp(56px, 8vw, 112px); }
+  .eloura-hydra__block--light { background: #fff; }
+  .eloura-hydra__block--milk { background: var(--hydra-milk); }
+  .eloura-hydra__block--cta { background: var(--hydra-cream); }
+  .eloura-hydra__inner { width: min(100%, 1180px); margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
+  .eloura-hydra__inner--narrow { width: min(100%, 860px); }
+  .eloura-hydra__eyebrow { margin: 0 0 14px; color: var(--hydra-muted); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.16em; line-height: 1.3; text-transform: uppercase; }
+  .eloura-hydra__heading { max-width: 20ch; margin: 0; font-size: clamp(1.75rem, 3.6vw, 2.75rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.08; text-wrap: balance; }
+  .eloura-hydra__text { margin: 0; color: var(--hydra-muted); font-size: 0.9375rem; line-height: 1.55; text-wrap: pretty; }
+  .eloura-hydra__note { margin: 20px 0 0; color: var(--hydra-muted); font-size: 0.8125rem; line-height: 1.5; }
+
+  /* Why */
+  .eloura-hydra__benefits { display: grid; gap: 12px; margin: clamp(28px, 4vw, 48px) 0 0; padding: 0; list-style: none; }
+  .eloura-hydra__benefit { display: grid; gap: 8px; padding: 22px 22px 24px; border-radius: 20px; background: var(--hydra-milk); }
+  .eloura-hydra__icon { width: 30px; height: 30px; margin-bottom: 6px; }
+  .eloura-hydra__benefit-title, .eloura-hydra__step-title, .eloura-hydra__ingredient-name { margin: 0; font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
+
+  /* Experience */
+  .eloura-hydra__split { display: grid; gap: 28px; align-items: center; }
+  .eloura-hydra__media { width: min(100%, 360px); justify-self: center; overflow: hidden; border-radius: 24px; background: #fff; }
+  .eloura-hydra__media-img { display: block; width: 100%; height: auto; }
+  .eloura-hydra__points { display: grid; gap: 0; margin: 24px 0 0; }
+  .eloura-hydra__point { display: grid; gap: 4px; padding: 16px 0; border-top: 1px solid var(--hydra-line); }
+  .eloura-hydra__point:last-child { border-bottom: 1px solid var(--hydra-line); }
+  .eloura-hydra__point dt { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+  .eloura-hydra__point dd { margin: 0; color: var(--hydra-muted); font-size: 0.9375rem; line-height: 1.55; }
+
+  /* How to use */
+  .eloura-hydra__pill { display: inline-flex; gap: 8px; align-items: center; margin: 22px 0 0; padding: 7px 14px; border-radius: 999px; background: var(--hydra-milk); font-size: 0.875rem; line-height: 1.3; }
+  .eloura-hydra__pill-label { color: var(--hydra-muted); }
+  .eloura-hydra__steps { display: grid; gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .eloura-hydra__step { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 14px; row-gap: 4px; padding: 18px; border: 1px solid var(--hydra-line); border-radius: 20px; }
+  .eloura-hydra__step > :not(.eloura-hydra__step-number) { grid-column: 2; }
+  .eloura-hydra__step-number { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--hydra-line); border-radius: 50%; font-size: 0.9375rem; font-weight: 500; }
+  .eloura-hydra__step--current { border-color: var(--hydra-ink); background: var(--hydra-milk); }
+  .eloura-hydra__step--current .eloura-hydra__step-number { border-color: var(--hydra-ink); background: var(--hydra-ink); color: #fff; }
+
+  /* Ingredients */
+  .eloura-hydra__ingredients { display: grid; gap: 0; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; list-style: none; }
+  .eloura-hydra__ingredient { display: grid; gap: 4px; padding: 18px 0; border-top: 1px solid var(--hydra-line); }
+  .eloura-hydra__ingredient .eloura-hydra__text::first-letter { text-transform: uppercase; }
+  .eloura-hydra__inci { margin-top: 20px; border-top: 1px solid var(--hydra-line); border-bottom: 1px solid var(--hydra-line); }
+  .eloura-hydra__inci summary { display: flex; min-height: 52px; align-items: center; cursor: pointer; font-size: 0.875rem; font-weight: 500; list-style: none; }
+  .eloura-hydra__inci summary::-webkit-details-marker { display: none; }
+  .eloura-hydra__inci summary::after { content: '+'; margin-left: auto; font-size: 1.25rem; font-weight: 300; }
+  .eloura-hydra__inci[open] summary::after { content: '−'; }
+  .eloura-hydra__inci p { margin: 0 0 18px; color: var(--hydra-muted); font-size: 0.8125rem; line-height: 1.6; overflow-wrap: anywhere; }
+
+  /* Routine */
+  .eloura-hydra__routine { display: grid; gap: 12px; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; list-style: none; }
+  .eloura-hydra__card { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px; border: 1px solid var(--hydra-line); border-radius: 20px; background: #fff; }
+  .eloura-hydra__card-media { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 14px; background: var(--hydra-milk); }
+  .eloura-hydra__card-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .eloura-hydra__card-body { display: grid; gap: 3px; min-width: 0; }
+  .eloura-hydra__card-step { margin: 0; color: var(--hydra-muted); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .eloura-hydra__card-name { margin: 0; font-size: 1.0625rem; font-weight: 500; line-height: 1.3; }
+  .eloura-hydra__card-name a { color: inherit; text-decoration: none; }
+  .eloura-hydra__card-name a::after { content: ''; position: absolute; inset: 0; }
+  .eloura-hydra__card { position: relative; }
+  .eloura-hydra__card-line { margin: 0; color: var(--hydra-muted); font-size: 0.8125rem; line-height: 1.4; }
+  .eloura-hydra__card-price { font-size: 0.9375rem; }
+  .eloura-hydra__card-price [ref='priceContainer'], .eloura-hydra__cta-price [ref='priceContainer'] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+  .eloura-hydra__card-price .compare-at-price, .eloura-hydra__cta-price .compare-at-price { color: var(--hydra-muted); font-size: 0.8125rem; text-decoration: line-through; }
+  .eloura-hydra__card-link { justify-self: start; color: inherit; margin-top: 4px; font-size: 0.8125rem; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* FAQ */
+  .eloura-hydra__faq { margin-top: clamp(24px, 4vw, 40px); border-top: 1px solid var(--hydra-line); }
+  .eloura-hydra__faq-item { border-bottom: 1px solid var(--hydra-line); }
+  .eloura-hydra__faq-item summary { display: flex; gap: 16px; align-items: center; min-height: 64px; padding: 16px 0; cursor: pointer; list-style: none; }
+  .eloura-hydra__faq-item summary::-webkit-details-marker { display: none; }
+  .eloura-hydra__faq-question { flex: 1; margin: 0; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+  .eloura-hydra__plus { position: relative; flex: none; width: 14px; height: 14px; }
+  .eloura-hydra__plus::before, .eloura-hydra__plus::after { content: ''; position: absolute; top: 50%; left: 0; width: 14px; height: 1px; background: currentColor; transition: transform 0.2s ease; }
+  .eloura-hydra__plus::after { transform: rotate(90deg); }
+  .eloura-hydra__faq-item[open] .eloura-hydra__plus::after { transform: rotate(0deg); }
+  .eloura-hydra__faq-answer p { max-width: 62ch; margin: 0 0 20px; color: var(--hydra-muted); font-size: 0.9375rem; line-height: 1.6; }
+  .eloura-hydra__faq-answer a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Final CTA */
+  .eloura-hydra__cta { display: grid; gap: 24px; justify-items: center; text-align: center; }
+  .eloura-hydra__cta .eloura-hydra__heading { margin-inline: auto; }
+  .eloura-hydra__cta-media { width: min(44vw, 200px); overflow: hidden; border-radius: 20px; background: #fff; }
+  .eloura-hydra__cta-img { display: block; width: 100%; height: auto; }
+  .eloura-hydra__cta-body { display: grid; gap: 12px; justify-items: center; }
+  .eloura-hydra__cta-price { font-size: 1.25rem; font-weight: 500; }
+  .eloura-hydra__buy { width: min(100%, 360px); min-height: 54px; margin-top: 6px; }
+  .eloura-hydra__cta .eloura-hydra__note { margin-top: 0; }
+  [data-eloura-buy][aria-busy='true'] { opacity: 0.7; pointer-events: none; }
+
+  /* Fixed buy bar. On phones it sits left of the round chat button (56px, 20px from
+     the right edge) so the two never overlap. */
+  .eloura-hydra-bar { position: fixed; z-index: calc(var(--layer-sticky, 10) - 1); left: 12px; right: 88px; bottom: max(20px, env(safe-area-inset-bottom)); display: flex; gap: 10px; align-items: center; min-height: 56px; padding: 6px 6px 6px 16px; border: 1px solid var(--hydra-line); border-radius: 999px; background: rgb(255 255 255 / 0.94); box-shadow: 0 8px 28px rgb(0 0 0 / 0.12); backdrop-filter: blur(14px); opacity: 0; transform: translateY(calc(100% + 24px)); transition: transform 0.3s ease, opacity 0.3s ease; }
+  .eloura-hydra-bar[hidden] { display: none; }
+  .eloura-hydra-bar[data-visible='true'] { opacity: 1; transform: none; }
+  .eloura-hydra-bar__img { display: none; }
+  .eloura-hydra-bar__info { flex: 1; min-width: 0; }
+  .eloura-hydra-bar__name { margin: 0; overflow: hidden; font-size: 0.8125rem; font-weight: 600; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+  .eloura-hydra-bar__volume { display: none; color: var(--hydra-muted); font-weight: 400; }
+  .eloura-hydra-bar__price { margin: 2px 0 0; font-size: 0.875rem; line-height: 1.2; }
+  .eloura-hydra-bar__button { flex: none; min-height: 44px; padding: 0 18px; border-radius: 999px; font-size: 0.8125rem; white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) { .eloura-hydra-bar { transition: none; } }
+
+  @media screen and (min-width: 750px) {
+    .eloura-hydra__benefits { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .eloura-hydra__benefit { padding: 28px; }
+    .eloura-hydra__split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 6vw, 96px); }
+    .eloura-hydra__media { width: min(100%, 440px); }
+    .eloura-hydra__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .eloura-hydra__step { grid-template-columns: 1fr; padding: 24px; }
+    .eloura-hydra__step > :not(.eloura-hydra__step-number) { grid-column: 1; }
+    .eloura-hydra__step-number { grid-row: auto; margin-bottom: 10px; }
+    .eloura-hydra__ingredients { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+    .eloura-hydra__routine { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .eloura-hydra__card { grid-template-columns: 1fr; align-items: start; padding: 14px 14px 20px; }
+    .eloura-hydra__card-media { aspect-ratio: 4 / 5; }
+    .eloura-hydra__card-body { padding-inline: 4px; }
+    .eloura-hydra__cta { grid-template-columns: auto minmax(0, 460px); justify-content: center; justify-items: start; gap: clamp(32px, 5vw, 72px); text-align: left; }
+    .eloura-hydra__cta .eloura-hydra__heading { margin-inline: 0; }
+    .eloura-hydra__cta-media { width: 220px; }
+    .eloura-hydra__cta-body { justify-items: start; }
+    .eloura-hydra-bar { left: 50%; right: auto; bottom: 24px; width: min(560px, calc(100vw - 200px)); padding-left: 8px; transform: translate(-50%, calc(100% + 32px)); }
+    .eloura-hydra-bar[data-visible='true'] { transform: translate(-50%, 0); }
+    .eloura-hydra-bar__img { display: block; flex: none; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--hydra-milk); }
+    .eloura-hydra-bar__name { font-size: 0.9375rem; }
+    .eloura-hydra-bar__volume { display: inline; }
+    .eloura-hydra-bar__button { min-height: 46px; padding: 0 24px; font-size: 0.875rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. HYDRA page",
+  "tag": "section",
+  "class": "eloura-hydra-section",
+  "settings": [
+    { "type": "paragraph", "content": "Texts come from translations: eloura.hydra_pdp. Ingredients come from the product's custom.key_ingredients and custom.inci metafields." },
+    { "type": "product", "id": "clear_product", "label": "Step 1 product (CLEAR)" },
+    { "type": "product", "id": "barrier_product", "label": "Step 3 product (BARRIER)" },
+    { "type": "product", "id": "ritual_product", "label": "Set (The Complete Ritual)" }
+  ],
+  "presets": [{ "name": "eloura. HYDRA page" }]
+}
+{% endschema %}
