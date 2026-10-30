@@ -1,0 +1,57 @@
+{% comment %}
+  HYDRA product page intro (first screen): name, subtitle, one-line purpose and volume.
+  Texts come from translations: eloura.hydra_pdp.hero.
+  The inline style tag below is only printed on pages that use this block, so its
+  gallery and button tweaks never reach other product pages.
+{% endcomment %}
+<div class="eloura-hydra-intro" {{ block.shopify_attributes }}>
+  <p class="eloura-hydra-intro__eyebrow">{{ 'eloura.hydra_pdp.hero.eyebrow' | t | escape }}</p>
+  <h1 class="eloura-hydra-intro__title">{{ block.settings.name | default: 'HYDRA' | escape }}</h1>
+  <p class="eloura-hydra-intro__subtitle">{{ 'eloura.hydra_pdp.hero.subtitle' | t | escape }}</p>
+  <p class="eloura-hydra-intro__lead">{{ 'eloura.hydra_pdp.hero.lead' | t | escape }}</p>
+  <p class="eloura-hydra-intro__volume">
+    <span class="visually-hidden">{{ 'eloura.hydra_pdp.hero.volume_label' | t | escape }}:</span>
+    {{ 'eloura.hydra_pdp.hero.volume' | t | escape }}
+  </p>
+</div>
+
+{% style %}
+  /* Mobile first screen: keep the photo of the real bottle, but small enough that
+     name, price and the buy button follow right after it. */
+  @media screen and (max-width: 749px) {
+    .product-information .product-media-container.constrain-height {
+      max-height: min(50svh, 430px);
+    }
+    .product-information .product-media-container.constrain-height img {
+      object-fit: contain;
+    }
+  }
+
+  /* A clearly visible, thumb-sized buy button on both layouts. */
+  .product-information .buy-buttons-block .add-to-cart-button {
+    min-height: 54px;
+    font-size: 0.9375rem;
+    letter-spacing: 0.02em;
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  .eloura-hydra-intro { display: grid; gap: 6px; width: 100%; }
+  .eloura-hydra-intro__eyebrow { margin: 0 0 4px; color: rgb(var(--color-foreground-rgb, 23 23 23) / 0.6); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; line-height: 1.3; }
+  .eloura-hydra-intro__title { margin: 0; font-size: clamp(2.25rem, 4.2vw, 3.25rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1; }
+  .eloura-hydra-intro__subtitle { margin: 0; font-size: clamp(1.0625rem, 1.5vw, 1.25rem); font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
+  .eloura-hydra-intro__lead { max-width: 34em; margin: 6px 0 0; color: rgb(var(--color-foreground-rgb, 23 23 23) / 0.7); font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+  .eloura-hydra-intro__volume { justify-self: start; margin: 8px 0 0; padding: 4px 12px; border: 1px solid rgb(var(--color-foreground-rgb, 23 23 23) / 0.16); border-radius: 999px; font-size: 0.8125rem; font-weight: 500; line-height: 1.4; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "eloura. HYDRA intro",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "name", "label": "Product name", "default": "HYDRA" },
+    { "type": "paragraph", "content": "Other texts come from translations: eloura.hydra_pdp.hero." }
+  ],
+  "presets": [{ "name": "eloura. HYDRA intro" }]
+}
+{% endschema %}

@@ -611,6 +611,95 @@
       "newsletter_body": "Receive thoughtful updates about eloura. formulas, products and care.",
       "subscribe": "SUBSCRIBE"
     },
+    "hydra_pdp": {
+      "hero": {
+        "eyebrow": "eloura. · Step 2 of the routine",
+        "subtitle": "Daily Hydration Serum",
+        "lead": "A lightweight daily serum for hydrated, soft and fresh-looking skin.",
+        "volume": "30 ml",
+        "volume_label": "Volume"
+      },
+      "payments": {
+        "label": "Payment methods",
+        "cod": "Card or cash on delivery"
+      },
+      "why": {
+        "eyebrow": "Why HYDRA",
+        "heading": "Hydration that fits into every day.",
+        "b1_title": "Daily hydration",
+        "b1_text": "Hyaluronic acid, aloe vera and glycerin help skin attract and hold moisture.",
+        "b2_title": "Lightweight texture",
+        "b2_text": "A light serum that sits comfortably under your cream, morning or evening.",
+        "b3_title": "Comfortable skin",
+        "b3_text": "Bisabolol and jojoba oil help skin feel soft and comfortable."
+      },
+      "experience": {
+        "eyebrow": "The experience",
+        "heading": "Light on the skin. Easy to keep up.",
+        "texture_title": "Texture",
+        "texture_text": "Light and comfortable, without a heavy feel.",
+        "apply_title": "On the skin",
+        "apply_text": "Smooth it over clean skin with your fingertips and let it settle before your cream.",
+        "routine_title": "In your day",
+        "routine_text": "One quick step, morning and/or evening."
+      },
+      "how": {
+        "eyebrow": "How to use",
+        "heading": "Three steps. Step 2 is HYDRA.",
+        "when_label": "When",
+        "when": "Morning and/or evening",
+        "s1_title": "Clean skin",
+        "s1_text": "Start on clean skin. In the eloura. routine, CLEAR comes first.",
+        "s2_title": "Apply HYDRA",
+        "s2_text": "Smooth over the face. Do not rinse off.",
+        "s3_title": "Finish with cream",
+        "s3_text": "Follow with your cream. In the evening, BARRIER is the last step."
+      },
+      "ingredients": {
+        "eyebrow": "Ingredients",
+        "heading": "What's inside, and why.",
+        "inci": "Full ingredient list (INCI)"
+      },
+      "routine": {
+        "eyebrow": "Complete your routine",
+        "heading": "HYDRA works as step 2 of three.",
+        "clear_step": "Step 1 · Before HYDRA",
+        "clear_name": "CLEAR",
+        "clear_line": "Niacinamide gel moisturiser, 50 ml",
+        "barrier_step": "Step 3 · Evening, after HYDRA",
+        "barrier_name": "BARRIER",
+        "barrier_line": "Night cream, 50 ml",
+        "ritual_step": "All three steps",
+        "ritual_name": "The Complete Ritual",
+        "ritual_line": "CLEAR + HYDRA + BARRIER in one set",
+        "view": "View",
+        "shipping_note": "Shipping is free from €40, so HYDRA with CLEAR or BARRIER ships free."
+      },
+      "faq": {
+        "eyebrow": "FAQ",
+        "heading": "Questions about HYDRA",
+        "q1": "Which skin type is HYDRA for?",
+        "a1": "HYDRA is a lightweight daily serum for skin that needs more moisture and comfort. It contains fragrance, so if your skin is sensitive, check the full ingredient list and try it on a small area first.",
+        "q2": "How do I use the serum?",
+        "a2": "Smooth it over clean facial skin, morning and/or evening, before your cream. Do not rinse off.",
+        "q3": "Can I use it every day?",
+        "a3": "Yes. HYDRA is made for daily care, in the morning, in the evening or both.",
+        "q4": "At which step of my routine do I apply it?",
+        "a4": "HYDRA is step 2: after cleansing and CLEAR, before your cream. In the evening, finish with BARRIER.",
+        "q5": "How does delivery work?",
+        "a5_html": "We process orders within 1 day, and delivery in Bulgaria takes 1–3 days by courier. Standard delivery costs €3.90 and is free on orders from €40. Cash on delivery is available: €7 on orders under €40 and €3.10 from €40. Returns follow our {{ link }}."
+      },
+      "cta": {
+        "heading": "Start with one daily step.",
+        "text": "HYDRA · Daily Hydration Serum · 30 ml",
+        "note": "Free shipping from €40 · Cash on delivery available"
+      },
+      "sticky": {
+        "label": "Buy HYDRA",
+        "button": "Add to cart",
+        "added": "Added ✓"
+      }
+    },
     "pdp": {
       "benefit": {
         "niacinamide_gel_moisturiser": "5% niacinamide · 50 ml · A more even-looking tone and more moisture.",
