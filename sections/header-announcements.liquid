@@ -8,11 +8,13 @@
   <div class="announcement-bar__marquee" role="region" aria-label="{{ 'eloura.announcement.label' | t }}">
     <div class="announcement-bar__track">
       <div class="announcement-bar__group">
+        <span class="announcement-bar__message">{{ 'eloura.announcement.sale_50' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
       </div>
       <div class="announcement-bar__group" aria-hidden="true">
+        <span class="announcement-bar__message">{{ 'eloura.announcement.sale_50' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.free_shipping_99' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.first_order_discount' | t }}</span>
         <span class="announcement-bar__message">{{ 'eloura.announcement.everyday_care' | t }}</span>
@@ -25,13 +27,13 @@
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
     background: #111111 !important;
-    min-height: 34px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     overflow: hidden;
 
     @media screen and (min-width: 750px) {
-      min-height: 40px;
+      min-height: 50px;
     }
   }
 
@@ -68,7 +70,7 @@
   .announcement-bar__message {
     flex-shrink: 0;
     font-family: var(--font-body--family);
-    font-size: clamp(calc(0.6875rem + 4px), calc(2.75vw + 4px), calc(0.8125rem + 4px));
+    font-size: clamp(17px, calc(3.4vw + 4px), 20px);
     font-weight: 500;
     line-height: 1;
     letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
