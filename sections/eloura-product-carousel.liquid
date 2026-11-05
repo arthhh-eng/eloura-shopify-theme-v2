@@ -1,0 +1,170 @@
+{%- comment -%}
+  eloura. homepage product carousel: heading + "Shop all" link, then a swipeable row of product cards
+  (photo, optional NEW badge, name, subtitle, price, Add to cart). Texts: BG / EN / RU (eloura.product_carousel).
+  Products that are draft or not on the Online Store are skipped automatically.
+{%- endcomment -%}
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'eloura.product_carousel.heading' | t
+  endif
+  assign shop_all_link = section.settings.shop_all_link
+  if shop_all_link == blank
+    assign shop_all_link = routes.all_products_collection_url
+  endif
+%}
+<section class="epc" aria-labelledby="ElouraCarousel-{{ section.id }}">
+  <div class="epc__head">
+    <h2 class="epc__heading" id="ElouraCarousel-{{ section.id }}">{{ heading | escape }}</h2>
+    <a class="epc__all" href="{{ shop_all_link }}">{{ 'eloura.product_carousel.shop_all' | t }}</a>
+  </div>
+  <eloura-product-carousel class="epc__viewport">
+    <ul class="epc__track" role="list" tabindex="0" aria-label="{{ heading | escape }}">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        {% if product != blank and product.id != blank %}
+          {% liquid
+            assign title_parts = product.title | split: '|'
+            assign card_name = title_parts | first | strip
+            assign card_sub = ''
+            if title_parts.size > 1
+              assign card_sub = title_parts | last | strip
+            endif
+            assign variant = product.selected_or_first_available_variant
+          %}
+          <li class="epc__card" {{ block.shopify_attributes }}>
+            <a class="epc__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+              {% if product.featured_media != blank %}
+                {% assign card_alt = product.featured_media.alt | default: product.title %}
+                {{ product.featured_media | image_url: width: 900 | image_tag: widths: '320, 480, 640, 900', sizes: '(min-width: 990px) 24vw, (min-width: 750px) 34vw, 46vw', loading: 'lazy', alt: card_alt, class: 'epc__img' }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'epc__img epc__img--placeholder' }}
+              {% endif %}
+              {% if block.settings.badge_new %}<span class="epc__badge">{{ 'eloura.product_carousel.new' | t }}</span>{% endif %}
+            </a>
+            <div class="epc__info">
+              <h3 class="epc__name"><a href="{{ product.url }}">{{ card_name | escape }}</a></h3>
+              {% if card_sub != blank %}<p class="epc__sub">{{ card_sub | escape }}</p>{% endif %}
+              <div class="epc__price">{% render 'price', product_resource: product %}</div>
+            </div>
+            {% if variant.available %}
+              {% form 'product', product, class: 'epc__form' %}
+                <input type="hidden" name="id" value="{{ variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="epc__button">{{ 'eloura.product_carousel.add' | t }}</button>
+              {% endform %}
+            {% else %}
+              <span class="epc__button epc__button--disabled" aria-disabled="true">{{ 'products.product.sold_out' | t }}</span>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <div class="epc__nav">
+      <button type="button" class="epc__arrow" data-dir="-1" aria-label="{{ 'eloura.product_carousel.previous' | t | escape }}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <button type="button" class="epc__arrow" data-dir="1" aria-label="{{ 'eloura.product_carousel.next' | t | escape }}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+    </div>
+  </eloura-product-carousel>
+</section>
+
+<style>
+  .epc { padding: clamp(36px, 4vw, 64px) 0 clamp(40px, 5vw, 80px); background: #fff; color: #111213; }
+  .epc__head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    margin: 0 clamp(16px, 3vw, 48px); padding-bottom: clamp(14px, 1.6vw, 22px); border-bottom: 1px solid #cfcfd2;
+  }
+  .epc__heading { margin: 0; font-size: clamp(26px, 2.4vw, 40px); font-weight: 400; line-height: 1.15; letter-spacing: -0.01em; }
+  .epc__all { flex: none; color: inherit; font-size: clamp(15px, 1.15vw, 18px); text-transform: uppercase; letter-spacing: .02em; text-decoration: underline; text-underline-offset: 4px; }
+  .epc__viewport { display: block; position: relative; }
+  .epc__track {
+    list-style: none; margin: 0; padding: clamp(20px, 2.4vw, 36px) clamp(16px, 3vw, 48px) 4px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * clamp(16px, 3vw, 48px) - 3 * 24px) / 4);
+    gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(16px, 3vw, 48px);
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .epc__track::-webkit-scrollbar { display: none; }
+  .epc__card { scroll-snap-align: start; display: flex; flex-direction: column; min-width: 0; }
+  .epc__media { position: relative; display: block; aspect-ratio: 6 / 7; background: #f1f1f2; overflow: hidden; }
+  .epc__img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+  .epc__media:hover .epc__img { transform: scale(1.03); }
+  .epc__badge {
+    position: absolute; top: 14px; right: 14px; padding: 6px 10px; background: #d3d3d5; color: #111213;
+    font-size: 14px; font-weight: 600; letter-spacing: .02em; line-height: 1;
+  }
+  .epc__info { padding-top: 16px; flex: 1; }
+  .epc__name { margin: 0; font-size: clamp(17px, 1.3vw, 20px); font-weight: 400; line-height: 1.25; }
+  .epc__name a { color: inherit; text-decoration: none; }
+  .epc__sub { margin: 4px 0 0; color: #77777b; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.3; }
+  .epc__price { margin: 14px 0 0; font-size: clamp(16px, 1.2vw, 19px); }
+  .epc__form { margin: 0; }
+  .epc__button {
+    display: inline-flex; align-items: center; justify-content: center; margin-top: 16px;
+    min-height: 50px; padding: 0 28px; border: 0; border-radius: 999px; background: #111213; color: #fff;
+    font: inherit; font-size: 16px; white-space: nowrap; cursor: pointer; transition: opacity .2s ease;
+  }
+  .epc__button:hover { opacity: .85; }
+  .epc__button--disabled { background: #d3d3d5; color: #555; cursor: default; }
+  .epc__nav { display: flex; justify-content: flex-end; gap: 10px; margin: 20px clamp(16px, 3vw, 48px) 0; }
+  .epc__arrow {
+    width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #cfcfd2; border-radius: 50%;
+    background: #fff; color: #111213; cursor: pointer;
+  }
+  .epc__arrow svg { width: 20px; height: 20px; }
+  .epc__arrow:disabled { opacity: .35; cursor: default; }
+  @media (max-width: 989px) {
+    .epc__track { grid-auto-columns: 40%; gap: 16px; }
+  }
+  @media (max-width: 749px) {
+    .epc__track { grid-auto-columns: 44%; gap: 16px; }
+    .epc__nav { display: none; }
+    .epc__button { min-height: 46px; padding: 0 20px; font-size: 15px; }
+    .epc__badge { top: 10px; right: 10px; font-size: 12px; padding: 5px 8px; }
+  }
+</style>
+
+<script>
+  if (!customElements.get('eloura-product-carousel')) {
+    customElements.define('eloura-product-carousel', class extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('.epc__track');
+        this.arrows = this.querySelectorAll('.epc__arrow');
+        if (!this.track) return;
+        this.arrows.forEach((b) => b.addEventListener('click', () => {
+          const card = this.track.querySelector('.epc__card');
+          const step = card ? card.getBoundingClientRect().width + 24 : this.track.clientWidth * 0.8;
+          this.track.scrollBy({ left: step * Number(b.dataset.dir), behavior: 'smooth' });
+        }));
+        this.update = () => {
+          const max = this.track.scrollWidth - this.track.clientWidth - 2;
+          if (this.arrows[0]) this.arrows[0].disabled = this.track.scrollLeft <= 2;
+          if (this.arrows[1]) this.arrows[1].disabled = this.track.scrollLeft >= max;
+          this.querySelector('.epc__nav')?.toggleAttribute('hidden', max <= 0);
+        };
+        this.track.addEventListener('scroll', this.update, { passive: true });
+        window.addEventListener('resize', this.update);
+        this.update();
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "eloura. product carousel",
+  "tag": "div",
+  "class": "eloura-product-carousel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading override", "info": "Leave blank for BG / EN / RU translations." },
+    { "type": "url", "id": "shop_all_link", "label": "Shop all link", "info": "Leave empty to open all products." }
+  ],
+  "blocks": [{
+    "type": "product", "name": "Product",
+    "settings": [
+      { "type": "product", "id": "product", "label": "Product" },
+      { "type": "checkbox", "id": "badge_new", "label": "Show NEW badge", "default": false },
+      { "type": "paragraph", "content": "Draft products are hidden on the store until you set them to Active." }
+    ]
+  }],
+  "presets": [{ "name": "eloura. product carousel" }]
+}
+{% endschema %}
