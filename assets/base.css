@@ -1826,3 +1826,29 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/* eloura.: never let one wide element make the whole page wider than the screen
+ * (phones zoom out and show a white strip on the right). `clip` keeps sticky
+ * header/details working; older browsers fall back to `hidden` on the root only.
+ */
+html {
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html,
+  body,
+  .page-wrapper,
+  main {
+    overflow-x: clip;
+  }
+}
+
+/* eloura.: product page title, calmer size on phones (desktop unchanged). */
+@media screen and (max-width: 749px) {
+  .product-details .text-block.h3 :is(h1, h2) {
+    font-size: clamp(24px, 6.6vw, 28px);
+    line-height: 1.15;
+    overflow-wrap: break-word;
+  }
+}
