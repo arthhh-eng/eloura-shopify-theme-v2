@@ -12,6 +12,10 @@
     "eloura_product_carousel": {
       "type": "eloura-product-carousel",
       "blocks": {
+        "offer_1": {
+          "type": "offer",
+          "settings": {}
+        },
         "product_1": {
           "type": "product",
           "settings": {
@@ -63,6 +67,7 @@
         }
       },
       "block_order": [
+        "offer_1",
         "product_1",
         "product_2",
         "product_3",
@@ -370,6 +375,7 @@
     },
     "eloura_product_selection": {
       "type": "eloura-product-selection",
+      "disabled": true,
       "blocks": {
         "clear": {
           "type": "product",

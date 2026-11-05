@@ -1,0 +1,301 @@
+{%- comment -%}
+  eloura. "1 + 1 = 3" offer page (template page.bundle-offer).
+  Step 1: pick the product you buy twice. Step 2: pick a third product for free
+  (same or lower price, because Shopify's automatic "Buy 2, get 1 free" discount always frees the cheapest item).
+  The button adds 2 + 1 to the cart in one request and opens the cart.
+  The discount itself is an automatic Buy X Get Y discount in Shopify admin (no code). Texts: eloura.bundle_offer (BG / EN / RU).
+{%- endcomment -%}
+{%- liquid
+  assign iso = request.locale.iso_code
+-%}
+<section class="ebo" aria-labelledby="Ebo-{{ section.id }}">
+  <div class="ebo__hero">
+    <div class="ebo__hero-media">
+      <img src="{{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '1200x' }}"
+        srcset="{{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '600x' }} 600w, {{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '900x' }} 900w, {{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '1200x' }} 1200w"
+        sizes="(min-width: 990px) 42vw, 100vw" width="1200" height="1400"
+        alt="{{ 'eloura.bundle_offer.image_alt' | t | escape }}" fetchpriority="high">
+    </div>
+    <div class="ebo__hero-text">
+      <p class="ebo__eyebrow">{{ 'eloura.bundle_offer.eyebrow' | t }}</p>
+      <h1 class="ebo__heading" id="Ebo-{{ section.id }}">1 + 1 = 3</h1>
+      <p class="ebo__intro">{{ 'eloura.bundle_offer.intro' | t }}</p>
+      <ol class="ebo__how">
+        <li>{{ 'eloura.bundle_offer.how_1' | t }}</li>
+        <li>{{ 'eloura.bundle_offer.how_2' | t }}</li>
+        <li>{{ 'eloura.bundle_offer.how_3' | t }}</li>
+      </ol>
+      <a class="ebo__jump" href="#EboStep1-{{ section.id }}">{{ 'eloura.bundle_offer.start' | t }}</a>
+    </div>
+  </div>
+
+  <eloura-bundle-offer class="ebo__builder"
+    data-cart-add="{{ routes.cart_add_url }}.js"
+    data-cart-url="{{ routes.cart_url }}"
+    data-locale="{{ iso }}"
+    data-currency="{{ cart.currency.iso_code }}"
+    data-t-paid="{{ 'eloura.bundle_offer.line_paid' | t | escape }}"
+    data-t-free="{{ 'eloura.bundle_offer.line_free' | t | escape }}"
+    data-t-save="{{ 'eloura.bundle_offer.you_save' | t | escape }}"
+    data-t-adding="{{ 'eloura.bundle_offer.adding' | t | escape }}"
+    data-t-error="{{ 'eloura.bundle_offer.error' | t | escape }}">
+
+    <fieldset class="ebo__step" id="EboStep1-{{ section.id }}">
+      <legend class="ebo__step-title"><span class="ebo__num">1</span>{{ 'eloura.bundle_offer.step_1' | t }}</legend>
+      <ul class="ebo__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign p = block.settings.product -%}
+          {%- if p != blank and p.id != blank -%}
+            {%- assign v = p.selected_or_first_available_variant -%}
+            {%- assign name = p.title | split: '|' | first | strip -%}
+            <li>
+              <label class="ebo__tile{% unless v.available %} is-disabled{% endunless %}">
+                <input type="radio" name="ebo-paid-{{ section.id }}" value="{{ v.id }}" data-price="{{ v.price }}" data-name="{{ name | escape }}"{% unless v.available %} disabled{% endunless %}>
+                <span class="ebo__tile-img">{% if p.featured_media %}{{ p.featured_media | image_url: width: 500 | image_tag: widths: '200, 300, 500', sizes: '(min-width: 990px) 15vw, 44vw', loading: 'lazy', alt: '' }}{% endif %}</span>
+                <span class="ebo__tile-name">{{ name | escape }}</span>
+                <span class="ebo__tile-price">
+                  {%- if v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money }}</s> {% endif -%}
+                  {{ v.price | money }} <span class="ebo__x2">× 2</span>
+                </span>
+                {%- unless v.available -%}<span class="ebo__tile-note">{{ 'products.product.sold_out' | t }}</span>{%- endunless -%}
+                <span class="ebo__check" aria-hidden="true"></span>
+              </label>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </fieldset>
+
+    <fieldset class="ebo__step" id="EboStep2-{{ section.id }}" data-step2 disabled>
+      <legend class="ebo__step-title"><span class="ebo__num">2</span>{{ 'eloura.bundle_offer.step_2' | t }}</legend>
+      <p class="ebo__hint" data-hint>{{ 'eloura.bundle_offer.pick_first' | t }}</p>
+      <p class="ebo__hint" data-rule hidden>{{ 'eloura.bundle_offer.rule' | t }}</p>
+      <ul class="ebo__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign p = block.settings.product -%}
+          {%- if p != blank and p.id != blank -%}
+            {%- assign v = p.selected_or_first_available_variant -%}
+            {%- assign name = p.title | split: '|' | first | strip -%}
+            <li>
+              <label class="ebo__tile ebo__tile--free{% unless v.available %} is-disabled{% endunless %}">
+                <input type="radio" name="ebo-free-{{ section.id }}" value="{{ v.id }}" data-price="{{ v.price }}" data-name="{{ name | escape }}" data-available="{{ v.available }}" disabled>
+                <span class="ebo__tile-img">{% if p.featured_media %}{{ p.featured_media | image_url: width: 500 | image_tag: widths: '200, 300, 500', sizes: '(min-width: 990px) 15vw, 44vw', loading: 'lazy', alt: '' }}{% endif %}<span class="ebo__gift">{{ 'eloura.bundle_offer.free_badge' | t }}</span></span>
+                <span class="ebo__tile-name">{{ name | escape }}</span>
+                <span class="ebo__tile-price"><s>{{ v.price | money }}</s> <strong>{{ 0 | money }}</strong></span>
+                <span class="ebo__tile-note" data-too-expensive hidden>{{ 'eloura.bundle_offer.too_expensive' | t }}</span>
+                {%- unless v.available -%}<span class="ebo__tile-note">{{ 'products.product.sold_out' | t }}</span>{%- endunless -%}
+                <span class="ebo__check" aria-hidden="true"></span>
+              </label>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </fieldset>
+
+    <div class="ebo__summary" aria-live="polite">
+      <div class="ebo__lines">
+        <p class="ebo__line" data-line-paid>{{ 'eloura.bundle_offer.summary_empty' | t }}</p>
+        <p class="ebo__line ebo__line--free" data-line-free hidden></p>
+      </div>
+      <div class="ebo__totals">
+        <p class="ebo__total"><span>{{ 'eloura.bundle_offer.total' | t }}</span> <strong data-total>—</strong></p>
+        <p class="ebo__save" data-save hidden></p>
+      </div>
+      <button type="button" class="ebo__button" data-add disabled>{{ 'eloura.bundle_offer.add' | t }}</button>
+      <p class="ebo__note">{{ 'eloura.bundle_offer.checkout_note' | t }}</p>
+      <p class="ebo__error" data-error role="alert" hidden></p>
+    </div>
+  </eloura-bundle-offer>
+</section>
+
+<style>
+  .ebo { --ebo-pad: clamp(16px, 3vw, 48px); --ebo-gold: #b89762; background: #fff; color: #111213; padding-bottom: clamp(48px, 6vw, 96px); max-width: 100vw; overflow-x: clip; }
+  .ebo__hero { display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 72px); padding: clamp(16px, 2vw, 32px) var(--ebo-pad) clamp(32px, 4vw, 64px); }
+  .ebo__hero-media img { display: block; width: 100%; height: auto; aspect-ratio: 6 / 7; object-fit: cover; background: #f1f1f2; }
+  .ebo__eyebrow { margin: 0 0 12px; color: var(--ebo-gold); font-size: 14px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+  .ebo__heading { margin: 0; font-size: clamp(48px, 6vw, 96px); font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+  .ebo__intro { margin: 20px 0 0; font-size: clamp(17px, 1.35vw, 21px); line-height: 1.5; color: #3b3b3f; max-width: 34em; }
+  .ebo__how { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: ebo; display: grid; gap: 12px; }
+  .ebo__how li { counter-increment: ebo; display: flex; gap: 12px; align-items: baseline; font-size: 16px; line-height: 1.45; }
+  .ebo__how li::before { content: counter(ebo); flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #111213; display: inline-grid; place-items: center; font-size: 13px; transform: translateY(-1px); }
+  .ebo__jump { display: inline-flex; align-items: center; justify-content: center; margin-top: 28px; min-height: 52px; padding: 8px 32px; border-radius: 999px; background: #111213; color: #fff; text-decoration: none; font-size: 16px; }
+  .ebo__jump:hover { opacity: .85; }
+
+  .ebo__builder { display: block; padding: 0 var(--ebo-pad); }
+  .ebo__step { border: 0; margin: clamp(32px, 4vw, 56px) 0 0; padding: 0; min-width: 0; }
+  .ebo__step > legend { float: left; width: 100%; }
+  .ebo__step > legend + * { clear: both; }
+  .ebo__step[disabled] .ebo__grid { opacity: .45; }
+  .ebo__step-title { display: flex; align-items: center; gap: 12px; padding: 0; margin-bottom: 16px; font-size: clamp(20px, 1.8vw, 28px); font-weight: 400; line-height: 1.25; }
+  .ebo__num { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #111213; color: #fff; display: inline-grid; place-items: center; font-size: 16px; }
+  .ebo__hint { margin: -4px 0 16px; color: #6b6b70; font-size: 15px; line-height: 1.45; }
+  .ebo__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .ebo__tile { position: relative; display: flex; flex-direction: column; height: 100%; padding: 10px 10px 14px; border: 1px solid #dcdcdf; background: #fff; cursor: pointer; transition: border-color .2s ease, box-shadow .2s ease; box-sizing: border-box; }
+  .ebo__tile input { position: absolute; opacity: 0; pointer-events: none; }
+  .ebo__tile:hover { border-color: #8f8f94; }
+  .ebo__tile:has(input:checked) { border-color: #111213; box-shadow: inset 0 0 0 1px #111213; }
+  .ebo__tile:has(input:focus-visible) { outline: 2px solid #111213; outline-offset: 2px; }
+  .ebo__tile.is-disabled, .ebo__tile:has(input:disabled) { cursor: not-allowed; }
+  .ebo__tile.is-disabled .ebo__tile-img, .ebo__tile.is-too-expensive .ebo__tile-img { opacity: .4; }
+  .ebo__tile-img { position: relative; display: block; aspect-ratio: 1; background: #f1f1f2; overflow: hidden; }
+  .ebo__tile-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ebo__gift { position: absolute; top: 8px; left: 8px; padding: 5px 8px; background: var(--ebo-gold); color: #fff; font-size: 12px; font-weight: 600; letter-spacing: .04em; line-height: 1; text-transform: uppercase; }
+  .ebo__tile-name { margin-top: 12px; font-size: 16px; line-height: 1.3; }
+  .ebo__tile-price { margin-top: 6px; font-size: 15px; color: #111213; }
+  .ebo__tile-price s { color: #8f8f94; margin-right: 2px; }
+  .ebo__x2 { color: #6b6b70; }
+  .ebo__tile-note { margin-top: 6px; font-size: 13px; color: #8a6d3b; line-height: 1.35; }
+  .ebo__check { position: absolute; top: 18px; right: 18px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #b8b8bc; background: #fff; }
+  .ebo__tile:has(input:checked) .ebo__check { background: #111213 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center / 18px no-repeat; border-color: #111213; }
+
+  .ebo__summary {
+    position: sticky; bottom: 0; z-index: 2; margin-top: clamp(28px, 3vw, 44px);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px 28px;
+    padding: 18px clamp(16px, 2vw, 28px); background: #f6f6f7; border-top: 1px solid #dcdcdf;
+  }
+  .ebo__lines p, .ebo__totals p { margin: 0; }
+  .ebo__line { font-size: 16px; line-height: 1.4; }
+  .ebo__line--free { color: #8a6d3b; }
+  .ebo__total { font-size: 17px; display: flex; gap: 10px; align-items: baseline; justify-content: flex-end; }
+  .ebo__total strong { font-size: 22px; font-weight: 600; }
+  .ebo__save { color: #8a6d3b; font-size: 14px; text-align: right; }
+  .ebo__button { min-height: 54px; padding: 8px 32px; border: 0; border-radius: 999px; background: #111213; color: #fff; font: inherit; font-size: 16px; cursor: pointer; }
+  .ebo__button:disabled { background: #c9c9cd; color: #fff; cursor: not-allowed; }
+  .ebo__note { grid-column: 1 / -1; font-size: 13px; color: #6b6b70; margin: 0; }
+  .ebo__error { grid-column: 1 / -1; margin: 0; color: #b42318; font-size: 14px; }
+
+  @media (max-width: 989px) {
+    .ebo__hero { grid-template-columns: 1fr; padding-top: 0; }
+    .ebo__hero-media { margin: 0 calc(-1 * var(--ebo-pad)); }
+    .ebo__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .ebo__summary { grid-template-columns: minmax(0, 1fr) auto; margin-left: calc(-1 * var(--ebo-pad)); margin-right: calc(-1 * var(--ebo-pad)); padding: 14px var(--ebo-pad) calc(14px + env(safe-area-inset-bottom)); }
+    .ebo__button { grid-column: 1 / -1; width: 100%; }
+    .ebo__line { font-size: 14px; }
+    .ebo__note { font-size: 12px; }
+  }
+  @media (max-width: 749px) {
+    .ebo__jump { width: 100%; box-sizing: border-box; }
+    .ebo__tile { padding: 8px 8px 12px; }
+    .ebo__tile-name { font-size: 15px; }
+    .ebo__tile-price { font-size: 14px; }
+    .ebo__check { top: 14px; right: 14px; width: 22px; height: 22px; }
+    .ebo__check { background-size: 15px; }
+    .ebo__total strong { font-size: 20px; }
+    /* the image already says 1 + 1 = 3, keep the heading for screen readers only */
+    .ebo__heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    /* keep the sticky button clear of the chat bubble (56px, bottom right) */
+    .ebo__button { width: calc(100% - 64px); }
+  }
+</style>
+
+<script>
+  if (!customElements.get('eloura-bundle-offer')) {
+    customElements.define('eloura-bundle-offer', class extends HTMLElement {
+      connectedCallback() {
+        const d = this.dataset;
+        let fmt;
+        try {
+          fmt = new Intl.NumberFormat(d.locale || 'bg', { style: 'currency', currency: d.currency || 'EUR' });
+        } catch (e) {
+          fmt = { format: (n) => n.toFixed(2) + ' ' + (d.currency || 'EUR') };
+        }
+        this.money = (cents) => fmt.format(cents / 100);
+        this.paid = this.querySelectorAll('input[name^="ebo-paid-"]');
+        this.free = this.querySelectorAll('input[name^="ebo-free-"]');
+        this.step2 = this.querySelector('[data-step2]');
+        this.btn = this.querySelector('[data-add]');
+        this.err = this.querySelector('[data-error]');
+        this.paid.forEach((i) => i.addEventListener('change', () => this.onPaid()));
+        this.free.forEach((i) => i.addEventListener('change', () => this.update()));
+        this.btn.addEventListener('click', () => this.add());
+        this.onPaid();
+      }
+      selected(list) { return Array.from(list).find((i) => i.checked && !i.disabled); }
+      onPaid() {
+        const p = this.selected(this.paid);
+        this.step2.disabled = !p;
+        this.querySelector('[data-hint]').hidden = !!p;
+        this.querySelector('[data-rule]').hidden = !p;
+        const max = p ? Number(p.dataset.price) : 0;
+        this.free.forEach((i) => {
+          const tile = i.closest('.ebo__tile');
+          const tooExpensive = !!p && Number(i.dataset.price) > max;
+          const off = !p || tooExpensive || i.dataset.available !== 'true';
+          i.disabled = off;
+          if (off) i.checked = false;
+          tile.classList.toggle('is-too-expensive', tooExpensive);
+          tile.querySelector('[data-too-expensive]').hidden = !tooExpensive;
+        });
+        this.update();
+        if (p && !this._scrolled && window.matchMedia('(max-width: 989px)').matches) {
+          this._scrolled = true;
+          this.step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      update() {
+        const p = this.selected(this.paid);
+        const f = this.selected(this.free);
+        const d = this.dataset;
+        const linePaid = this.querySelector('[data-line-paid]');
+        const lineFree = this.querySelector('[data-line-free]');
+        const total = this.querySelector('[data-total]');
+        const save = this.querySelector('[data-save]');
+        if (p) {
+          linePaid.textContent = d.tPaid.replace('[name]', p.dataset.name).replace('[price]', this.money(Number(p.dataset.price) * 2));
+          total.textContent = this.money(Number(p.dataset.price) * 2);
+        }
+        lineFree.hidden = !f;
+        save.hidden = !f;
+        if (f) {
+          lineFree.textContent = d.tFree.replace('[name]', f.dataset.name);
+          save.textContent = d.tSave.replace('[amount]', this.money(Number(f.dataset.price)));
+        }
+        this.btn.disabled = !(p && f);
+      }
+      async add() {
+        const p = this.selected(this.paid);
+        const f = this.selected(this.free);
+        if (!p || !f || this.busy) return;
+        this.busy = true;
+        const label = this.btn.textContent;
+        this.btn.disabled = true;
+        this.btn.textContent = this.dataset.tAdding;
+        this.err.hidden = true;
+        const items = p.value === f.value
+          ? [{ id: Number(p.value), quantity: 3 }]
+          : [{ id: Number(p.value), quantity: 2 }, { id: Number(f.value), quantity: 1 }];
+        try {
+          const res = await fetch(this.dataset.cartAdd, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items })
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          window.location.href = this.dataset.cartUrl;
+        } catch (e) {
+          this.err.textContent = this.dataset.tError;
+          this.err.hidden = false;
+          this.btn.textContent = label;
+          this.btn.disabled = false;
+          this.busy = false;
+        }
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "eloura. 1+1=3 offer",
+  "tag": "div",
+  "class": "eloura-bundle-offer-section",
+  "settings": [
+    { "type": "paragraph", "content": "Add the products that take part in the offer. Keep this list the same as the products in the automatic 'Buy 2, get 1 free' discount in Shopify admin." }
+  ],
+  "blocks": [{
+    "type": "product", "name": "Product",
+    "settings": [{ "type": "product", "id": "product", "label": "Product" }]
+  }],
+  "presets": [{ "name": "eloura. 1+1=3 offer" }]
+}
+{% endschema %}
