@@ -1,0 +1,86 @@
+{%- comment -%}
+  eloura. homepage banner: new products photo (toner, BiPhasic remover, SPF50 stick) with a heading and a "Shop now" button.
+  Desktop uses a wide photo, phones a tall one. Texts come from BG / EN / RU translations (eloura.new_hero) unless overridden.
+{%- endcomment -%}
+{% liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'eloura.new_hero.heading' | t
+  endif
+  assign button_label = section.settings.button_label
+  if button_label == blank
+    assign button_label = 'eloura.new_hero.button' | t
+  endif
+  assign button_link = section.settings.button_link
+  if button_link == blank
+    assign button_link = routes.all_products_collection_url
+  endif
+  assign alt = 'eloura.new_hero.alt' | t
+%}
+<section class="enh" style="--enh-fg: {{ section.settings.text_color }}; --enh-btn-bg: {{ section.settings.button_color }}; --enh-btn-fg: {{ section.settings.button_text_color }};" aria-labelledby="ElouraNewHero-{{ section.id }}">
+  <a class="enh__media" href="{{ button_link }}" tabindex="-1" aria-hidden="true">
+    <picture>
+      {% if section.settings.image_mobile != blank %}
+        <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 750 }} 750w, {{ section.settings.image_mobile | image_url: width: 1200 }} 1200w" sizes="100vw" width="1200" height="1600">
+      {% else %}
+        <source media="(max-width: 749px)" srcset="{{ 'eloura-new-trio-mobile.jpg' | asset_url }}" width="1200" height="1600">
+      {% endif %}
+      {% if section.settings.image_desktop != blank %}
+        {{ section.settings.image_desktop | image_url: width: 2400 | image_tag: widths: '1200, 1600, 2000, 2400', sizes: '100vw', alt: alt, class: 'enh__img', loading: 'eager', fetchpriority: 'high' }}
+      {% else %}
+        <img class="enh__img" src="{{ 'eloura-new-trio-desktop.jpg' | asset_url }}" alt="{{ alt | escape }}" width="2400" height="1200" loading="eager" fetchpriority="high">
+      {% endif %}
+    </picture>
+  </a>
+  <div class="enh__content">
+    <h2 class="enh__heading" id="ElouraNewHero-{{ section.id }}">{{ heading | escape }}</h2>
+    <a class="enh__button" href="{{ button_link }}">{{ button_label | escape }}</a>
+  </div>
+</section>
+
+<style>
+  .enh { position: relative; overflow: hidden; background: #ececee; color: var(--enh-fg); }
+  .enh__media { display: block; }
+  .enh__media picture, .enh__img { display: block; width: 100%; height: auto; }
+  .enh__content {
+    position: absolute; inset: 0 0 auto 0;
+    display: flex; flex-direction: column; align-items: center; gap: clamp(16px, 2vw, 28px);
+    padding: clamp(36px, 5.5vw, 96px) 16px 0; text-align: center; pointer-events: none;
+  }
+  .enh__heading {
+    margin: 0; color: var(--enh-fg);
+    font-size: clamp(26px, 3.2vw, 52px); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em;
+  }
+  .enh__button {
+    pointer-events: auto; display: inline-flex; align-items: center; justify-content: center;
+    min-height: 52px; padding: 0 clamp(32px, 3vw, 48px); border-radius: 999px;
+    background: var(--enh-btn-bg); color: var(--enh-btn-fg); text-decoration: none;
+    font-size: clamp(16px, 1.25vw, 19px); letter-spacing: 0.01em; transition: opacity .2s ease;
+  }
+  .enh__button:hover { opacity: .85; }
+  .enh__button:focus-visible { outline: 2px solid var(--enh-btn-bg); outline-offset: 3px; }
+  @media (max-width: 749px) {
+    .enh__content { padding-top: 32px; gap: 16px; }
+    .enh__heading { font-size: 28px; }
+    .enh__button { min-height: 50px; font-size: 16px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "eloura. new products banner",
+  "tag": "div",
+  "class": "eloura-new-hero-section",
+  "settings": [
+    { "type": "image_picker", "id": "image_desktop", "label": "Desktop photo (wide, 2:1)", "info": "Leave empty to use the built-in three-product photo." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile photo (tall, 3:4)", "info": "Leave empty to use the built-in three-product photo." },
+    { "type": "text", "id": "heading", "label": "Heading override", "info": "Leave blank for BG / EN / RU translations." },
+    { "type": "text", "id": "button_label", "label": "Button text override", "info": "Leave blank for BG / EN / RU translations." },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to open all products." },
+    { "type": "color", "id": "text_color", "label": "Heading colour", "default": "#111213" },
+    { "type": "color", "id": "button_color", "label": "Button colour", "default": "#111213" },
+    { "type": "color", "id": "button_text_color", "label": "Button text colour", "default": "#ffffff" }
+  ],
+  "presets": [{ "name": "eloura. new products banner" }]
+}
+{% endschema %}

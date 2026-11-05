@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "eloura_new_hero": {
+      "type": "eloura-new-arrivals-hero",
+      "settings": {}
+    },
     "eloura_immersive_intro": {
       "type": "immersive-product-intro",
       "blocks": {
@@ -400,6 +404,7 @@
     }
   },
   "order": [
+    "eloura_new_hero",
     "eloura_immersive_intro",
     "hero_jVaWmY",
     "eloura_product_selection",

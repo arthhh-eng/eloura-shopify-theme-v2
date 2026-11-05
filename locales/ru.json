@@ -541,6 +541,11 @@
       "q8": "Как связаться с eloura.?",
       "a8": "Используйте страницу Контакты для вопросов о продуктах, доставке, возврате или заказе. Если вопрос касается покупки, укажите номер заказа."
     },
+    "new_hero": {
+      "heading": "Новые продукты",
+      "button": "Смотреть продукты",
+      "alt": "eloura. Glycolic Acid Exfoliating Toner, BiPhasic Make-up Remover и Sun Protection SPF50 Stick"
+    },
     "announcement": {
       "free_shipping": "БЕСПЛАТНАЯ ДОСТАВКА ПРИ ЗАКАЗЕ ОТ 40 €",
       "sale_50": "🎃 -50% скидка на все продукты",
