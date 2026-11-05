@@ -398,6 +398,7 @@
     },
     "eloura_reviews": {
       "type": "eloura-reviews",
+      "disabled": true,
       "settings": {
         "background": "#FAF9F6",
         "foreground": "#171717",
