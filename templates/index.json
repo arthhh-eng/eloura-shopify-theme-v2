@@ -393,6 +393,7 @@
     },
     "eloura_education": {
       "type": "eloura-education",
+      "disabled": true,
       "settings": {
         "background": "#F4F2EC",
         "foreground": "#171717",
@@ -469,6 +470,7 @@
     },
     "eloura_faq": {
       "type": "eloura-faq",
+      "disabled": true,
       "settings": {
         "background": "#F4F2EC",
         "foreground": "#171717"
