@@ -1,0 +1,13 @@
+{%- doc -%}
+  Short "for which skin" line on product cards. Texts per product handle in BG / EN / RU (eloura.skin_type.<handle with _>).
+  Renders nothing for products without a text.
+  @param {product} product - The product
+  @param {string} [class] - Extra CSS class
+{%- enddoc -%}
+{%- liquid
+  assign skin_key = 'eloura.skin_type.' | append: product.handle | replace: '-', '_'
+  assign skin_text = skin_key | t
+-%}
+{%- unless skin_text contains 'ranslation missing' or skin_text == blank or skin_text == skin_key -%}
+  <p class="eloura-skin-type {{ class }}">{{ 'eloura.skin_type.label' | t }} {{ skin_text | escape }}</p>
+{%- endunless -%}

@@ -1,4 +1,7 @@
 {% style %}
+  /* Standard Cyrillic letter shapes for BG/RU text. The shop's Inter switches to Bulgarian
+     letter forms on lang="bg" pages (т looks like m, д like g). This Cyrillic-only copy has no Bulgarian forms. */
+  @font-face { font-family: 'Eloura Inter Cyr'; font-style: normal; font-weight: 300 700; font-display: swap; src: url({{ 'eloura-inter-cyr.woff2' | asset_url }}) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
   {%- liquid
     assign rendered_fonts = ''
 
@@ -165,16 +168,16 @@
     --letter-spacing-sm: 0.06em;
 
     /* Font families */
-    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body--family: {% if settings.type_body_font.family == 'Inter' %}'Eloura Inter Cyr', {% endif %}{{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
     --font-body--style: {{ settings.type_body_font.style }};
     --font-body--weight: {{ settings.type_body_font.weight }};
-    --font-subheading--family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
+    --font-subheading--family: {% if settings.type_subheading_font.family == 'Inter' %}'Eloura Inter Cyr', {% endif %}{{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
     --font-subheading--style: {{ settings.type_subheading_font.style }};
     --font-subheading--weight: {{ settings.type_subheading_font.weight }};
-    --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading--family: {% if settings.type_heading_font.family == 'Inter' %}'Eloura Inter Cyr', {% endif %}{{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
     --font-heading--style: {{ settings.type_heading_font.style }};
     --font-heading--weight: {{ settings.type_heading_font.weight }};
-    --font-accent--family: {{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
+    --font-accent--family: {% if settings.type_accent_font.family == 'Inter' %}'Eloura Inter Cyr', {% endif %}{{ settings.type_accent_font.family }}, {{ settings.type_accent_font.fallback_families }};
     --font-accent--style: {{ settings.type_accent_font.style }};
     --font-accent--weight: {{ settings.type_accent_font.weight }};
 
