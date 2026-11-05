@@ -27,6 +27,9 @@
     background: #111111 !important;
     min-height: 43px;
     display: flex;
+    /* iPhone Safari enlarges some marquee phrases on its own ("text autosizing"), so phrases came out in different sizes. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     align-items: center;
     overflow: hidden;
 
@@ -68,11 +71,17 @@
   .announcement-bar__message {
     flex-shrink: 0;
     font-family: var(--font-body--family);
-    font-size: clamp(16px, calc(3.4vw + 3px), 19px);
+    font-size: 17px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     font-weight: 500;
     line-height: 1;
     letter-spacing: clamp(0.04em, 0.2vw, 0.12em);
     white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      font-size: 19px;
+    }
   }
 
   @keyframes eloura-announcement-marquee {
