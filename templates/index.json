@@ -375,6 +375,7 @@
     },
     "eloura_product_selection": {
       "type": "eloura-product-selection",
+      "disabled": true,
       "blocks": {
         "clear": {
           "type": "product",
