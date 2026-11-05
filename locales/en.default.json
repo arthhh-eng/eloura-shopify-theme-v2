@@ -574,6 +574,48 @@
       "error": "Something went wrong. Please try again.",
       "checkout_note": "The third product becomes free automatically in the cart and at checkout."
     },
+    "new_stories": {
+        "label": "New from eloura.",
+        "intro_heading": "Your skin doesn’t wait. Why should you?",
+        "intro_text": "Three new products from eloura. — for clean, smooth and protected skin every day.",
+        "intro_button": "Discover the collection",
+        "toner": {
+          "kicker": "New in eloura.",
+          "title": "Your skin deserves to breathe again.",
+          "body": "Fatigue, uneven tone, rough patches — sometimes skin simply needs a fresh start. Our toner with 5% glycolic acid gently lifts away built-up dead cells and reveals smoother, more radiant skin.",
+          "quote": "One evening. One touch. A visible difference.",
+          "point_1": "5% glycolic acid for gentle exfoliation",
+          "point_2": "Smoother texture and a more even tone",
+          "point_3": "Just a few evenings a week",
+          "closing": "Don’t wait for “someday”. Your glow starts tonight.",
+          "button": "Order now",
+          "alt": "eloura. Glycolic Acid Exfoliating Toner with bamboo and grapefruit"
+        },
+        "spf50": {
+          "kicker": "Protection every day",
+          "title": "The sun never rests. Neither should your protection.",
+          "body": "The sun is young skin’s biggest enemy, even on a cloudy day. Our mineral SPF50 stick protects against UVA and UVB rays, applies in seconds and leaves no white cast. With sea buckthorn, rice oil and jojoba that nourish while they protect.",
+          "quote": "One gesture. A whole day of calm.",
+          "point_1": "SPF50, mineral filters",
+          "point_2": "Handy stick: in your bag, in the car, at the beach",
+          "point_3": "Goes on even over make-up",
+          "closing": "Beautiful skin tomorrow starts with protection today.",
+          "button": "Get yours",
+          "alt": "eloura. Sun Protection SPF50 Stick with sea buckthorn on sand"
+        },
+        "biphasic": {
+          "kicker": "Gentle cleansing",
+          "title": "The day is over. Your care begins.",
+          "body": "Your skin can’t rest while your make-up is still on. The two-phase formula combines oil and water and dissolves even stubborn make-up without rubbing. With aloe, chamomile, sea buckthorn and hyaluronic acid. No fragrance, no irritation.",
+          "quote": "Shake. Touch. Free.",
+          "point_1": "Oil + water = effortless cleansing",
+          "point_2": "Suitable for sensitive skin, fragrance-free",
+          "point_3": "Leaves skin soft and hydrated",
+          "closing": "Your skin deserves a clean start every evening.",
+          "button": "Add to cart",
+          "alt": "eloura. BiPhasic Make-up Remover with aloe and chamomile"
+        }
+      },
     "product_carousel": {
       "add": "Add to cart",
       "heading": "Our products.",

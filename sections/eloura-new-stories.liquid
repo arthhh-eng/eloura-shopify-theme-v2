@@ -1,0 +1,333 @@
+{%- comment -%}
+  eloura. homepage "new products" editorial: an intro banner, then one story per new product
+  (arched photo with an abstract shape behind it, emotional headline, text, three points, closing line,
+  price and Add to cart). Texts: BG / EN / RU translations (eloura.new_stories.<story>).
+  Fonts: Cormorant Garamond Italic (headlines), Montserrat Light (text), Montserrat Semibold caps (calls to action),
+  self-hosted in assets.
+{%- endcomment -%}
+{% liquid
+  assign intro_link = section.settings.intro_link
+  if intro_link == blank
+    assign intro_link = routes.all_products_collection_url
+  endif
+  assign story_count = 0
+  for block in section.blocks
+    if block.settings.product != blank and block.settings.product.id != blank
+      assign story_count = story_count | plus: 1
+    endif
+  endfor
+%}
+<section class="ens" aria-label="{{ 'eloura.new_stories.label' | t | escape }}">
+  {% if section.settings.show_intro %}
+    <header class="ens-intro" data-ens-reveal>
+      <span class="ens-intro__line" aria-hidden="true"></span>
+      <h2 class="ens-intro__heading">
+        {%- assign parts = 'eloura.new_stories.intro_heading' | t | split: '. ' -%}
+        {%- for part in parts -%}
+          <span class="ens-split">{{ part | escape }}{% unless forloop.last %}.{% endunless %}</span>
+        {%- endfor -%}
+      </h2>
+      <p class="ens-intro__text">{{ 'eloura.new_stories.intro_text' | t | escape }}</p>
+      <a class="ens-link" href="{{ intro_link }}">
+        <span>{{ 'eloura.new_stories.intro_button' | t | escape }}</span>
+        <span class="ens-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </header>
+  {% endif %}
+
+  {% assign n = 0 %}
+  {% for block in section.blocks %}
+    {% assign product = block.settings.product %}
+    {% if product == blank or product.id == blank %}{% continue %}{% endif %}
+    {% liquid
+      assign n = n | plus: 1
+      assign key = block.settings.story
+      assign tk = 'eloura.new_stories.' | append: key | append: '.'
+      assign product_name = product.title | split: ',' | first | split: '|' | first | strip
+      assign variant = product.selected_or_first_available_variant
+      assign asset_name = 'eloura-story-' | append: key | append: '.jpg'
+      assign img_alt = tk | append: 'alt' | t
+      assign title = tk | append: 'title' | t
+      assign title_parts = title | split: '. '
+      assign side = 'left'
+      assign mod = n | modulo: 2
+      if mod == 0
+        assign side = 'right'
+      endif
+    %}
+    <article class="ens-story ens-story--{{ key }} ens-story--{{ side }}" id="ElouraStory-{{ key }}" aria-labelledby="ElouraStoryTitle-{{ block.id }}" {{ block.shopify_attributes }}>
+      <div class="ens-story__visual" data-ens-reveal>
+        <span class="ens-shape ens-shape--{{ key }}" aria-hidden="true" data-ens-drift><i></i></span>
+        <span class="ens-num" aria-hidden="true">{{ n | prepend: '0' }}</span>
+        <a class="ens-frame" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: widths: '480, 720, 960, 1200', sizes: '(min-width: 990px) 42vw, 88vw', loading: 'lazy', alt: img_alt, class: 'ens-img' }}
+          {% else %}
+            <img class="ens-img" src="{{ asset_name | asset_url }}" srcset="{{ asset_name | asset_img_url: '480x' }} 480w, {{ asset_name | asset_img_url: '720x' }} 720w, {{ asset_name | asset_url }} 928w" sizes="(min-width: 990px) 42vw, 88vw" width="928" height="1152" loading="lazy" alt="{{ img_alt | escape }}">
+          {% endif %}
+        </a>
+        <span class="ens-vertical" aria-hidden="true">{{ product_name | escape }}</span>
+      </div>
+
+      <div class="ens-story__text">
+        <p class="ens-kicker" data-ens-reveal><span class="ens-kicker__count">{{ n | prepend: '0' }} / {{ story_count | prepend: '0' }}</span>{{ tk | append: 'kicker' | t | escape }}</p>
+        <h3 class="ens-title" id="ElouraStoryTitle-{{ block.id }}" data-ens-reveal>
+          {%- for part in title_parts -%}
+            <span class="ens-split">{{ part | escape }}{% unless forloop.last %}.{% endunless %}</span>
+          {%- endfor -%}
+        </h3>
+        <p class="ens-body" data-ens-reveal>{{ tk | append: 'body' | t | escape }}</p>
+        <blockquote class="ens-quote" data-ens-reveal><p>{{ tk | append: 'quote' | t | escape }}</p></blockquote>
+        <ul class="ens-points" role="list" data-ens-reveal>
+          <li><span class="ens-points__n" aria-hidden="true">i.</span>{{ tk | append: 'point_1' | t | escape }}</li>
+          <li><span class="ens-points__n" aria-hidden="true">ii.</span>{{ tk | append: 'point_2' | t | escape }}</li>
+          <li><span class="ens-points__n" aria-hidden="true">iii.</span>{{ tk | append: 'point_3' | t | escape }}</li>
+        </ul>
+        <p class="ens-closing" data-ens-reveal>{{ tk | append: 'closing' | t | escape }}</p>
+
+        <div class="ens-buy" data-ens-reveal>
+          <div class="ens-buy__product">
+            <a class="ens-buy__name" href="{{ product.url }}">{{ product_name | escape }}</a>
+            <span class="ens-buy__price">{% render 'price', product_resource: product %}</span>
+          </div>
+          {% if variant.available %}
+            {% form 'product', product, class: 'ens-buy__form' %}
+              <input type="hidden" name="id" value="{{ variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="ens-btn">
+                <span>{{ tk | append: 'button' | t | escape }}</span>
+                <span class="ens-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+            {% endform %}
+          {% else %}
+            <span class="ens-btn ens-btn--disabled" aria-disabled="true">{{ 'products.product.sold_out' | t }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+<style>
+  @font-face { font-family: 'Eloura Cormorant'; font-style: italic; font-weight: 400 500; font-display: swap; src: url({{ 'eloura-cormorant-italic-cyr.woff2' | asset_url }}) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: 'Eloura Cormorant'; font-style: italic; font-weight: 400 500; font-display: swap; src: url({{ 'eloura-cormorant-italic-lat.woff2' | asset_url }}) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: 'Eloura Montserrat'; font-style: normal; font-weight: 300 600; font-display: swap; src: url({{ 'eloura-montserrat-cyr.woff2' | asset_url }}) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: 'Eloura Montserrat'; font-style: normal; font-weight: 300 600; font-display: swap; src: url({{ 'eloura-montserrat-lat.woff2' | asset_url }}) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+  .eloura-new-stories-section { min-width: 0; max-width: 100%; overflow: hidden; }
+  .ens {
+    --ens-ink: #111213; --ens-soft: #5d5d61; --ens-line: #d9d6d0; --ens-bg: #faf8f5;
+    --ens-serif: 'Eloura Cormorant', 'Cormorant Garamond', Georgia, serif;
+    --ens-sans: 'Eloura Montserrat', 'Montserrat', Helvetica, Arial, sans-serif;
+    --ens-pad: clamp(20px, 5vw, 96px);
+    width: 100%; max-width: 100vw; min-width: 0; overflow: hidden; contain: inline-size;
+    background: var(--ens-bg); color: var(--ens-ink); font-family: var(--ens-sans); font-weight: 300;
+    padding-bottom: clamp(56px, 8vw, 140px);
+  }
+  .ens *, .ens *::before, .ens *::after { box-sizing: border-box; }
+
+  /* ---------- intro ---------- */
+  .ens-intro {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: clamp(64px, 9vw, 150px) var(--ens-pad) clamp(40px, 6vw, 100px);
+  }
+  .ens-intro__line { display: block; width: 1px; height: clamp(48px, 6vw, 88px); background: var(--ens-ink); margin-bottom: clamp(28px, 3vw, 44px); }
+  .ens-intro__heading {
+    margin: 0; max-width: 15em; font-family: var(--ens-serif); font-style: italic; font-weight: 400;
+    font-size: clamp(38px, 5.6vw, 92px); line-height: 1.02; letter-spacing: -0.015em;
+  }
+  .ens-intro__heading .ens-split { display: block; }
+  .ens-intro__heading .ens-split + .ens-split { padding-left: 1.6em; color: #7a6a58; }
+  .ens-intro__text { margin: clamp(22px, 2.4vw, 36px) 0 0; max-width: 30em; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.75; color: var(--ens-soft); }
+
+  .ens-link {
+    display: inline-flex; align-items: center; gap: 14px; margin-top: clamp(26px, 2.6vw, 40px);
+    padding-bottom: 8px; border-bottom: 1px solid currentColor; color: var(--ens-ink); text-decoration: none;
+    font-weight: 600; font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+  }
+  .ens-arrow { display: inline-block; transition: transform .35s ease; font-weight: 400; letter-spacing: 0; }
+  .ens-link:hover .ens-arrow, .ens-btn:hover .ens-arrow { transform: translateX(6px); }
+
+  /* ---------- story ---------- */
+  .ens-story {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); align-items: center;
+    padding: clamp(56px, 7vw, 130px) var(--ens-pad) 0;
+  }
+  .ens-story__visual { position: relative; grid-column: 1 / span 6; grid-row: 1; padding: 6% 8% 6% 10%; }
+  .ens-story__text { grid-column: 8 / span 5; grid-row: 1; max-width: 560px; }
+  .ens-story--right .ens-story__visual { grid-column: 7 / span 6; padding: 6% 10% 6% 8%; }
+  .ens-story--right .ens-story__text { grid-column: 1 / span 5; justify-self: end; }
+
+  .ens-frame {
+    position: relative; z-index: 2; display: block; aspect-ratio: 928 / 1152; overflow: hidden;
+    border-radius: 999px 999px 0 0; background: #eee9e2;
+  }
+  .ens-img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .ens-frame:hover .ens-img { transform: scale(1.04); }
+
+  .ens-num {
+    position: absolute; z-index: 3; top: 0; left: 0; font-family: var(--ens-serif); font-style: italic; font-weight: 400;
+    font-size: clamp(64px, 9vw, 150px); line-height: .8; color: var(--ens-ink); pointer-events: none;
+  }
+  .ens-story--right .ens-num { left: auto; right: 0; }
+  .ens-vertical {
+    position: absolute; z-index: 3; bottom: 6%; right: 2%; writing-mode: vertical-rl; transform: rotate(180deg);
+    font-weight: 600; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--ens-soft); white-space: nowrap;
+  }
+  .ens-story--right .ens-vertical { right: auto; left: 2%; }
+
+  /* abstract shapes: one idea per product */
+  .ens-shape { position: absolute; z-index: 1; display: block; pointer-events: none; will-change: transform; }
+  .ens-shape i { position: absolute; display: block; }
+  /* toner: a peach moon + a thin orbit, like a drop of light */
+  .ens-shape--toner { width: 62%; aspect-ratio: 1; right: 0; top: 2%; border-radius: 50%; background: #f1d6c0; }
+  .ens-shape--toner i { inset: -14%; border: 1px solid #c9a98d; border-radius: 50%; transform: translate(-12%, 10%); }
+  /* SPF50: a low sun over a horizon of thin lines */
+  .ens-shape--spf50 { width: 54%; aspect-ratio: 1; left: 0; top: 0; border-radius: 50%; background: linear-gradient(160deg, #f4a548 0%, #f6c27f 60%, #f3dcb7 100%); }
+  .ens-shape--spf50 i { left: -30%; right: -70%; top: 108%; height: 46px; background: repeating-linear-gradient(to bottom, #d8bd94 0 1px, transparent 1px 11px); }
+  /* BiPhasic: a two-phase pill, oil above water */
+  .ens-shape--biphasic { width: 40%; height: 82%; right: 0; bottom: 0; border-radius: 999px; overflow: hidden; background: #e7ebe8; }
+  .ens-shape--biphasic::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 34%; background: linear-gradient(180deg, #e2a63f, #eec575); }
+  .ens-shape--biphasic i { left: 0; right: 0; top: 34%; height: 1px; background: rgba(17,18,19,.25); }
+  .ens-story--right .ens-shape--toner { right: auto; left: 0; }
+  .ens-story--right .ens-shape--toner i { transform: translate(12%, 10%); }
+  .ens-story--right .ens-shape--spf50 { left: auto; right: 0; }
+  .ens-story--right .ens-shape--spf50 i { left: -70%; right: -30%; }
+  .ens-story--right .ens-shape--biphasic { right: auto; left: 0; }
+
+  /* text */
+  .ens-kicker {
+    display: flex; align-items: center; gap: 14px; margin: 0 0 clamp(20px, 2vw, 30px);
+    font-weight: 600; font-size: 12px; letter-spacing: .26em; text-transform: uppercase;
+  }
+  .ens-kicker__count { font-weight: 300; color: var(--ens-soft); letter-spacing: .14em; padding-right: 14px; border-right: 1px solid var(--ens-line); }
+  .ens-title {
+    margin: 0; font-family: var(--ens-serif); font-style: italic; font-weight: 400;
+    font-size: clamp(34px, 3.7vw, 62px); line-height: 1.05; letter-spacing: -0.01em;
+  }
+  .ens-title .ens-split { display: block; }
+  .ens-title .ens-split + .ens-split { padding-left: 1.2em; }
+  .ens-body { margin: clamp(20px, 2vw, 30px) 0 0; font-size: clamp(15px, 1.05vw, 17px); line-height: 1.8; color: #2f2f33; }
+  .ens-quote {
+    margin: clamp(26px, 2.6vw, 40px) 0 0; padding: 0 0 0 clamp(18px, 1.6vw, 26px); border-left: 1px solid var(--ens-ink);
+  }
+  .ens-quote p { margin: 0; font-family: var(--ens-serif); font-style: italic; font-weight: 500; font-size: clamp(24px, 2vw, 32px); line-height: 1.2; }
+  .ens-points { list-style: none; margin: clamp(26px, 2.6vw, 40px) 0 0; padding: 0; border-top: 1px solid var(--ens-line); }
+  .ens-points li {
+    display: grid; grid-template-columns: 2.6em 1fr; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid var(--ens-line); font-size: clamp(14px, 1vw, 16px); line-height: 1.5;
+  }
+  .ens-points__n { font-family: var(--ens-serif); font-style: italic; font-size: 1.25em; color: var(--ens-soft); }
+  .ens-closing { margin: clamp(26px, 2.6vw, 40px) 0 0; font-family: var(--ens-serif); font-style: italic; font-size: clamp(21px, 1.6vw, 26px); line-height: 1.3; }
+
+  .ens-buy { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; margin-top: clamp(28px, 2.8vw, 44px); }
+  .ens-buy__product { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ens-buy__name { color: var(--ens-ink); text-decoration: none; font-size: 14px; font-weight: 400; }
+  .ens-buy__name:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .ens-buy__price { font-size: 15px; font-weight: 400; }
+  .ens-buy__price .price, .ens-buy__price * { font-family: inherit; }
+  .ens-buy__form { margin: 0; }
+  .ens-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 56px; padding: 0 34px;
+    border: 1px solid var(--ens-ink); border-radius: 0; background: var(--ens-ink); color: #fff; cursor: pointer;
+    font-family: var(--ens-sans); font-weight: 600; font-size: 13px; letter-spacing: .22em; text-transform: uppercase; line-height: 1.2;
+    transition: background-color .3s ease, color .3s ease;
+  }
+  .ens-btn:hover { background: transparent; color: var(--ens-ink); }
+  .ens-btn:focus-visible, .ens-link:focus-visible { outline: 2px solid var(--ens-ink); outline-offset: 4px; }
+  .ens-btn--disabled { background: #d3d3d5; border-color: #d3d3d5; color: #555; cursor: default; }
+
+  /* reveal on scroll (only when JS is running; without JS everything is visible) */
+  .ens.is-animated [data-ens-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+  .ens.is-animated .ens-story__visual[data-ens-reveal] { transform: none; }
+  .ens.is-animated .ens-story__visual[data-ens-reveal] .ens-frame { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); transition: clip-path 1.4s cubic-bezier(.7,0,.2,1); }
+  .ens.is-animated [data-ens-reveal].is-in { opacity: 1; transform: none; }
+  .ens.is-animated .ens-story__visual[data-ens-reveal].is-in .ens-frame { clip-path: inset(0 0 0 0 round 999px 999px 0 0); }
+  @media (prefers-reduced-motion: reduce) {
+    .ens.is-animated [data-ens-reveal], .ens.is-animated .ens-story__visual[data-ens-reveal] .ens-frame { opacity: 1; transform: none; clip-path: none; transition: none; }
+    .ens-img, .ens-arrow { transition: none; }
+  }
+
+  /* ---------- tablet & phone ---------- */
+  @media (max-width: 989px) {
+    .ens-story, .ens-story--right { grid-template-columns: minmax(0, 1fr); padding-top: clamp(56px, 12vw, 96px); }
+    .ens-story__visual, .ens-story--right .ens-story__visual { grid-column: 1; grid-row: 1; width: 100%; max-width: 560px; justify-self: center; padding: 9% 9% 7%; }
+    .ens-story__text, .ens-story--right .ens-story__text { grid-column: 1; grid-row: 2; justify-self: stretch; max-width: 620px; margin: clamp(28px, 6vw, 48px) auto 0; width: 100%; }
+    .ens-vertical { font-size: 10px; letter-spacing: .26em; right: 0; }
+    .ens-story--right .ens-vertical { left: 0; }
+  }
+  @media (max-width: 749px) {
+    .ens { --ens-pad: 20px; }
+    .ens-intro { padding-top: 64px; padding-bottom: 8px; }
+    .ens-intro__heading { font-size: clamp(36px, 10.4vw, 48px); }
+    .ens-intro__heading .ens-split + .ens-split { padding-left: .9em; }
+    .ens-num { font-size: clamp(60px, 18vw, 84px); }
+    .ens-title { font-size: clamp(32px, 9vw, 42px); }
+    .ens-title .ens-split + .ens-split { padding-left: .7em; }
+    .ens-quote p { font-size: 24px; }
+    .ens-kicker { font-size: 11px; letter-spacing: .22em; gap: 12px; }
+    .ens-kicker__count { padding-right: 12px; }
+    .ens-buy { flex-direction: column; align-items: stretch; gap: 16px; }
+    .ens-buy__product { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .ens-btn { width: 100%; padding: 0 20px; font-size: 12px; letter-spacing: .2em; }
+    .ens-shape--spf50 i { height: 34px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.currentScript && document.currentScript.previousElementSibling && document.currentScript.previousElementSibling.previousElementSibling;
+    if (!root || !root.classList.contains('ens')) root = document.querySelector('.ens:not(.is-animated)');
+    if (!root || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    root.classList.add('is-animated');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    root.querySelectorAll('[data-ens-reveal]').forEach(function (el) { io.observe(el); });
+
+    /* the abstract shapes drift slowly against the scroll */
+    var shapes = root.querySelectorAll('[data-ens-drift]');
+    var ticking = false;
+    function drift() {
+      var vh = window.innerHeight;
+      shapes.forEach(function (s) {
+        var r = s.parentNode.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        var p = (r.top + r.height / 2 - vh / 2) / vh;
+        s.style.transform = 'translate3d(0,' + (p * -48).toFixed(1) + 'px,0)';
+      });
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(drift); } }, { passive: true });
+    drift();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "eloura. new products stories",
+  "tag": "div",
+  "class": "eloura-new-stories-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_intro", "label": "Show intro banner", "default": true },
+    { "type": "url", "id": "intro_link", "label": "Intro button link", "info": "Leave empty to open all products." },
+    { "type": "paragraph", "content": "Texts come from BG / EN / RU translations (eloura.new_stories)." }
+  ],
+  "blocks": [{
+    "type": "story", "name": "Story",
+    "settings": [
+      { "type": "select", "id": "story", "label": "Story (texts, photo and shape)", "default": "toner", "options": [
+        { "value": "toner", "label": "Glycolic Acid Toner" },
+        { "value": "spf50", "label": "SPF50 Stick" },
+        { "value": "biphasic", "label": "BiPhasic Make-up Remover" }
+      ] },
+      { "type": "product", "id": "product", "label": "Product for the buy button" },
+      { "type": "image_picker", "id": "image", "label": "Photo override", "info": "Leave empty for the built-in photo." }
+    ]
+  }],
+  "presets": [{ "name": "eloura. new products stories" }]
+}
+{% endschema %}
