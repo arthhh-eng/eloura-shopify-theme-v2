@@ -529,8 +529,7 @@
         "biphasic"
       ],
       "settings": {
-        "show_intro": true,
-        "intro_link": ""
+        "show_intro": true
       }
     }
   },
