@@ -9,12 +9,77 @@
  */
 {
   "sections": {
+    "eloura_product_carousel": {
+      "type": "eloura-product-carousel",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "glycolic-acid-exfoliating-toner",
+            "badge_new": true
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "biphasic-make-up-remover-fragrance-free",
+            "badge_new": true
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "product": "sun-protection-spf50-stick-no-tint",
+            "badge_new": true
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "product": "the-complete-ritual",
+            "badge_new": false
+          }
+        },
+        "product_5": {
+          "type": "product",
+          "settings": {
+            "product": "niacinamide-gel-moisturiser",
+            "badge_new": false
+          }
+        },
+        "product_6": {
+          "type": "product",
+          "settings": {
+            "product": "hydrating-serum",
+            "badge_new": false
+          }
+        },
+        "product_7": {
+          "type": "product",
+          "settings": {
+            "product": "ceramide-barrier-night-cream",
+            "badge_new": false
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6",
+        "product_7"
+      ],
+      "settings": {}
+    },
     "eloura_new_hero": {
       "type": "eloura-new-arrivals-hero",
       "settings": {}
     },
     "eloura_immersive_intro": {
       "type": "immersive-product-intro",
+      "disabled": true,
       "blocks": {
         "clear": {
           "type": "product",
@@ -405,6 +470,7 @@
   },
   "order": [
     "eloura_new_hero",
+    "eloura_product_carousel",
     "eloura_immersive_intro",
     "hero_jVaWmY",
     "eloura_product_selection",

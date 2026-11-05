@@ -546,6 +546,14 @@
       "q8": "How can I contact eloura.?",
       "a8": "Use the Contact page for help with products, delivery, returns or an order. Include your order number when your question concerns an existing purchase."
     },
+    "product_carousel": {
+      "add": "Add to cart",
+      "heading": "Our products.",
+      "shop_all": "Shop all",
+      "new": "NEW!",
+      "previous": "Previous products",
+      "next": "Next products"
+    },
     "new_hero": {
       "heading": "New products",
       "button": "Shop now",
