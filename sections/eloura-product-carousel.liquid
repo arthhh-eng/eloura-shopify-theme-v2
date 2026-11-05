@@ -65,6 +65,7 @@
             <div class="epc__info">
               <h3 class="epc__name"><a href="{{ product.url }}">{{ card_name | escape }}</a></h3>
               {% if card_sub != blank %}<p class="epc__sub">{{ card_sub | escape }}</p>{% endif %}
+              {% render 'eloura-skin-type', product: product, class: 'epc__skin' %}
               <div class="epc__price">{% render 'price', product_resource: product %}</div>
             </div>
             {% if variant.available %}
@@ -117,6 +118,7 @@
   .epc__name { margin: 0; font-size: clamp(17px, 1.3vw, 20px); font-weight: 400; line-height: 1.25; }
   .epc__name a { color: inherit; text-decoration: none; }
   .epc__sub { margin: 4px 0 0; color: #77777b; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.3; }
+  .epc__skin { margin: 6px 0 0; color: #6b5e50; font-size: clamp(13px, 0.95vw, 15px); line-height: 1.35; }
   .epc__price { margin: 14px 0 0; font-size: clamp(16px, 1.2vw, 19px); }
   .epc__form { margin: 0; }
   .epc__button {

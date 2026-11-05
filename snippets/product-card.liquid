@@ -115,6 +115,7 @@
     "
   >
     {{ children }}
+    {% unless onboarding %}{% render 'eloura-skin-type', product: product, class: 'product-card__skin' %}{% endunless %}
   </div>
 </product-card>
 

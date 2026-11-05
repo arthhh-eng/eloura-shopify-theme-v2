@@ -1,0 +1,204 @@
+{%- comment -%}
+  eloura. homepage first screen: The Complete Ritual offer.
+  Heading reads the live price and compare-at price ("Full skincare for 39 € instead of 89 €"), so it follows any price change.
+  Optional star rating line (links to the reviews section) and an optional real offer end date with a countdown.
+  Texts: BG / EN / RU translations (eloura.ritual_hero). Desktop: text left, photo right. Phones: photo on top, text under it.
+{%- endcomment -%}
+{% liquid
+  assign offer = section.settings.product
+  if offer == blank
+    assign offer = all_products['the-complete-ritual']
+  endif
+  assign variant = offer.selected_or_first_available_variant
+  assign price = variant.price
+  assign compare_at = variant.compare_at_price
+  assign price_text = price | money_without_trailing_zeros
+  assign compare_text = compare_at | money_without_trailing_zeros
+  assign has_compare = false
+  if compare_at > price
+    assign has_compare = true
+    assign save_percent = compare_at | minus: price | times: 100 | divided_by: compare_at | floor
+  endif
+
+  assign end_ts = 0
+  if section.settings.offer_end != blank
+    assign end_ts = section.settings.offer_end | date: '%s' | plus: 0
+  endif
+  assign now_ts = 'now' | date: '%s' | plus: 0
+  assign show_timer = false
+  if end_ts > now_ts and has_compare
+    assign show_timer = true
+  endif
+%}
+{% if offer != blank and offer.id != blank %}
+<section class="erh" aria-labelledby="ElouraRitualHero-{{ section.id }}">
+  <div class="erh__inner">
+    <a class="erh__media" href="{{ offer.url }}" tabindex="-1" aria-hidden="true">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: widths: '600, 900, 1200, 1600', sizes: '(min-width: 750px) 50vw, 100vw', alt: '', class: 'erh__img', loading: 'eager', fetchpriority: 'high' }}
+      {% else %}
+        <img class="erh__img" src="{{ 'eloura-products-hero.jpg' | asset_url }}" srcset="{{ 'eloura-products-hero.jpg' | asset_img_url: '600x' }} 600w, {{ 'eloura-products-hero.jpg' | asset_img_url: '900x' }} 900w, {{ 'eloura-products-hero.jpg' | asset_url }} 1237w" sizes="(min-width: 750px) 50vw, 100vw" width="1237" height="1536" alt="" loading="eager" fetchpriority="high">
+      {% endif %}
+      {% if has_compare %}<span class="erh__badge">−{{ save_percent }}%</span>{% endif %}
+    </a>
+
+    <div class="erh__content">
+      <p class="erh__eyebrow">{{ 'eloura.ritual_hero.eyebrow' | t: name: offer.title | escape }}</p>
+      <h1 class="erh__heading" id="ElouraRitualHero-{{ section.id }}">
+        {%- if has_compare -%}
+          {{ 'eloura.ritual_hero.heading_html' | t: price: price_text, compare: compare_text }}
+        {%- else -%}
+          {{ 'eloura.ritual_hero.heading_plain_html' | t: price: price_text }}
+        {%- endif -%}
+      </h1>
+      <p class="erh__text">{{ 'eloura.ritual_hero.text' | t | escape }}</p>
+
+      {% if section.settings.show_rating and section.settings.review_count > 0 %}
+        {% liquid
+          assign rating_tenths = section.settings.rating | times: 10 | round
+          assign rating_whole = rating_tenths | divided_by: 10 | floor
+          assign rating_decimal = rating_tenths | modulo: 10
+          assign decimal_separator = 'eloura.reviews.decimal_separator' | t
+          assign rating_display = rating_whole | append: decimal_separator | append: rating_decimal
+        %}
+        <a class="erh__rating" href="#eloura-reviews">
+          <span class="erh__stars" aria-hidden="true">★★★★★</span>
+          <span>{{ 'eloura.ritual_hero.rating' | t: rating: rating_display, count: section.settings.review_count }}</span>
+        </a>
+      {% endif %}
+
+      {% if show_timer %}
+        <div class="erh__timer" data-erh-end="{{ end_ts }}">
+          {%- assign end_date = section.settings.offer_end | date: '%d.%m' -%}
+          <span class="erh__timer-label">{{ 'eloura.ritual_hero.ends' | t: date: end_date }}</span>
+          <span class="erh__timer-clock" aria-hidden="true">
+            <span><b data-erh-d>0</b> {{ 'eloura.ritual_hero.days' | t }}</span>
+            <span><b data-erh-h>00</b> {{ 'eloura.ritual_hero.hours' | t }}</span>
+            <span><b data-erh-m>00</b> {{ 'eloura.ritual_hero.minutes' | t }}</span>
+            <span><b data-erh-s>00</b> {{ 'eloura.ritual_hero.seconds' | t }}</span>
+          </span>
+        </div>
+      {% endif %}
+
+      <div class="erh__actions">
+        {% if variant.available %}
+          {% form 'product', offer, class: 'erh__form' %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="erh__btn erh__btn--primary">{{ 'eloura.ritual_hero.add' | t | escape }}</button>
+          {% endform %}
+        {% endif %}
+        <a class="erh__btn erh__btn--secondary" href="{{ offer.url }}">{{ 'eloura.ritual_hero.view' | t | escape }}</a>
+      </div>
+
+      <ul class="erh__trust" role="list">
+        <li>{{ 'eloura.ritual_hero.trust_shipping' | t | escape }}</li>
+        <li>{{ 'eloura.ritual_hero.trust_cod' | t | escape }}</li>
+        <li>{{ 'eloura.ritual_hero.trust_delivery' | t | escape }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% if show_timer %}
+<script>
+  (function () {
+    document.querySelectorAll('[data-erh-end]').forEach(function (el) {
+      var end = parseInt(el.getAttribute('data-erh-end'), 10) * 1000;
+      var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+      var q = function (s) { return el.querySelector(s); };
+      function tick() {
+        var left = Math.max(0, end - Date.now());
+        if (!left) { el.hidden = true; return; }
+        var s = Math.floor(left / 1000);
+        q('[data-erh-d]').textContent = Math.floor(s / 86400);
+        q('[data-erh-h]').textContent = pad(Math.floor(s % 86400 / 3600));
+        q('[data-erh-m]').textContent = pad(Math.floor(s % 3600 / 60));
+        q('[data-erh-s]').textContent = pad(s % 60);
+        setTimeout(tick, 1000);
+      }
+      tick();
+    });
+  })();
+</script>
+{% endif %}
+{% endif %}
+
+<style>
+  .eloura-ritual-hero-section { min-width: 0; max-width: 100%; overflow: hidden; }
+  .erh { width: 100%; max-width: 100vw; contain: inline-size; overflow: hidden; background: {{ section.settings.background }}; color: #111213; }
+  .erh__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; min-height: min(78svh, 760px); }
+  .erh__media { position: relative; display: block; grid-column: 2; grid-row: 1; overflow: hidden; background: #ece9e4; }
+  .erh__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+  .erh__badge {
+    position: absolute; top: clamp(16px, 2vw, 28px); left: clamp(16px, 2vw, 28px);
+    padding: 10px 14px; border-radius: 999px; background: #b4442c; color: #fff;
+    font-size: clamp(16px, 1.3vw, 20px); font-weight: 700; line-height: 1; letter-spacing: .01em;
+  }
+  .erh__content {
+    grid-column: 1; grid-row: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: clamp(40px, 5vw, 96px) clamp(24px, 5vw, 96px); min-width: 0;
+  }
+  .erh__eyebrow { margin: 0 0 clamp(12px, 1.2vw, 18px); font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #6b5e50; }
+  .erh__heading { margin: 0; max-width: 13em; font-size: clamp(34px, 3.6vw, 60px); font-weight: 400; line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
+  .erh__heading strong { font-weight: 700; white-space: nowrap; }
+  .erh__heading s { color: #8a8a8e; font-weight: 400; white-space: nowrap; text-decoration-thickness: 2px; }
+  .erh__text { margin: clamp(14px, 1.4vw, 22px) 0 0; max-width: 30em; font-size: clamp(16px, 1.2vw, 19px); line-height: 1.55; color: #48484c; }
+  .erh__rating { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; color: inherit; font-size: 15px; text-decoration: none; }
+  .erh__rating:hover span:last-child { text-decoration: underline; text-underline-offset: 3px; }
+  .erh__stars { color: #c8962e; font-size: 17px; letter-spacing: 2px; }
+  .erh__timer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 18px; font-size: 15px; }
+  .erh__timer[hidden] { display: none; }
+  .erh__timer-label { font-weight: 600; }
+  .erh__timer-clock { display: inline-flex; gap: 10px; font-variant-numeric: tabular-nums; }
+  .erh__timer-clock b { font-weight: 700; }
+  .erh__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(22px, 2.2vw, 32px); width: 100%; max-width: 520px; }
+  .erh__form { margin: 0; flex: 1 1 200px; display: flex; }
+  .erh__btn {
+    flex: 1 1 200px; display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 28px;
+    border: 1px solid #111213; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 500; line-height: 1.2;
+    text-align: center; text-decoration: none; cursor: pointer; transition: opacity .2s ease, background .2s ease, color .2s ease;
+  }
+  .erh__btn--primary { width: 100%; background: #111213; color: #fff; }
+  .erh__btn--primary:hover { opacity: .86; }
+  .erh__btn--secondary { background: transparent; color: #111213; }
+  .erh__btn--secondary:hover { background: #111213; color: #fff; }
+  .erh__btn:focus-visible { outline: 2px solid #111213; outline-offset: 3px; }
+  .erh__trust { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 14px; color: #5d5d61; }
+  .erh__trust li { display: inline-flex; align-items: center; gap: 6px; }
+  .erh__trust li::before { content: '✓'; color: #111213; font-weight: 700; }
+
+  @media (max-width: 749px) {
+    .erh__inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .erh__media { grid-column: 1; grid-row: 1; aspect-ratio: 4 / 3; }
+    .erh__img { object-position: 50% 58%; }
+    .erh__content { grid-column: 1; grid-row: 2; padding: 22px 16px 30px; }
+    .erh__eyebrow { margin-bottom: 10px; font-size: 12px; }
+    .erh__heading { font-size: clamp(28px, 8vw, 34px); }
+    .erh__text { margin-top: 10px; font-size: 15px; }
+    .erh__rating { margin-top: 12px; font-size: 14px; }
+    .erh__timer { margin-top: 12px; font-size: 14px; }
+    .erh__actions { margin-top: 18px; gap: 10px; max-width: none; }
+    .erh__form, .erh__btn { flex-basis: 100%; }
+    .erh__btn { min-height: 52px; font-size: 16px; }
+    .erh__trust { margin-top: 14px; font-size: 13px; gap: 4px 14px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "eloura. ritual hero",
+  "tag": "div",
+  "class": "eloura-ritual-hero-section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Set", "info": "Price and old price come from this product." },
+    { "type": "image_picker", "id": "image", "label": "Photo", "info": "Leave empty for the built-in CLEAR, HYDRA, BARRIER photo." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#f6f3ee" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show star rating", "default": true },
+    { "type": "range", "id": "rating", "label": "Average rating", "min": 1, "max": 5, "step": 0.1, "default": 4.9, "info": "Average of the published customer reviews. Keep it in line with the reviews section." },
+    { "type": "number", "id": "review_count", "label": "Number of reviews", "default": 4, "info": "Number of published customer reviews." },
+    { "type": "text", "id": "offer_end", "label": "Offer end (real date)", "info": "Format 2026-11-30T23:59:00+02:00. Shows a countdown until then; leave empty for no countdown." }
+  ],
+  "presets": [{ "name": "eloura. ritual hero" }]
+}
+{% endschema %}

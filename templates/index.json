@@ -9,6 +9,17 @@
  */
 {
   "sections": {
+    "eloura_ritual_hero": {
+      "type": "eloura-ritual-hero",
+      "settings": {
+        "product": "the-complete-ritual",
+        "background": "#f6f3ee",
+        "show_rating": true,
+        "rating": 4.9,
+        "review_count": 4,
+        "offer_end": ""
+      }
+    },
     "eloura_product_carousel": {
       "type": "eloura-product-carousel",
       "blocks": {
@@ -427,7 +438,6 @@
     },
     "eloura_reviews": {
       "type": "eloura-reviews",
-      "disabled": true,
       "settings": {
         "background": "#FAF9F6",
         "foreground": "#171717",
@@ -534,14 +544,15 @@
     }
   },
   "order": [
+    "eloura_ritual_hero",
     "eloura_new_hero",
     "eloura_product_carousel",
+    "eloura_reviews",
     "eloura_new_stories",
     "eloura_immersive_intro",
     "hero_jVaWmY",
     "eloura_product_selection",
     "eloura_education",
-    "eloura_reviews",
     "eloura_faq",
     "eloura_stories",
     "eloura_product_roles",

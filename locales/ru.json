@@ -368,6 +368,38 @@
     }
   },
   "eloura": {
+    "ritual_hero": {
+      "eyebrow": "{{ name }} · 3 шага",
+      "heading_html": "Полный уход за кожей за <strong>{{ price }}</strong> вместо <s>{{ compare }}</s>",
+      "heading_plain_html": "Полный уход за кожей за <strong>{{ price }}</strong>",
+      "text": "CLEAR, HYDRA и BARRIER в одном наборе: три шага к увлажнённой, гладкой и спокойной коже. Выгоднее, чем по отдельности.",
+      "rating": {
+        "one": "{{ rating }} из 5 · {{ count }} отзыв",
+        "few": "{{ rating }} из 5 · {{ count }} отзыва",
+        "many": "{{ rating }} из 5 · {{ count }} отзывов",
+        "other": "{{ rating }} из 5 · {{ count }} отзыва"
+      },
+      "ends": "Акция до {{ date }}. Осталось:",
+      "days": "дн",
+      "hours": "ч",
+      "minutes": "мин",
+      "seconds": "сек",
+      "add": "Добавить набор",
+      "view": "Что в наборе",
+      "trust_shipping": "Бесплатная доставка от 40 €",
+      "trust_cod": "Оплата при получении",
+      "trust_delivery": "Доставка за 1–3 дня"
+    },
+    "skin_type": {
+      "label": "Для",
+      "niacinamide_gel_moisturiser": "нормальной, комбинированной и жирной кожи",
+      "hydrating_serum": "всех типов кожи, особенно обезвоженной",
+      "ceramide_barrier_night_cream": "сухой кожи с ощущением стянутости",
+      "the_complete_ritual": "всех типов кожи",
+      "glycolic_acid_exfoliating_toner": "тусклой кожи с неровным тоном",
+      "biphasic_make_up_remover_fragrance_free": "всех типов кожи, без отдушки",
+      "sun_protection_spf50_stick_no_tint": "всех типов кожи, вкл. чувствительные зоны"
+    },
     "chat": { "identity": "AI-ассистент · На связи" },
     "reviews": {
       "heading": "Отзывы клиентов",
@@ -719,7 +751,7 @@
           "point_2": "Более гладкая текстура и ровный тон",
           "point_3": "Всего несколько вечеров в неделю",
           "closing": "Не жди «когда-нибудь». Сияние начинается сегодня вечером.",
-          "button": "Заказать сейчас",
+          "button": "Добавить в корзину",
           "alt": "Тоник eloura. Glycolic Acid Exfoliating Toner с бамбуком и грейпфрутом"
         },
         "spf50": {
@@ -731,7 +763,7 @@
           "point_2": "Удобный стик: в сумке, в машине, на пляже",
           "point_3": "Наносится даже поверх макияжа",
           "closing": "Красивая кожа завтра начинается с защиты сегодня.",
-          "button": "Возьми свой",
+          "button": "Добавить в корзину",
           "alt": "Стик eloura. Sun Protection SPF50 с облепихой на песке"
         },
         "biphasic": {

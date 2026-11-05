@@ -12,6 +12,7 @@
   endif
   assign locale_code = request.locale.iso_code | split: '-' | first
   assign review_count = 0
+  assign rating_sum_tenths = 0
   for block in section.blocks
     assign review_text = block.settings.review_bg
     if locale_code == 'en' and block.settings.review_en != blank
@@ -21,16 +22,31 @@
     endif
     if block.settings.enabled and block.settings.photo != blank and block.settings.customer != blank and review_text != blank
       assign review_count = review_count | plus: 1
+      assign block_tenths = block.settings.rating | times: 10 | round
+      assign rating_sum_tenths = rating_sum_tenths | plus: block_tenths
     endif
   endfor
+  if review_count > 0
+    assign avg_tenths = rating_sum_tenths | times: 1.0 | divided_by: review_count | round
+    assign avg_decimal_separator = 'eloura.reviews.decimal_separator' | t
+    assign avg_whole = avg_tenths | divided_by: 10 | floor
+    assign avg_decimal = avg_tenths | modulo: 10 | floor
+    assign avg_display = avg_whole | append: avg_decimal_separator | append: avg_decimal
+  endif
   assign show_carousel = false
   if review_count > 0 or request.design_mode
     assign show_carousel = true
   endif
 %}
-<section class="eloura-journey eloura-reviews" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }}; --reviews-top: {{ section.settings.padding_top }}px; --reviews-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="ElouraReviews-{{ section.id }}">
+<section id="eloura-reviews" class="eloura-journey eloura-reviews" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }}; --reviews-top: {{ section.settings.padding_top }}px; --reviews-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="ElouraReviews-{{ section.id }}">
   <div class="eloura-journey__inner">
     <h2 class="eloura-journey__heading" id="ElouraReviews-{{ section.id }}">{{ heading | escape }}</h2>
+    {% if review_count > 0 %}
+      <p class="eloura-reviews__summary">
+        <span class="eloura-reviews__summary-stars" aria-hidden="true">★★★★★</span>
+        <span>{{ 'eloura.ritual_hero.rating' | t: rating: avg_display, count: review_count }}</span>
+      </p>
+    {% endif %}
     {% if review_count == 0 %}<p class="eloura-journey__intro">{{ empty_text | escape }}</p>{% endif %}
     {% if show_carousel %}
       <eloura-review-carousel

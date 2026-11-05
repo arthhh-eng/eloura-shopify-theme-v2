@@ -354,6 +354,36 @@
     }
   },
   "eloura": {
+    "ritual_hero": {
+      "eyebrow": "{{ name }} · 3 стъпки",
+      "heading_html": "Пълна грижа за кожата за <strong>{{ price }}</strong> вместо <s>{{ compare }}</s>",
+      "heading_plain_html": "Пълна грижа за кожата за <strong>{{ price }}</strong>",
+      "text": "CLEAR, HYDRA и BARRIER в един комплект: три стъпки за хидратирана, гладка и спокойна кожа. По-изгодно, отколкото поотделно.",
+      "rating": {
+        "one": "{{ rating }} от 5 · {{ count }} отзив",
+        "other": "{{ rating }} от 5 · {{ count }} отзива"
+      },
+      "ends": "Офертата е до {{ date }}. Остават:",
+      "days": "дни",
+      "hours": "ч",
+      "minutes": "мин",
+      "seconds": "сек",
+      "add": "Добави комплекта",
+      "view": "Виж какво има вътре",
+      "trust_shipping": "Безплатна доставка от 40 €",
+      "trust_cod": "Плащане при доставка",
+      "trust_delivery": "Доставка за 1–3 дни"
+    },
+    "skin_type": {
+      "label": "За",
+      "niacinamide_gel_moisturiser": "нормална, смесена и мазна кожа",
+      "hydrating_serum": "всеки тип кожа, особено дехидратирана",
+      "ceramide_barrier_night_cream": "суха кожа с усещане за опъване",
+      "the_complete_ritual": "всеки тип кожа",
+      "glycolic_acid_exfoliating_toner": "уморена кожа с неравен тен",
+      "biphasic_make_up_remover_fragrance_free": "всеки тип кожа, без парфюм",
+      "sun_protection_spf50_stick_no_tint": "всеки тип кожа, вкл. чувствителни зони"
+    },
     "chat": { "identity": "AI асистент · На линия" },
     "homepage": {
       "hero_description": "Ясни формули за ежедневните моменти, в които искаш да се чувстваш добре в собствената си кожа.",
@@ -686,7 +716,7 @@
           "point_2": "По-гладка текстура и по-равномерен тон",
           "point_3": "Само няколко вечери седмично",
           "closing": "Не чакай „някой ден“. Сиянието започва тази вечер.",
-          "button": "Поръчай сега",
+          "button": "Добави в количката",
           "alt": "Glycolic Acid Exfoliating Toner от eloura. с бамбук и грейпфрут"
         },
         "spf50": {
@@ -698,7 +728,7 @@
           "point_2": "Удобен стик: в чантата, в колата, на плажа",
           "point_3": "Нанася се и върху грима",
           "closing": "Красивата кожа утре започва със защита днес.",
-          "button": "Вземи своя",
+          "button": "Добави в количката",
           "alt": "Sun Protection SPF50 Stick от eloura. с облепиха върху пясък"
         },
         "biphasic": {
