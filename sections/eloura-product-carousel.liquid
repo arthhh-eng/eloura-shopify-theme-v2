@@ -68,17 +68,19 @@
 </section>
 
 <style>
-  .epc { padding: clamp(36px, 4vw, 64px) 0 clamp(40px, 5vw, 80px); background: #fff; color: #111213; }
+  .eloura-product-carousel-section { min-width: 0; max-width: 100%; overflow: hidden; }
+  .epc { --epc-pad: clamp(16px, 3vw, 48px); width: 100%; max-width: 100vw; min-width: 0; overflow: hidden; contain: inline-size; padding: clamp(36px, 4vw, 64px) 0 clamp(40px, 5vw, 80px); background: #fff; color: #111213; }
   .epc__head {
     display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
     margin: 0 clamp(16px, 3vw, 48px); padding-bottom: clamp(14px, 1.6vw, 22px); border-bottom: 1px solid #cfcfd2;
   }
   .epc__heading { margin: 0; font-size: clamp(26px, 2.4vw, 40px); font-weight: 400; line-height: 1.15; letter-spacing: -0.01em; }
   .epc__all { flex: none; color: inherit; font-size: clamp(15px, 1.15vw, 18px); text-transform: uppercase; letter-spacing: .02em; text-decoration: underline; text-underline-offset: 4px; }
-  .epc__viewport { display: block; position: relative; }
+  .epc__viewport { display: block; position: relative; width: 100%; min-width: 0; }
   .epc__track {
     list-style: none; margin: 0; padding: clamp(20px, 2.4vw, 36px) clamp(16px, 3vw, 48px) 4px;
-    display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * clamp(16px, 3vw, 48px) - 3 * 24px) / 4);
+    width: 100%; max-width: 100%; box-sizing: border-box;
+    display: grid; grid-auto-flow: column; grid-auto-columns: calc((100vw - 2 * var(--epc-pad) - 3 * 24px) / 4.3);
     gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(16px, 3vw, 48px);
     scrollbar-width: none; -webkit-overflow-scrolling: touch;
   }
@@ -100,7 +102,7 @@
   .epc__button {
     display: inline-flex; align-items: center; justify-content: center; margin-top: 16px;
     min-height: 50px; padding: 0 28px; border: 0; border-radius: 999px; background: #111213; color: #fff;
-    font: inherit; font-size: 16px; white-space: nowrap; cursor: pointer; transition: opacity .2s ease;
+    font: inherit; font-size: 16px; line-height: 1.2; text-align: center; max-width: 100%; box-sizing: border-box; padding-block: 8px; cursor: pointer; transition: opacity .2s ease;
   }
   .epc__button:hover { opacity: .85; }
   .epc__button--disabled { background: #d3d3d5; color: #555; cursor: default; }
@@ -112,10 +114,10 @@
   .epc__arrow svg { width: 20px; height: 20px; }
   .epc__arrow:disabled { opacity: .35; cursor: default; }
   @media (max-width: 989px) {
-    .epc__track { grid-auto-columns: 40%; gap: 16px; }
+    .epc__track { grid-auto-columns: calc((100vw - 2 * var(--epc-pad) - 16px) / 2.6); gap: 16px; }
   }
   @media (max-width: 749px) {
-    .epc__track { grid-auto-columns: 44%; gap: 16px; }
+    .epc__track { grid-auto-columns: calc((100vw - var(--epc-pad) - 16px) / 2.2); gap: 16px; }
     .epc__nav { display: none; }
     .epc__button { min-height: 46px; padding: 0 20px; font-size: 15px; }
     .epc__badge { top: 10px; right: 10px; font-size: 12px; padding: 5px 8px; }
