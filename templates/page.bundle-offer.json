@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "main": {
+      "type": "eloura-bundle-offer",
+      "blocks": {
+        "product_1": {
+          "type": "product",
+          "settings": {
+            "product": "glycolic-acid-exfoliating-toner"
+          }
+        },
+        "product_2": {
+          "type": "product",
+          "settings": {
+            "product": "biphasic-make-up-remover-fragrance-free"
+          }
+        },
+        "product_3": {
+          "type": "product",
+          "settings": {
+            "product": "sun-protection-spf50-stick-no-tint"
+          }
+        },
+        "product_4": {
+          "type": "product",
+          "settings": {
+            "product": "niacinamide-gel-moisturiser"
+          }
+        },
+        "product_5": {
+          "type": "product",
+          "settings": {
+            "product": "hydrating-serum"
+          }
+        },
+        "product_6": {
+          "type": "product",
+          "settings": {
+            "product": "ceramide-barrier-night-cream"
+          }
+        }
+      },
+      "block_order": [
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "product_5",
+        "product_6"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

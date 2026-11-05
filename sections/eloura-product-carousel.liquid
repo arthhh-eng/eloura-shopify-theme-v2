@@ -21,6 +21,26 @@
   <eloura-product-carousel class="epc__viewport">
     <ul class="epc__track" role="list" tabindex="0" aria-label="{{ heading | escape }}">
       {% for block in section.blocks %}
+        {% if block.type == 'offer' %}
+          {% assign offer_url = block.settings.link | default: '/pages/1-1-3' %}
+          <li class="epc__card epc__card--offer" {{ block.shopify_attributes }}>
+            <a class="epc__media" href="{{ offer_url }}" tabindex="-1" aria-hidden="true">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 900 | image_tag: widths: '320, 480, 640, 900', sizes: '(min-width: 990px) 24vw, (min-width: 750px) 34vw, 46vw', loading: 'lazy', alt: '', class: 'epc__img' }}
+              {% else %}
+                <img class="epc__img" src="{{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '900x' }}" srcset="{{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '480x' }} 480w, {{ 'eloura-offer-1-1-3.jpg' | asset_img_url: '900x' }} 900w" sizes="(min-width: 990px) 24vw, (min-width: 750px) 34vw, 46vw" width="900" height="1050" loading="lazy" alt="">
+              {% endif %}
+              <span class="epc__badge epc__badge--offer">{{ 'eloura.bundle_offer.card_badge' | t }}</span>
+            </a>
+            <div class="epc__info">
+              <h3 class="epc__name"><a href="{{ offer_url }}">1 + 1 = 3</a></h3>
+              <p class="epc__sub">{{ 'eloura.bundle_offer.card_sub' | t }}</p>
+              <p class="epc__price">{{ 'eloura.bundle_offer.card_price' | t }}</p>
+            </div>
+            <a class="epc__button" href="{{ offer_url }}">{{ 'eloura.bundle_offer.card_button' | t }}</a>
+          </li>
+          {% continue %}
+        {% endif %}
         {% assign product = block.settings.product %}
         {% if product != blank and product.id != blank %}
           {% liquid
@@ -105,6 +125,8 @@
     font: inherit; font-size: 16px; line-height: 1.2; text-align: center; max-width: 100%; box-sizing: border-box; padding-block: 8px; cursor: pointer; transition: opacity .2s ease;
   }
   .epc__button:hover { opacity: .85; }
+  a.epc__button { align-self: flex-start; text-decoration: none; }
+  .epc__badge--offer { background: #b89762; color: #fff; }
   .epc__button--disabled { background: #d3d3d5; color: #555; cursor: default; }
   .epc__nav { display: flex; justify-content: flex-end; gap: 10px; margin: 20px clamp(16px, 3vw, 48px) 0; }
   .epc__arrow {
@@ -165,6 +187,12 @@
       { "type": "product", "id": "product", "label": "Product" },
       { "type": "checkbox", "id": "badge_new", "label": "Show NEW badge", "default": false },
       { "type": "paragraph", "content": "Draft products are hidden on the store until you set them to Active." }
+    ]
+  }, {
+    "type": "offer", "name": "1+1=3 offer card",
+    "settings": [
+      { "type": "url", "id": "link", "label": "Offer page", "info": "Leave empty for /pages/1-1-3." },
+      { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty for the grey 1 + 1 = 3 image." }
     ]
   }],
   "presets": [{ "name": "eloura. product carousel" }]
