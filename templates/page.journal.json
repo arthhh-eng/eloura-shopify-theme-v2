@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "journal": {
+      "type": "eloura-journal",
+      "blocks": {
+        "remover": {
+          "type": "chapter",
+          "settings": {
+            "story": "remover",
+            "product": "biphasic-make-up-remover-fragrance-free"
+          }
+        },
+        "toner": {
+          "type": "chapter",
+          "settings": {
+            "story": "toner",
+            "product": "glycolic-acid-exfoliating-toner"
+          }
+        },
+        "clear": {
+          "type": "chapter",
+          "settings": {
+            "story": "clear",
+            "product": "niacinamide-gel-moisturiser"
+          }
+        },
+        "hydra": {
+          "type": "chapter",
+          "settings": {
+            "story": "hydra",
+            "product": "hydrating-serum"
+          }
+        },
+        "barrier": {
+          "type": "chapter",
+          "settings": {
+            "story": "barrier",
+            "product": "ceramide-barrier-night-cream"
+          }
+        },
+        "spf50": {
+          "type": "chapter",
+          "settings": {
+            "story": "spf50",
+            "product": "sun-protection-spf50-stick-no-tint"
+          }
+        }
+      },
+      "block_order": [
+        "remover",
+        "toner",
+        "clear",
+        "hydra",
+        "barrier",
+        "spf50"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "journal"
+  ]
+}

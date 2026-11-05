@@ -1,0 +1,630 @@
+{%- comment -%}
+  eloura. Journal: an editorial page (hero with a visual contents strip, sticky chapter nav with reading progress,
+  one chapter per product with a sticky photo, ingredients, how-to and add to cart, a morning/evening ritual
+  summary and an outro). The page background and text colour change smoothly to match the chapter in view.
+  Texts: BG / EN / RU translations (eloura.journal.*). Fonts: Cormorant Garamond Italic + Montserrat (self-hosted).
+{%- endcomment -%}
+{% liquid
+  assign chapters = section.blocks | where: 'type', 'chapter'
+  assign total = 0
+  for block in chapters
+    if block.settings.product != blank and block.settings.product.id != blank
+      assign total = total | plus: 1
+    endif
+  endfor
+%}
+<div class="ejr" data-ejr style="--ejr-bg:#faf8f5;--ejr-ink:#111213;--ejr-accent:#9a7b5f;">
+  <span class="ejr-backdrop" aria-hidden="true"></span>
+
+  {%- comment -%} ---------- hero ---------- {%- endcomment -%}
+  <header class="ejr-hero" id="ejr-top">
+    <p class="ejr-eyebrow" data-ejr-reveal>{{ 'eloura.journal.eyebrow' | t | escape }}</p>
+    <h1 class="ejr-hero__title" data-ejr-reveal>
+      {%- assign parts = 'eloura.journal.hero_title' | t | split: '. ' -%}
+      {%- for part in parts -%}
+        <span>{{ part | escape }}{% unless forloop.last %}.{% endunless %}</span>
+      {%- endfor -%}
+    </h1>
+    <p class="ejr-hero__text" data-ejr-reveal>{{ 'eloura.journal.hero_text' | t | escape }}</p>
+
+    <ol class="ejr-cover" role="list" data-ejr-reveal>
+      {% assign n = 0 %}
+      {% for block in chapters %}
+        {% assign product = block.settings.product %}
+        {% if product == blank or product.id == blank %}{% continue %}{% endif %}
+        {% liquid
+          assign n = n | plus: 1
+          assign key = block.settings.story
+          assign img = 'eloura-story-' | append: key | append: '.jpg'
+          if key == 'remover'
+            assign img = 'eloura-story-biphasic.jpg'
+          endif
+          assign tk = 'eloura.journal.' | append: key | append: '.'
+        %}
+        <li class="ejr-cover__item" style="--i:{{ forloop.index0 }}">
+          <a class="ejr-cover__link" href="#ejr-{{ key }}" data-ejr-jump>
+            <span class="ejr-cover__media">
+              <img src="{{ img | asset_img_url: '360x' }}" srcset="{{ img | asset_img_url: '240x' }} 240w, {{ img | asset_img_url: '360x' }} 360w, {{ img | asset_img_url: '480x' }} 480w" sizes="(min-width: 990px) 14vw, 38vw" width="360" height="447" loading="eager" alt="">
+            </span>
+            <span class="ejr-cover__num">{{ n | prepend: '0' }}</span>
+            <span class="ejr-cover__step">{{ tk | append: 'step' | t | escape }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+
+    <a class="ejr-start" href="#ejr-chapters" data-ejr-jump>
+      <span>{{ 'eloura.journal.start' | t | escape }}</span>
+      <span class="ejr-start__line" aria-hidden="true"></span>
+    </a>
+  </header>
+
+  {%- comment -%} ---------- sticky chapter nav ---------- {%- endcomment -%}
+  <nav class="ejr-nav" aria-label="{{ 'eloura.journal.index' | t | escape }}" data-ejr-nav>
+    <span class="ejr-nav__progress" aria-hidden="true"><i data-ejr-progress></i></span>
+    <ol class="ejr-nav__list" role="list" data-ejr-navlist>
+      {% assign n = 0 %}
+      {% for block in chapters %}
+        {% assign product = block.settings.product %}
+        {% if product == blank or product.id == blank %}{% continue %}{% endif %}
+        {% assign n = n | plus: 1 %}
+        {% assign key = block.settings.story %}
+        <li>
+          <a class="ejr-chip" href="#ejr-{{ key }}" data-ejr-jump data-ejr-chip="{{ key }}">
+            <span class="ejr-chip__n">{{ n | prepend: '0' }}</span>
+            <span>{{ 'eloura.journal.' | append: key | append: '.step' | t | escape }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  {%- comment -%} ---------- chapters ---------- {%- endcomment -%}
+  <div class="ejr-chapters" id="ejr-chapters" data-ejr-chapters>
+    {% assign n = 0 %}
+    {% for block in chapters %}
+      {% assign product = block.settings.product %}
+      {% if product == blank or product.id == blank %}{% continue %}{% endif %}
+      {% liquid
+        assign n = n | plus: 1
+        assign key = block.settings.story
+        assign tk = 'eloura.journal.' | append: key | append: '.'
+        assign img = 'eloura-story-' | append: key | append: '.jpg'
+        assign minutes = 3
+        case key
+          when 'remover'
+            assign img = 'eloura-story-biphasic.jpg'
+            assign bg = '#edf2f5'
+            assign ink = '#111213'
+            assign accent = '#c8922f'
+            assign minutes = 2
+          when 'toner'
+            assign bg = '#f6eee8'
+            assign ink = '#1a1512'
+            assign accent = '#b98f6e'
+          when 'clear'
+            assign bg = '#edf3ee'
+            assign ink = '#121612'
+            assign accent = '#4f7f55'
+          when 'hydra'
+            assign bg = '#edf2f8'
+            assign ink = '#10141a'
+            assign accent = '#c77a86'
+            assign minutes = 2
+          when 'barrier'
+            assign bg = '#1c1a2a'
+            assign ink = '#f4efe8'
+            assign accent = '#e2c79c'
+          when 'spf50'
+            assign bg = '#f7e4d7'
+            assign ink = '#2a1810'
+            assign accent = '#d2622a'
+        endcase
+        assign product_name = product.title | split: ',' | first | split: '|' | first | strip
+        assign variant = product.selected_or_first_available_variant
+        assign side = 'left'
+        assign mod = n | modulo: 2
+        if mod == 0
+          assign side = 'right'
+        endif
+        assign title = tk | append: 'title' | t
+      %}
+      <article
+        class="ejr-ch ejr-ch--{{ side }}"
+        id="ejr-{{ key }}"
+        data-ejr-chapter="{{ key }}"
+        data-bg="{{ bg }}"
+        data-ink="{{ ink }}"
+        data-accent="{{ accent }}"
+        aria-labelledby="EjrTitle-{{ block.id }}"
+        {{ block.shopify_attributes }}
+      >
+        <figure class="ejr-ch__media">
+          <div class="ejr-ch__sticky">
+            <a class="ejr-frame" href="{{ product.url }}" tabindex="-1" aria-hidden="true" data-ejr-reveal>
+              <img
+                class="ejr-frame__img"
+                src="{{ img | asset_url }}"
+                srcset="{{ img | asset_img_url: '480x' }} 480w, {{ img | asset_img_url: '720x' }} 720w, {{ img | asset_url }} 928w"
+                sizes="(min-width: 990px) 40vw, 92vw"
+                width="928"
+                height="1152"
+                loading="{% if n == 1 %}eager{% else %}lazy{% endif %}"
+                alt="{{ tk | append: 'alt' | t | escape }}"
+              >
+            </a>
+            <figcaption class="ejr-caption">
+              <span>Fig. {{ n | prepend: '0' }}</span>
+              <span>{{ product_name | escape }}</span>
+            </figcaption>
+          </div>
+        </figure>
+
+        <div class="ejr-ch__text">
+          <p class="ejr-meta" data-ejr-reveal>
+            <span class="ejr-meta__num">{{ n | prepend: '0' }}<small>/{{ total | prepend: '0' }}</small></span>
+            <span class="ejr-meta__step">{{ tk | append: 'step' | t | escape }}</span>
+            <span class="ejr-meta__dot" aria-hidden="true"></span>
+            <span>{{ tk | append: 'when' | t | escape }}</span>
+            <span class="ejr-meta__dot" aria-hidden="true"></span>
+            <span>{{ 'eloura.journal.read_time' | t: count: minutes | escape }}</span>
+          </p>
+
+          <h2 class="ejr-title" id="EjrTitle-{{ block.id }}" data-ejr-reveal>{{ title | escape }}</h2>
+
+          <p class="ejr-lead" data-ejr-reveal>{{ tk | append: 'lead' | t | escape }}</p>
+          <p class="ejr-body" data-ejr-reveal>{{ tk | append: 'body' | t | escape }}</p>
+
+          <blockquote class="ejr-quote" data-ejr-reveal>
+            <span class="ejr-quote__mark" aria-hidden="true">&ldquo;</span>
+            <p>{{ tk | append: 'quote' | t | escape }}</p>
+          </blockquote>
+
+          <div class="ejr-block" data-ejr-reveal>
+            <h3 class="ejr-sub">{{ 'eloura.journal.why' | t | escape }}</h3>
+            <dl class="ejr-why">
+              {% for i in (1..3) %}
+                <div class="ejr-why__row">
+                  <dt>{{ tk | append: 'why_' | append: i | append: '_name' | t | escape }}</dt>
+                  <dd>{{ tk | append: 'why_' | append: i | append: '_text' | t | escape }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          </div>
+
+          <div class="ejr-block" data-ejr-reveal>
+            <h3 class="ejr-sub">{{ 'eloura.journal.how' | t | escape }}</h3>
+            <ol class="ejr-how" role="list">
+              {% for i in (1..3) %}
+                <li><span class="ejr-how__n" aria-hidden="true">{{ i }}</span><span>{{ tk | append: 'how_' | append: i | t | escape }}</span></li>
+              {% endfor %}
+            </ol>
+          </div>
+
+          <p class="ejr-closing" data-ejr-reveal>{{ tk | append: 'closing' | t | escape }}</p>
+
+          <div class="ejr-buy" data-ejr-reveal>
+            <div class="ejr-buy__info">
+              <a class="ejr-buy__name" href="{{ product.url }}">{{ product_name | escape }}</a>
+              <span class="ejr-buy__price">{% render 'price', product_resource: product %}</span>
+            </div>
+            <div class="ejr-buy__actions">
+              {% if variant.available %}
+                {% form 'product', product, class: 'ejr-buy__form' %}
+                  <input type="hidden" name="id" value="{{ variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="ejr-btn">
+                    <span>{{ 'eloura.journal.add' | t | escape }}</span>
+                    <span class="ejr-arrow" aria-hidden="true">&rarr;</span>
+                  </button>
+                {% endform %}
+              {% else %}
+                <span class="ejr-btn ejr-btn--off" aria-disabled="true">{{ 'eloura.journal.sold_out' | t | escape }}</span>
+              {% endif %}
+              <a class="ejr-link" href="{{ product.url }}">{{ 'eloura.journal.view' | t | escape }}</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  {%- comment -%} ---------- ritual summary ---------- {%- endcomment -%}
+  {% liquid
+    assign morning_keys = 'clear,hydra,spf50' | split: ','
+    assign evening_keys = 'remover,toner,hydra,barrier' | split: ','
+  %}
+  <section class="ejr-ritual" aria-labelledby="EjrRitual-{{ section.id }}" data-ejr-ritual>
+    <p class="ejr-eyebrow" data-ejr-reveal>{{ 'eloura.journal.ritual_eyebrow' | t | escape }}</p>
+    <h2 class="ejr-ritual__title" id="EjrRitual-{{ section.id }}" data-ejr-reveal>
+      {%- assign parts = 'eloura.journal.ritual_title' | t | split: '. ' -%}
+      {%- for part in parts -%}
+        <span>{{ part | escape }}{% unless forloop.last %}.{% endunless %}</span>
+      {%- endfor -%}
+    </h2>
+    <div class="ejr-ritual__grid">
+      {% for col in (1..2) %}
+        {% if col == 1 %}
+          {% assign keys = morning_keys %}
+          {% assign label = 'eloura.journal.morning' | t %}
+        {% else %}
+          {% assign keys = evening_keys %}
+          {% assign label = 'eloura.journal.evening' | t %}
+        {% endif %}
+        <div class="ejr-ritual__col ejr-ritual__col--{{ col }}" data-ejr-reveal>
+          <h3 class="ejr-ritual__label"><span class="ejr-ritual__icon ejr-ritual__icon--{{ col }}" aria-hidden="true"></span>{{ label | escape }}</h3>
+          <ol class="ejr-ritual__list" role="list">
+            {% for k in keys %}
+              {% liquid
+                assign rimg = 'eloura-story-' | append: k | append: '.jpg'
+                if k == 'remover'
+                  assign rimg = 'eloura-story-biphasic.jpg'
+                endif
+                assign rproduct = nil
+                for block in chapters
+                  if block.settings.story == k
+                    assign rproduct = block.settings.product
+                  endif
+                endfor
+              %}
+              {% if rproduct == blank or rproduct.id == blank %}{% continue %}{% endif %}
+              <li>
+                <a class="ejr-ritual__item" href="#ejr-{{ k }}" data-ejr-jump>
+                  <span class="ejr-ritual__n">{{ forloop.index }}</span>
+                  <img src="{{ rimg | asset_img_url: '160x' }}" width="160" height="199" loading="lazy" alt="">
+                  <span class="ejr-ritual__copy">
+                    <span class="ejr-ritual__name">{{ rproduct.title | split: ',' | first | split: '|' | first | strip | escape }}</span>
+                    <span class="ejr-ritual__step">{{ 'eloura.journal.' | append: k | append: '.step' | t | escape }}</span>
+                  </span>
+                  <span class="ejr-arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ol>
+          {% if col == 2 %}<p class="ejr-ritual__note">{{ 'eloura.journal.evening_note' | t | escape }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {%- comment -%} ---------- outro ---------- {%- endcomment -%}
+  <footer class="ejr-outro" data-ejr-outro>
+    <span class="ejr-outro__line" aria-hidden="true"></span>
+    <p class="ejr-outro__title" data-ejr-reveal>{{ 'eloura.journal.outro_title' | t | escape }}</p>
+    <div class="ejr-outro__actions" data-ejr-reveal>
+      <a class="ejr-btn" href="{{ routes.all_products_collection_url }}">
+        <span>{{ 'eloura.journal.outro_button' | t | escape }}</span>
+        <span class="ejr-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="ejr-link" href="#ejr-top" data-ejr-jump>{{ 'eloura.journal.back_top' | t | escape }} &uarr;</a>
+    </div>
+  </footer>
+</div>
+
+<style>
+  @font-face { font-family: 'Eloura Cormorant'; font-style: italic; font-weight: 400 500; font-display: swap; src: url({{ 'eloura-cormorant-italic-cyr.woff2' | asset_url }}) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: 'Eloura Cormorant'; font-style: italic; font-weight: 400 500; font-display: swap; src: url({{ 'eloura-cormorant-italic-lat.woff2' | asset_url }}) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: 'Eloura Montserrat'; font-style: normal; font-weight: 300 600; font-display: swap; src: url({{ 'eloura-montserrat-cyr.woff2' | asset_url }}) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: 'Eloura Montserrat'; font-style: normal; font-weight: 300 600; font-display: swap; src: url({{ 'eloura-montserrat-lat.woff2' | asset_url }}) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+  /* no overflow:hidden on ancestors: it would break position: sticky */
+  .eloura-journal-section { min-width: 0; max-width: 100%; overflow-x: clip; }
+  .ejr {
+    --ejr-serif: 'Eloura Cormorant', 'Cormorant Garamond', Georgia, serif;
+    --ejr-sans: 'Eloura Montserrat', 'Montserrat', Helvetica, Arial, sans-serif;
+    --ejr-pad: clamp(20px, 5vw, 96px);
+    --ejr-soft: color-mix(in srgb, var(--ejr-ink) 64%, transparent);
+    --ejr-line: color-mix(in srgb, var(--ejr-ink) 16%, transparent);
+    --ejr-top: calc(var(--header-height, 64px) + 58px);
+    position: relative; isolation: isolate; width: 100%; min-width: 0; overflow-x: clip;
+    color: var(--ejr-ink); font-family: var(--ejr-sans); font-weight: 300;
+    transition: color .8s ease;
+  }
+  .ejr *, .ejr *::before, .ejr *::after { box-sizing: border-box; }
+  .ejr-backdrop { position: absolute; inset: 0; z-index: -1; background: var(--ejr-bg); transition: background-color .9s ease; }
+
+  .ejr-eyebrow { margin: 0; font-weight: 600; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--ejr-soft); }
+
+  /* ---------- hero ---------- */
+  .ejr-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(56px, 8vw, 130px) var(--ejr-pad) clamp(40px, 5vw, 80px); }
+  .ejr-hero__title { margin: clamp(20px, 2.4vw, 34px) 0 0; font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(46px, 7.4vw, 128px); line-height: .98; letter-spacing: -0.02em; }
+  .ejr-hero__title span { display: block; }
+  .ejr-hero__title span + span { color: var(--ejr-accent); transition: color .8s ease; }
+  .ejr-hero__text { margin: clamp(22px, 2.4vw, 36px) 0 0; max-width: 34em; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.75; color: var(--ejr-soft); }
+
+  .ejr-cover { list-style: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 22px); width: 100%; max-width: 1320px; margin: clamp(44px, 5vw, 80px) 0 0; padding: 0; }
+  .ejr-cover__item { min-width: 0; }
+  .ejr-cover__link { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; color: inherit; text-decoration: none; text-align: left; }
+  .ejr-cover__media { display: block; width: 100%; aspect-ratio: 928 / 1152; overflow: hidden; border-radius: 999px 999px 0 0; background: #eee9e2; }
+  .ejr-cover__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+  .ejr-cover__link:hover img { transform: scale(1.06); }
+  .ejr-cover__num { font-family: var(--ejr-serif); font-style: italic; font-size: clamp(22px, 1.8vw, 30px); line-height: 1; }
+  .ejr-cover__step { font-weight: 600; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--ejr-soft); }
+
+  .ejr-start { display: inline-flex; flex-direction: column; align-items: center; gap: 14px; margin-top: clamp(40px, 5vw, 72px); color: inherit; text-decoration: none; font-weight: 600; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; }
+  .ejr-start__line { display: block; width: 1px; height: 56px; background: currentColor; transform-origin: top; animation: ejr-line 2.4s cubic-bezier(.6,0,.2,1) infinite; }
+  @keyframes ejr-line { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* ---------- sticky nav ---------- */
+  .ejr-nav {
+    position: sticky; top: calc(var(--header-height, 64px) - 1px); z-index: 5;
+    background: color-mix(in srgb, var(--ejr-bg) 86%, transparent);
+    -webkit-backdrop-filter: saturate(140%) blur(14px); backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid var(--ejr-line); transition: background-color .9s ease, border-color .9s ease;
+  }
+  .ejr-nav__progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; overflow: hidden; }
+  .ejr-nav__progress i { display: block; height: 100%; width: 100%; background: var(--ejr-ink); transform: scaleX(0); transform-origin: left; transition: background-color .9s ease; }
+  .ejr-nav__list { list-style: none; display: flex; justify-content: center; gap: 6px; margin: 0; padding: 10px var(--ejr-pad); overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .ejr-nav__list::-webkit-scrollbar { display: none; }
+  .ejr-nav__list li { flex: 0 0 auto; scroll-snap-align: center; }
+  .ejr-chip {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 16px; border: 1px solid transparent; border-radius: 999px;
+    color: var(--ejr-soft); text-decoration: none; white-space: nowrap; font-weight: 500; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    transition: color .4s ease, border-color .4s ease, background-color .4s ease;
+  }
+  .ejr-chip__n { font-family: var(--ejr-serif); font-style: italic; font-size: 16px; letter-spacing: 0; text-transform: none; }
+  .ejr-chip:hover { color: var(--ejr-ink); }
+  .ejr-chip.is-active { color: var(--ejr-bg); background: var(--ejr-ink); border-color: var(--ejr-ink); }
+
+  /* ---------- chapter ---------- */
+  .ejr-ch {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 40px); align-items: start;
+    padding: clamp(64px, 8vw, 150px) var(--ejr-pad) 0; scroll-margin-top: var(--ejr-top);
+  }
+  .ejr-ch__media { grid-column: 1 / span 6; grid-row: 1; margin: 0; height: 100%; }
+  .ejr-ch__text { grid-column: 8 / span 5; grid-row: 1; min-width: 0; max-width: 580px; padding-top: clamp(0px, 3vw, 48px); }
+  .ejr-ch--right .ejr-ch__media { grid-column: 7 / span 6; }
+  .ejr-ch--right .ejr-ch__text { grid-column: 1 / span 5; justify-self: end; }
+
+  .ejr-ch__sticky { position: sticky; top: calc(var(--ejr-top) + 24px); display: flex; flex-direction: column; align-items: center; }
+  .ejr-frame {
+    position: relative; display: block; overflow: hidden; border-radius: 4px; background: #e9e4dd;
+    width: min(100%, calc((100vh - var(--ejr-top) - 96px) * 0.8056)); aspect-ratio: 928 / 1152;
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,.35);
+  }
+  .ejr-frame__img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.001); transition: transform 1.6s cubic-bezier(.2,.7,.2,1); }
+  .ejr-frame:hover .ejr-frame__img { transform: scale(1.04); }
+  .ejr-caption { display: flex; justify-content: space-between; gap: 16px; width: min(100%, calc((100vh - var(--ejr-top) - 96px) * 0.8056)); margin-top: 14px; font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--ejr-soft); }
+  .ejr-caption span:first-child { font-family: var(--ejr-serif); font-style: italic; font-size: 15px; letter-spacing: .02em; text-transform: none; }
+
+  .ejr-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0; font-weight: 500; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ejr-soft); }
+  .ejr-meta__num { font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(54px, 5vw, 84px); line-height: .8; letter-spacing: -0.02em; text-transform: none; color: var(--ejr-ink); margin-right: 8px; }
+  .ejr-meta__num small { font-size: .3em; letter-spacing: .02em; color: var(--ejr-soft); margin-left: 2px; }
+  .ejr-meta__step { font-weight: 600; color: var(--ejr-accent); transition: color .8s ease; }
+  .ejr-meta__dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .6; }
+
+  .ejr-title { margin: clamp(22px, 2.2vw, 34px) 0 0; font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(36px, 3.9vw, 66px); line-height: 1.04; letter-spacing: -0.012em; text-wrap: balance; }
+  .ejr-lead { margin: clamp(22px, 2.2vw, 34px) 0 0; font-size: clamp(17px, 1.3vw, 20px); line-height: 1.65; font-weight: 400; }
+  .ejr-lead::first-letter { float: left; font-family: var(--ejr-serif); font-style: italic; font-size: 3.6em; line-height: .82; padding: .06em .12em 0 0; color: var(--ejr-accent); transition: color .8s ease; }
+  .ejr-body { margin: 18px 0 0; font-size: clamp(15px, 1.05vw, 17px); line-height: 1.85; color: var(--ejr-soft); }
+
+  .ejr-quote { position: relative; margin: clamp(34px, 3.4vw, 54px) 0 0; padding: clamp(26px, 2.6vw, 38px) 0; border-top: 1px solid var(--ejr-line); border-bottom: 1px solid var(--ejr-line); }
+  .ejr-quote__mark { position: absolute; top: -.36em; left: 0; padding-right: 12px; background: transparent; font-family: var(--ejr-serif); font-style: italic; font-size: 64px; line-height: 1; color: var(--ejr-accent); transition: color .8s ease; }
+  .ejr-quote p { margin: 0; font-family: var(--ejr-serif); font-style: italic; font-weight: 500; font-size: clamp(27px, 2.4vw, 40px); line-height: 1.16; }
+
+  .ejr-block { margin-top: clamp(32px, 3vw, 48px); }
+  .ejr-sub { margin: 0 0 14px; font-weight: 600; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; }
+  .ejr-why { margin: 0; border-top: 1px solid var(--ejr-line); }
+  .ejr-why__row { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--ejr-line); }
+  .ejr-why dt { font-family: var(--ejr-serif); font-style: italic; font-size: clamp(19px, 1.4vw, 22px); line-height: 1.2; }
+  .ejr-why dd { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ejr-soft); }
+  .ejr-how { list-style: none; margin: 0; padding: 0; counter-reset: none; }
+  .ejr-how li { display: grid; grid-template-columns: 34px 1fr; align-items: baseline; gap: 12px; padding: 10px 0; font-size: 15px; line-height: 1.6; }
+  .ejr-how__n { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--ejr-line); border-radius: 50%; font-family: var(--ejr-serif); font-style: italic; font-size: 16px; line-height: 1; transform: translateY(6px); }
+
+  .ejr-closing { margin: clamp(30px, 3vw, 46px) 0 0; font-family: var(--ejr-serif); font-style: italic; font-size: clamp(23px, 1.8vw, 30px); line-height: 1.25; }
+
+  .ejr-buy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 24px; margin-top: clamp(26px, 2.6vw, 40px); padding: 20px 22px; border: 1px solid var(--ejr-line); border-radius: 4px; background: color-mix(in srgb, var(--ejr-bg) 70%, #fff 30%); transition: background-color .9s ease, border-color .9s ease; }
+  .ejr-ch[data-ejr-chapter='barrier'] .ejr-buy { background: color-mix(in srgb, var(--ejr-bg) 88%, #fff 12%); }
+  .ejr-buy__info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .ejr-buy__name { color: inherit; text-decoration: none; font-size: 14px; font-weight: 500; }
+  .ejr-buy__name:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .ejr-buy__price { font-size: 16px; font-weight: 400; }
+  .ejr-buy__price * { font-family: inherit; color: inherit; }
+  .ejr-buy__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+  .ejr-buy__form { margin: 0; }
+
+  .ejr-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 52px; padding: 0 28px;
+    border: 1px solid var(--ejr-ink); border-radius: 0; background: var(--ejr-ink); color: var(--ejr-bg); cursor: pointer; text-decoration: none;
+    font-family: var(--ejr-sans); font-weight: 600; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; line-height: 1.2;
+    transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+  }
+  .ejr-btn:hover { background: transparent; color: var(--ejr-ink); }
+  .ejr-btn--off { opacity: .45; cursor: default; }
+  .ejr-arrow { display: inline-block; transition: transform .35s ease; font-weight: 400; letter-spacing: 0; }
+  .ejr-btn:hover .ejr-arrow, .ejr-ritual__item:hover .ejr-arrow { transform: translateX(6px); }
+  .ejr-link { color: inherit; text-decoration: none; padding-bottom: 4px; border-bottom: 1px solid currentColor; font-weight: 600; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; }
+  .ejr-link:hover { opacity: .7; }
+  .ejr a:focus-visible, .ejr button:focus-visible { outline: 2px solid var(--ejr-ink); outline-offset: 4px; }
+
+  /* ---------- ritual ---------- */
+  .ejr-ritual { padding: clamp(96px, 11vw, 200px) var(--ejr-pad) 0; text-align: center; }
+  .ejr-ritual__title { margin: 18px 0 0; font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(38px, 5vw, 84px); line-height: 1.02; letter-spacing: -0.015em; }
+  .ejr-ritual__title span { display: block; }
+  .ejr-ritual__title span + span { color: var(--ejr-soft); }
+  .ejr-ritual__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 32px); max-width: 1180px; margin: clamp(40px, 5vw, 80px) auto 0; text-align: left; }
+  .ejr-ritual__col { padding: clamp(22px, 2.6vw, 40px); border: 1px solid var(--ejr-line); border-radius: 4px; background: color-mix(in srgb, var(--ejr-bg) 70%, #fff 30%); }
+  .ejr-ritual__col--2 { background: #1c1a2a; color: #f4efe8; border-color: #1c1a2a; --ejr-line: rgba(244,239,232,.16); --ejr-soft: rgba(244,239,232,.66); --ejr-ink: #f4efe8; }
+  .ejr-ritual__label { display: flex; align-items: center; gap: 14px; margin: 0 0 18px; font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(30px, 2.6vw, 42px); line-height: 1; }
+  .ejr-ritual__icon { display: inline-block; width: 26px; height: 26px; border-radius: 50%; flex: 0 0 auto; }
+  .ejr-ritual__icon--1 { background: radial-gradient(circle at 40% 40%, #f6c27f, #e8893a); box-shadow: 0 0 0 6px rgba(232,137,58,.14); }
+  .ejr-ritual__icon--2 { background: transparent; box-shadow: inset 8px -4px 0 0 #e2c79c; }
+  .ejr-ritual__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ejr-line); }
+  .ejr-ritual__item { display: grid; grid-template-columns: 22px 52px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--ejr-line); color: inherit; text-decoration: none; }
+  .ejr-ritual__n { font-family: var(--ejr-serif); font-style: italic; font-size: 20px; color: var(--ejr-soft); }
+  .ejr-ritual__item img { display: block; width: 52px; height: 64px; object-fit: cover; border-radius: 999px 999px 0 0; }
+  .ejr-ritual__copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .ejr-ritual__name { font-size: 14px; font-weight: 500; line-height: 1.35; }
+  .ejr-ritual__step { font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--ejr-soft); }
+  .ejr-ritual__note { margin: 16px 0 0; font-family: var(--ejr-serif); font-style: italic; font-size: 18px; color: var(--ejr-soft); }
+
+  /* ---------- outro ---------- */
+  .ejr-outro { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(96px, 11vw, 200px) var(--ejr-pad) clamp(80px, 9vw, 160px); }
+  .ejr-outro__line { display: block; width: 1px; height: clamp(56px, 6vw, 96px); background: currentColor; margin-bottom: clamp(28px, 3vw, 44px); }
+  .ejr-outro__title { margin: 0; max-width: 14em; font-family: var(--ejr-serif); font-style: italic; font-weight: 400; font-size: clamp(40px, 5.4vw, 92px); line-height: 1.02; letter-spacing: -0.015em; text-wrap: balance; }
+  .ejr-outro__actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 22px 32px; margin-top: clamp(30px, 3vw, 48px); }
+
+  /* ---------- reveal (only with JS; without JS everything is visible) ---------- */
+  .ejr.is-animated [data-ejr-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+  .ejr.is-animated .ejr-frame[data-ejr-reveal] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0 round 4px); transition: clip-path 1.4s cubic-bezier(.7,0,.2,1); }
+  .ejr.is-animated .ejr-frame[data-ejr-reveal] .ejr-frame__img { transform: scale(1.12); transition: transform 1.8s cubic-bezier(.2,.7,.2,1); }
+  .ejr.is-animated [data-ejr-reveal].is-in { opacity: 1; transform: none; }
+  .ejr.is-animated .ejr-frame[data-ejr-reveal].is-in { clip-path: inset(0 0 0 0 round 4px); }
+  .ejr.is-animated .ejr-frame[data-ejr-reveal].is-in .ejr-frame__img { transform: scale(1.001); }
+  .ejr.is-animated .ejr-cover.is-in .ejr-cover__item { animation: ejr-rise 1.1s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 90ms); }
+  @keyframes ejr-rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ejr.is-animated [data-ejr-reveal], .ejr.is-animated .ejr-frame[data-ejr-reveal], .ejr.is-animated .ejr-frame[data-ejr-reveal] .ejr-frame__img { opacity: 1; transform: none; clip-path: none; transition: none; }
+    .ejr.is-animated .ejr-cover.is-in .ejr-cover__item, .ejr-start__line { animation: none; }
+    .ejr-backdrop, .ejr, .ejr-nav { transition: none; }
+  }
+
+  /* ---------- tablet & phone ---------- */
+  @media (max-width: 989px) {
+    .ejr-cover { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 34%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; margin-inline: calc(var(--ejr-pad) * -1); padding-inline: var(--ejr-pad); width: calc(100% + var(--ejr-pad) * 2); }
+    .ejr-cover::-webkit-scrollbar { display: none; }
+    .ejr-cover__item { scroll-snap-align: start; }
+    .ejr-nav__list { justify-content: flex-start; }
+    .ejr-ch, .ejr-ch--right { grid-template-columns: minmax(0, 1fr); padding-top: clamp(56px, 12vw, 96px); }
+    .ejr-ch__media, .ejr-ch--right .ejr-ch__media { grid-column: 1; grid-row: 1; height: auto; }
+    .ejr-ch__sticky { position: static; }
+    .ejr-frame, .ejr-caption { width: min(100%, 560px); }
+    .ejr-ch__text, .ejr-ch--right .ejr-ch__text { grid-column: 1; grid-row: 2; justify-self: center; width: 100%; max-width: 620px; padding-top: clamp(28px, 6vw, 44px); }
+    .ejr-ritual__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 749px) {
+    .ejr { --ejr-pad: 20px; --ejr-top: calc(var(--header-height, 56px) + 56px); }
+    .ejr-hero { padding-top: 48px; }
+    .ejr-hero__title { font-size: clamp(42px, 12.4vw, 60px); }
+    .ejr-cover { grid-auto-columns: 40%; }
+    .ejr-nav__list { padding-block: 8px; }
+    .ejr-chip { min-height: 36px; padding: 0 14px; font-size: 11px; }
+    .ejr-meta__num { font-size: 56px; }
+    .ejr-title { font-size: clamp(34px, 9.6vw, 44px); }
+    .ejr-why__row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .ejr-buy { flex-direction: column; align-items: stretch; padding: 18px; }
+    .ejr-buy__info { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .ejr-buy__actions { flex-direction: column; align-items: stretch; gap: 14px; }
+    .ejr-buy__actions .ejr-link { align-self: center; }
+    .ejr-btn { width: 100%; padding: 0 18px; }
+    .ejr-ritual__item { grid-template-columns: 18px 44px minmax(0, 1fr) auto; gap: 12px; }
+    .ejr-ritual__item img { width: 44px; height: 55px; }
+    .ejr-outro__actions { flex-direction: column; width: 100%; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-ejr]:not([data-ejr-ready])');
+    if (!root) return;
+    root.setAttribute('data-ejr-ready', '');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var defaults = { bg: '#faf8f5', ink: '#111213', accent: '#9a7b5f' };
+
+    /* smooth jumps that respect the sticky header + chapter nav */
+    root.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-ejr-jump]');
+      if (!a) return;
+      var id = (a.getAttribute('href') || '').slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var nav = root.querySelector('[data-ejr-nav]');
+      var headerH = parseFloat(getComputedStyle(document.body).getPropertyValue('--header-height')) || 0;
+      var offset = id === 'ejr-top' ? 0 : headerH + (nav ? nav.offsetHeight : 0) + 8;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: id === 'ejr-top' ? 0 : y, behavior: reduce ? 'auto' : 'smooth' });
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+    });
+
+    if (!('IntersectionObserver' in window)) return;
+
+    /* reveal on scroll */
+    if (!reduce) {
+      root.classList.add('is-animated');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+      root.querySelectorAll('[data-ejr-reveal]').forEach(function (el) { io.observe(el); });
+    }
+
+    /* the page colour follows the chapter in view; the matching chip lights up */
+    var chips = {};
+    root.querySelectorAll('[data-ejr-chip]').forEach(function (c) { chips[c.getAttribute('data-ejr-chip')] = c; });
+    var navList = root.querySelector('[data-ejr-navlist]');
+    var current = null;
+    function setTheme(bg, ink, accent) {
+      root.style.setProperty('--ejr-bg', bg);
+      root.style.setProperty('--ejr-ink', ink);
+      root.style.setProperty('--ejr-accent', accent);
+    }
+    function activate(ch) {
+      if (ch === current) return;
+      current = ch;
+      Object.keys(chips).forEach(function (k) { chips[k].classList.remove('is-active'); chips[k].removeAttribute('aria-current'); });
+      if (!ch) { setTheme(defaults.bg, defaults.ink, defaults.accent); return; }
+      setTheme(ch.getAttribute('data-bg'), ch.getAttribute('data-ink'), ch.getAttribute('data-accent'));
+      var chip = chips[ch.getAttribute('data-ejr-chapter')];
+      if (chip) {
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-current', 'true');
+        if (navList && navList.scrollWidth > navList.clientWidth) {
+          var left = chip.offsetLeft - (navList.clientWidth - chip.offsetWidth) / 2;
+          navList.scrollTo({ left: left, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+    }
+    var chapters = Array.prototype.slice.call(root.querySelectorAll('[data-ejr-chapter]'));
+    var outside = Array.prototype.slice.call(root.querySelectorAll('.ejr-hero, [data-ejr-ritual], [data-ejr-outro]'));
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        activate(en.target.hasAttribute('data-ejr-chapter') ? en.target : null);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    chapters.concat(outside).forEach(function (el) { spy.observe(el); });
+
+    /* reading progress across the chapters */
+    var bar = root.querySelector('[data-ejr-progress]');
+    var wrap = root.querySelector('[data-ejr-chapters]');
+    var ticking = false;
+    function progress() {
+      ticking = false;
+      if (!bar || !wrap) return;
+      var r = wrap.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var p = (vh * 0.5 - r.top) / Math.max(1, r.height);
+      bar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)).toFixed(4) + ')';
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
+    window.addEventListener('resize', progress);
+    progress();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "eloura. journal",
+  "tag": "div",
+  "class": "eloura-journal-section",
+  "settings": [
+    { "type": "paragraph", "content": "Texts come from BG / EN / RU translations (eloura.journal). Each chapter uses its built-in photo." }
+  ],
+  "blocks": [{
+    "type": "chapter", "name": "Chapter",
+    "settings": [
+      { "type": "select", "id": "story", "label": "Chapter (texts, photo and colours)", "default": "toner", "options": [
+        { "value": "remover", "label": "BiPhasic Make-up Remover" },
+        { "value": "toner", "label": "Glycolic Acid Toner" },
+        { "value": "clear", "label": "CLEAR" },
+        { "value": "hydra", "label": "HYDRA" },
+        { "value": "barrier", "label": "BARRIER" },
+        { "value": "spf50", "label": "SPF50 Stick" }
+      ] },
+      { "type": "product", "id": "product", "label": "Product for the buy button" }
+    ]
+  }],
+  "presets": [{ "name": "eloura. journal" }]
+}
+{% endschema %}
