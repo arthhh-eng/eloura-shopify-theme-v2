@@ -6,6 +6,10 @@
   if heading == blank
     assign heading = 'eloura.reviews.heading' | t
   endif
+  assign subheading = section.settings.subheading
+  if subheading == blank
+    assign subheading = 'eloura.reviews.subheading' | t
+  endif
   assign empty_text = section.settings.empty_text
   if empty_text == blank
     assign empty_text = 'eloura.reviews.empty' | t
@@ -20,7 +24,7 @@
     elsif locale_code == 'ru' and block.settings.review_ru != blank
       assign review_text = block.settings.review_ru
     endif
-    if block.settings.enabled and block.settings.photo != blank and block.settings.customer != blank and review_text != blank
+    if block.settings.enabled and block.settings.customer != blank and review_text != blank
       assign review_count = review_count | plus: 1
       assign block_tenths = block.settings.rating | times: 10 | round
       assign rating_sum_tenths = rating_sum_tenths | plus: block_tenths
@@ -41,6 +45,7 @@
 <section id="eloura-reviews" class="eloura-journey eloura-reviews" style="--eloura-section-bg: {{ section.settings.background }}; --eloura-section-fg: {{ section.settings.foreground }}; --reviews-top: {{ section.settings.padding_top }}px; --reviews-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="ElouraReviews-{{ section.id }}">
   <div class="eloura-journey__inner">
     <h2 class="eloura-journey__heading" id="ElouraReviews-{{ section.id }}">{{ heading | escape }}</h2>
+    <p class="eloura-reviews__subheading">{{ subheading | escape }}</p>
     {% if review_count > 0 %}
       <p class="eloura-reviews__summary">
         <span class="eloura-reviews__summary-stars" aria-hidden="true">★★★★★</span>
@@ -68,7 +73,7 @@
                 assign review_text = block.settings.review_ru
               endif
               assign complete = false
-              if block.settings.enabled and block.settings.photo != blank and block.settings.customer != blank and review_text != blank
+              if block.settings.enabled and block.settings.customer != blank and review_text != blank
                 assign complete = true
               endif
             %}
@@ -91,23 +96,9 @@
                 aria-label="{{ 'eloura.reviews.slide_label' | t: index: slide_index, name: block.settings.customer | escape }}"
                 {{ block.shopify_attributes }}
               >
-                <div class="eloura-reviews__media">
-                  {% if block.settings.photo != blank %}
-                    {% liquid
-                      assign photo_alt = block.settings.photo_alt
-                      if photo_alt == blank
-                        assign photo_alt = 'eloura.reviews.photo_alt' | t: name: block.settings.customer
-                      endif
-                      assign focal = block.settings.photo.presentation.focal_point | default: '50% 35%'
-                      assign photo_style = 'object-position: ' | append: focal
-                    %}
-                    {{ block.settings.photo | image_url: width: 1080 | image_tag: widths: '360, 480, 640, 800, 960, 1080', sizes: '(min-width: 750px) 272px, 62vw', loading: 'lazy', alt: photo_alt, class: 'eloura-reviews__photo', style: photo_style }}
-                  {% else %}
-                    <div class="eloura-reviews__placeholder" aria-hidden="true">{{ 'image' | placeholder_svg_tag }}</div>
-                  {% endif %}
-                </div>
-                <div class="eloura-reviews__body">
-                  {% unless complete %}<p class="eloura-reviews__editor-note">{{ 'eloura.reviews.draft' | t }}</p>{% endunless %}
+                {% unless complete %}<p class="eloura-reviews__editor-note">{{ 'eloura.reviews.draft' | t }}</p>{% endunless %}
+                <div class="eloura-reviews__top">
+                  <p class="eloura-reviews__author">{{ block.settings.customer | default: '—' | escape }}</p>
                   <p class="eloura-reviews__rating">
                     <span class="visually-hidden">{{ 'eloura.reviews.rating' | t: rating: rating_display }}</span>
                     <span class="eloura-reviews__stars" aria-hidden="true" style="--full: {{ rating_full }}; --partial: {{ rating_partial }};" data-rating="{{ rating_label }}">
@@ -115,15 +106,9 @@
                       <span class="eloura-reviews__stars-base">{% for i in (1..5) %}{{ star }}{% endfor %}</span>
                       <span class="eloura-reviews__stars-fill">{% for i in (1..5) %}{{ star }}{% endfor %}</span>
                     </span>
-                    <span class="eloura-reviews__score" aria-hidden="true">{{ 'eloura.reviews.score' | t: rating: rating_display }}</span>
                   </p>
-                  {% if block.settings.customer != blank %}
-                    <p class="eloura-reviews__author">
-                      {{- block.settings.customer | escape -}}
-                    </p>
-                  {% endif %}
-                  {% if review_text != blank %}<p class="eloura-reviews__text">{{ review_text | escape | newline_to_br }}</p>{% endif %}
                 </div>
+                {% if review_text != blank %}<p class="eloura-reviews__text">{{ review_text | escape | newline_to_br }}</p>{% endif %}
               </li>
             {% endif %}
           {% endfor %}
@@ -179,6 +164,12 @@
       "id": "heading",
       "label": "Heading",
       "info": "Leave blank for the BG / EN / RU default. Translate custom text with Translate & Adapt."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Leave blank for the BG / EN / RU default."
     },
     {
       "type": "textarea",
@@ -241,8 +232,8 @@
         {
           "type": "image_picker",
           "id": "photo",
-          "label": "Photograph",
-          "info": "Set the focal point on the image to control cropping."
+          "label": "Photograph (not shown)",
+          "info": "The card design shows name, stars and text only. Kept for reference."
         },
         {
           "type": "text",
