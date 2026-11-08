@@ -406,8 +406,9 @@
     "chat": { "identity": "AI assistant · Online" },
     "reviews": {
       "heading": "Customer reviews",
+      "subheading": "Real impressions from our customers",
       "empty": "We look forward to your first impressions.",
-      "editor_note": "Editor preview only. The storefront shows only reviews with “Publish this real review” turned on and a photo, name and text.",
+      "editor_note": "Editor preview only. The storefront shows only reviews with “Publish this real review” turned on and a name and text.",
       "draft": "Unpublished preview",
       "rating": "Rated {{ rating }} out of 5",
       "score": "{{ rating }} / 5",
